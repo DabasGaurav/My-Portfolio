@@ -8,6 +8,5 @@ export const hero = {
   positioning: "Technical PM who builds AI-native products end to end.",
   cta: {
     label: "Ask my AI about me",
-    href: "#chat",
   },
 } as const;

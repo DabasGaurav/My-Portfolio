@@ -1,5 +1,5 @@
 import { hero } from "@/content/hero";
-import { TrackedLink } from "@/components/analytics/TrackedLink";
+import { OpenChatButton } from "@/components/chatbot/OpenChatButton";
 
 export function Hero() {
   return (
@@ -8,13 +8,9 @@ export function Hero() {
         {hero.name}
       </h1>
       <p className="mt-4 max-w-xl text-lg text-muted">{hero.positioning}</p>
-      <TrackedLink
-        event="hero_cta_click"
-        href={hero.cta.href}
-        className="mt-8 inline-block rounded-sm bg-accent px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-surface transition-opacity hover:opacity-90"
-      >
+      <OpenChatButton className="mt-8 inline-block rounded-sm bg-accent px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-surface transition-opacity hover:opacity-90">
         {hero.cta.label}
-      </TrackedLink>
+      </OpenChatButton>
     </section>
   );
 }
