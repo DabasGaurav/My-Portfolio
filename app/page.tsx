@@ -3,6 +3,7 @@ import { Section } from "@/components/layout/Section";
 import { ComingSoon } from "@/components/layout/ComingSoon";
 import { ProjectsGrid } from "@/components/projects/ProjectsGrid";
 import { projects } from "@/content/projects";
+import { GitHubActivity } from "@/components/github/GitHubActivity";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
       </Section>
 
       <Section id="github" eyebrow="Live activity" title="GitHub">
-        <ComingSoon milestone="Milestone 3 — live GitHub API embed" />
+        <GitHubActivity />
       </Section>
 
       <Section id="experience" eyebrow="Background" title="Experience">
