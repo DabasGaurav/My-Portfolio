@@ -1,0 +1,23 @@
+/**
+ * Design tokens — validated against the dataviz skill's contrast/CVD
+ * checks before being locked in (see lib/palette.ts for the chart-series
+ * palette, which is a separate, pre-validated set).
+ */
+
+:root {
+  --surface: #f3f4f6;
+  --ink: #14171c;
+  --muted: #5b6470;
+  --accent: #c6432e;
+  --hairline: #d8dadf;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #14171c;
+    --ink: #eceae5;
+    --muted: #9aa3af;
+    --accent: #e2694a;
+    --hairline: #2a2e35;
+  }
+}

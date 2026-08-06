@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+Gaurav Dabas's interactive portfolio — a Next.js (App Router) site built as a
+first end-to-end AI-native product. Full context and roadmap live in `PRD.md`
+(kept alongside this repo, not committed here).
 
-First, run the development server:
+**Status:** Milestone 1 — scaffold + deploy skeleton.
+
+## Stack
+
+- Next.js 16 (App Router) + TypeScript
+- Tailwind CSS v4 (CSS-first config — see `app/globals.css` + `styles/tokens.css`)
+- Fonts: Fraunces (display), IBM Plex Sans (body), IBM Plex Mono (data/labels)
+- Hosting: Vercel
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Where things live
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `config/` — site identity and connection settings (domain, GitHub username,
+  social links). Change the URL here (and in Vercel env vars) when the
+  custom domain is connected — nothing else hardcodes it.
+- `content/` — editable page copy as typed data files, not hardcoded JSX.
+- `styles/tokens.css` — the color palette (validated for contrast/CVD via
+  the dataviz skill's checker before being locked in).
+- `lib/palette.ts` — the separate, pre-validated chart-series palette used
+  by any data visualization on the site.
+- `components/layout/Section.tsx` — every homepage section renders through
+  this wrapper so spacing/heading treatment stay consistent site-wide.
 
-## Learn More
+## Environment variables
 
-To learn more about Next.js, take a look at the following resources:
+Copy `.env.local.example` to `.env.local` and fill in as milestones need them.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Milestones
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `PRD.md` §7. MVP is milestones 1–3 (scaffold, projects, GitHub embed).
+This repo builds one milestone at a time, each independently deployable.
