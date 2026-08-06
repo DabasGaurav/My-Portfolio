@@ -4,7 +4,7 @@ Gaurav Dabas's interactive portfolio — a Next.js (App Router) site built as a
 first end-to-end AI-native product. Full context and roadmap live in `PRD.md`
 (kept alongside this repo, not committed here).
 
-**Status:** Milestone 1 — scaffold + deploy skeleton.
+**Status:** Milestone 6 — RAG chatbot.
 
 ## Stack
 
@@ -38,6 +38,27 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Environment variables
 
 Copy `.env.local.example` to `.env.local` and fill in as milestones need them.
+
+## Chatbot setup (Milestone 6)
+
+The site works fully without this — the chat widget just shows a clear
+"not configured" message until you add these two free-tier accounts:
+
+1. **Gemini API key** — [aistudio.google.com/apikey](https://aistudio.google.com/apikey),
+   free tier, no billing required. Set `GEMINI_API_KEY`.
+2. **Pinecone API key** — [app.pinecone.io](https://app.pinecone.io), free
+   Starter plan. Set `PINECONE_API_KEY`. `PINECONE_INDEX` is optional
+   (defaults to `portfolio-rag`) — the ingest script creates the index
+   automatically if it doesn't exist yet, so no manual dashboard setup.
+3. Add both to `.env.local` (local dev) **and** to the Vercel project's
+   environment variables (production) — `vercel env add GEMINI_API_KEY production`
+   and same for `PINECONE_API_KEY`.
+4. Run `npm run ingest` locally to embed `content/about.md`, `content/projects.ts`,
+   `content/experience.ts`, and every post in `content/blog/` into Pinecone.
+   Re-run it any time that content changes — it's a manual step, not part
+   of the build.
+5. Redeploy (`vercel deploy --prod`) so the deployed API route picks up
+   the new env vars.
 
 ## Milestones
 
