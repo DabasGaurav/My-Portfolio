@@ -20,7 +20,7 @@ npm install
 npm run dev
 ```
 
-Open [https://portfolio-five-lac-73.vercel.app/](https://portfolio-five-lac-73.vercel.app/).
+Open [http://localhost:3000](http://localhost:3000)
 
 ## Where things live
 
