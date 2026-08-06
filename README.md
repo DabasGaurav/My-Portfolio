@@ -4,7 +4,7 @@ Gaurav Dabas's interactive portfolio — a Next.js (App Router) site built as a
 first end-to-end AI-native product. Full context and roadmap live in `PRD.md`
 (kept alongside this repo, not committed here).
 
-**Status:** Milestone 6 — RAG chatbot.
+**Status:** Milestone 7 — crossposting agent. All 7 milestones are shipped.
 
 ## Stack
 
@@ -60,7 +60,27 @@ The site works fully without this — the chat widget just shows a clear
 5. Redeploy (`vercel deploy --prod`) so the deployed API route picks up
    the new env vars.
 
+## Crossposting agent setup (Milestone 7)
+
+Reuses the same `GEMINI_API_KEY` from Milestone 6 — nothing new to sign up
+for. What it does: `vercel.json` schedules a daily hit to `/api/crosspost`,
+which generates a LinkedIn teaser for the latest blog post (Gemini) and
+caches it per post slug via Next's Data Cache (`lib/crosspost.ts`) — a new
+post gets a fresh teaser; re-running the cron for the same post reuses the
+cached one instead of re-generating. Visit `/admin/crosspost` (unlisted,
+not in Nav — no auth per the PRD's no-CMS/no-auth constraint, so treat the
+URL as unlisted-but-not-secret) to read and copy the current teaser,
+ready to paste into LinkedIn — there's no API that allows posting to a
+personal profile automatically, so this last step stays manual by design.
+
+Optional: set `CRON_SECRET` (any random string, e.g. `openssl rand -hex 32`)
+in Vercel's env vars — Vercel sends it automatically as a bearer token on
+cron-triggered requests once it's set, which stops random visitors from
+triggering `/api/crosspost` directly. Cron schedule is set to run once
+daily; Vercel's Hobby plan doesn't allow more frequent cron invocations.
+
 ## Milestones
 
 See `PRD.md` §7. MVP is milestones 1–3 (scaffold, projects, GitHub embed).
 This repo builds one milestone at a time, each independently deployable.
+All 7 are shipped as of this commit.
