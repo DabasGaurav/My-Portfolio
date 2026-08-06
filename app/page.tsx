@@ -1,6 +1,8 @@
 import { Hero } from "@/components/hero/Hero";
 import { Section } from "@/components/layout/Section";
 import { ComingSoon } from "@/components/layout/ComingSoon";
+import { ProjectsGrid } from "@/components/projects/ProjectsGrid";
+import { projects } from "@/content/projects";
 
 export default function Home() {
   return (
@@ -8,7 +10,7 @@ export default function Home() {
       <Hero />
 
       <Section id="projects" eyebrow="Selected work" title="Projects">
-        <ComingSoon milestone="Milestone 2 — real project cards" />
+        <ProjectsGrid projects={projects} />
       </Section>
 
       <Section id="github" eyebrow="Live activity" title="GitHub">
