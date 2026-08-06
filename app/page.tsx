@@ -4,6 +4,7 @@ import { ComingSoon } from "@/components/layout/ComingSoon";
 import { ProjectsGrid } from "@/components/projects/ProjectsGrid";
 import { projects } from "@/content/projects";
 import { GitHubActivity } from "@/components/github/GitHubActivity";
+import { BlogPreview } from "@/components/blog/BlogPreview";
 
 export default function Home() {
   return (
@@ -23,7 +24,7 @@ export default function Home() {
       </Section>
 
       <Section id="blog" eyebrow="Writing" title="Blog">
-        <ComingSoon milestone="Milestone 4 — MDX posts" />
+        <BlogPreview />
       </Section>
     </>
   );

@@ -1,0 +1,14 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#f3f4f6" />
+  <line x1="0" y1="562" x2="1200" y2="562" stroke="#d8dadf" stroke-width="1" />
+  <line x1="0" y1="450" x2="1200" y2="450" stroke="#d8dadf" stroke-width="1" />
+  <line x1="0" y1="337" x2="1200" y2="337" stroke="#d8dadf" stroke-width="1" />
+  <line x1="0" y1="225" x2="1200" y2="225" stroke="#d8dadf" stroke-width="1" />
+  <line x1="0" y1="112" x2="1200" y2="112" stroke="#d8dadf" stroke-width="1" />
+  <rect x="120" y="337" width="140" height="225" rx="4" fill="#2a78d6" />
+  <rect x="330" y="225" width="140" height="337" rx="4" fill="#c6432e" />
+  <rect x="540" y="450" width="140" height="112" rx="4" fill="#2a78d6" />
+  <rect x="750" y="150" width="140" height="412" rx="4" fill="#c6432e" />
+  <rect x="960" y="280" width="140" height="282" rx="4" fill="#2a78d6" />
+  <text x="120" y="600" font-family="ui-monospace, monospace" font-size="18" letter-spacing="2" fill="#5b6470">PLACEHOLDER FIGURE — REPLACE IN /public/images/blog</text>
+</svg>

@@ -1,0 +1,51 @@
+---
+title: "Building this portfolio in public"
+summary: "Why this site is built one shippable milestone at a time, and what each one is meant to teach."
+date: "2026-08-06"
+---
+
+This post is placeholder content, shipped with the scaffold so the blog
+pipeline has something real to render — replace it with your own writing
+in `content/blog/`, or add a new `.mdx` file alongside it.
+
+Every feature on this site was chosen because it trains a specific,
+in-demand skill, not because it looked good on a portfolio.
+
+<Pullquote>
+  The site itself is the strongest project on it.
+</Pullquote>
+
+<Figure
+  src="/images/blog/placeholder-figure.svg"
+  alt="Placeholder illustration"
+  caption="Placeholder figure — replace with a real screenshot, diagram, or photo."
+/>
+
+## Why milestones, not a big-bang launch
+
+Each milestone ships independently: a live URL after step one, real
+project cards after step two, and so on. That makes the build reviewable
+in small pieces instead of one large, hard-to-evaluate diff.
+
+<Chart
+  title="Weekly focused build hours (synthetic demo data)"
+  unit="h"
+  note="Synthetic data — replace with real numbers or remove this chart."
+  data='[{"label":"Wk 1","value":4},{"label":"Wk 2","value":6},{"label":"Wk 3","value":5},{"label":"Wk 4","value":8},{"label":"Wk 5","value":7}]'
+/>
+
+<Callout label="How this post renders">
+  This paragraph, the pull quote, the figure, and the chart above are all
+  MDX — regular Markdown plus custom React components (`Pullquote`,
+  `Figure`, `Chart`, `Callout`) registered in `app/blog/[slug]/page.tsx`.
+  Use them in any post.
+</Callout>
+
+Posts can also use ordinary Markdown — headings, lists, links, and code:
+
+```ts
+export const example = "still just Markdown underneath";
+```
+
+That's the whole pipeline: a `.mdx` file with frontmatter in, a rendered
+post out.

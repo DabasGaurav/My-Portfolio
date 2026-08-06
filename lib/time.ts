@@ -21,3 +21,11 @@ export function timeAgo(dateString: string): string {
   }
   return rtf.format(seconds, "second");
 }
+
+export function formatDate(dateString: string): string {
+  return new Intl.DateTimeFormat("en", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(new Date(dateString));
+}
