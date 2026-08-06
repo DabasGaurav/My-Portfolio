@@ -3,6 +3,7 @@ import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { ChatDock } from "@/components/chatbot/ChatDock";
+import { PostHogProvider } from "@/components/analytics/PostHogProvider";
 import { siteConfig } from "@/config/site.config";
 import "./globals.css";
 
@@ -36,10 +37,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${fraunces.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Nav />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <ChatDock />
+        <PostHogProvider>
+          <Nav />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <ChatDock />
+        </PostHogProvider>
       </body>
     </html>
   );

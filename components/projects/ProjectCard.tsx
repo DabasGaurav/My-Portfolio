@@ -1,4 +1,5 @@
 import type { Project } from "@/types/project";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 
 const linkLabels = {
   demo: "Live demo",
@@ -40,15 +41,17 @@ export function ProjectCard({ project }: { project: Project }) {
       {linkEntries.length > 0 && (
         <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1">
           {linkEntries.map(([key, href]) => (
-            <a
+            <TrackedLink
               key={key}
+              event="project_link_click"
+              properties={{ project: project.slug, linkType: key }}
               href={href}
               target="_blank"
               rel="noreferrer"
               className="font-mono text-xs uppercase tracking-[0.15em] text-accent transition-opacity hover:opacity-80"
             >
               {linkLabels[key]} &rarr;
-            </a>
+            </TrackedLink>
           ))}
         </div>
       )}

@@ -1,10 +1,11 @@
 import { Hero } from "@/components/hero/Hero";
 import { Section } from "@/components/layout/Section";
-import { ComingSoon } from "@/components/layout/ComingSoon";
 import { ProjectsGrid } from "@/components/projects/ProjectsGrid";
 import { projects } from "@/content/projects";
 import { GitHubActivity } from "@/components/github/GitHubActivity";
 import { BlogPreview } from "@/components/blog/BlogPreview";
+import { ExperienceCard } from "@/components/experience/ExperienceCard";
+import { experience } from "@/content/experience";
 
 export default function Home() {
   return (
@@ -20,7 +21,7 @@ export default function Home() {
       </Section>
 
       <Section id="experience" eyebrow="Background" title="Experience">
-        <ComingSoon milestone="Milestone 5 — experience card" />
+        <ExperienceCard experience={experience} />
       </Section>
 
       <Section id="blog" eyebrow="Writing" title="Blog">
