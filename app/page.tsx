@@ -12,19 +12,19 @@ export default function Home() {
     <>
       <Hero />
 
-      <Section id="projects" eyebrow="Selected work" title="Projects">
+      <Section id="projects" index={1} eyebrow="Selected work" title="Projects">
         <ProjectsGrid projects={projects} />
       </Section>
 
-      <Section id="github" eyebrow="Live activity" title="GitHub">
+      <Section id="github" index={2} eyebrow="Live activity" title="GitHub">
         <GitHubActivity />
       </Section>
 
-      <Section id="experience" eyebrow="Background" title="Experience">
+      <Section id="experience" index={3} eyebrow="Background" title="Experience">
         <ExperienceCard experience={experience} />
       </Section>
 
-      <Section id="blog" eyebrow="Writing" title="Blog">
+      <Section id="blog" index={4} eyebrow="Writing" title="Blog">
         <BlogPreview />
       </Section>
     </>

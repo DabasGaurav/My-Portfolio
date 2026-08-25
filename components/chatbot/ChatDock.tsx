@@ -146,9 +146,24 @@ export function ChatDock() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="rounded-full border border-hairline bg-surface px-5 py-3 font-mono text-xs uppercase tracking-[0.15em] text-ink shadow-sm transition-colors hover:border-accent"
+        aria-label={open ? "Close chat" : "Ask about me"}
+        className="flex h-11 items-center gap-2 border border-hairline bg-surface px-3 font-mono text-xs uppercase tracking-[0.15em] text-ink shadow-sm transition-colors hover:border-accent sm:h-auto sm:px-5 sm:py-3"
       >
-        {open ? "Close" : "Ask about me"}
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+          className="shrink-0"
+        >
+          <path
+            d="M2 3.5C2 2.67 2.67 2 3.5 2h9c.83 0 1.5.67 1.5 1.5v6c0 .83-.67 1.5-1.5 1.5H6l-2.8 2.1a.5.5 0 0 1-.8-.4V11h-.9C2.67 11 2 10.33 2 9.5v-6Z"
+            stroke="currentColor"
+            strokeWidth="1.2"
+          />
+        </svg>
+        <span className="hidden sm:inline">{open ? "Close" : "Ask about me"}</span>
       </button>
     </div>
   );

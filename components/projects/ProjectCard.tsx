@@ -13,7 +13,13 @@ export function ProjectCard({ project }: { project: Project }) {
   ).filter(([, href]) => Boolean(href));
 
   return (
-    <article className="border border-hairline p-6">
+    <article
+      className={
+        project.placeholder
+          ? "border border-dashed border-hairline p-6"
+          : "border border-ink/15 p-6"
+      }
+    >
       <div className="flex items-baseline justify-between gap-4">
         <h3 className="font-display text-xl">{project.title}</h3>
         {project.placeholder && (

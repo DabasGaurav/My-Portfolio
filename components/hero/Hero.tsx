@@ -4,11 +4,13 @@ import { OpenChatButton } from "@/components/chatbot/OpenChatButton";
 export function Hero() {
   return (
     <section className="mx-auto max-w-3xl px-6 pb-16 pt-20 md:pb-24 md:pt-28">
-      <h1 className="text-balance font-display text-5xl leading-tight md:text-6xl">
+      <h1 className="animate-rise-in text-balance font-display text-5xl leading-tight md:text-6xl">
         {hero.name}
       </h1>
-      <p className="mt-4 max-w-xl text-lg text-muted">{hero.positioning}</p>
-      <OpenChatButton className="mt-8 inline-block rounded-sm bg-accent px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-surface transition-opacity hover:opacity-90">
+      <p className="animate-rise-in mt-4 max-w-xl text-lg text-muted [animation-delay:120ms]">
+        {hero.positioning}
+      </p>
+      <OpenChatButton className="animate-rise-in mt-8 inline-block rounded-sm bg-accent px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-surface transition-opacity hover:opacity-90 [animation-delay:240ms]">
         {hero.cta.label}
       </OpenChatButton>
     </section>

@@ -12,7 +12,11 @@ export function ExperienceCard({
         {experience.map((entry) => (
           <li
             key={`${entry.company}-${entry.role}`}
-            className="border border-hairline p-6"
+            className={
+              entry.placeholder
+                ? "border border-dashed border-hairline p-6"
+                : "border border-ink/15 p-6"
+            }
           >
             <div className="flex items-baseline justify-between gap-4">
               <h3 className="font-display text-xl">{entry.role}</h3>
