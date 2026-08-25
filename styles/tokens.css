@@ -1,23 +1,29 @@
 /**
- * Design tokens — validated against the dataviz skill's contrast/CVD
- * checks before being locked in (see lib/palette.ts for the chart-series
- * palette, which is a separate, pre-validated set).
+ * Design tokens — "Warm Studio" theme. Contrast-validated (WCAG AA) for
+ * every text/surface pairing before being locked in — see the commit
+ * message for the numbers. `--ink-on-alt` is a fixed dark value (not a
+ * mode-flipping token) because the amber block stays bright in both
+ * light and dark mode, so text on it always needs to stay dark.
  */
 
 :root {
-  --surface: #f3f4f6;
-  --ink: #14171c;
-  --muted: #5b6470;
-  --accent: #d6331c;
-  --hairline: #d8dadf;
+  --surface: #ffffff;
+  --surface-alt: #f5aa2e;
+  --ink: #241e17;
+  --ink-on-alt: #241e17;
+  --muted: #7a6e5c;
+  --accent: #c42d5d;
+  --hairline: #e8e1d3;
+  --radius: 0.85rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --surface: #14171c;
-    --ink: #eceae5;
-    --muted: #9aa3af;
-    --accent: #f0522f;
-    --hairline: #2a2e35;
+    --surface: #1c1712;
+    --surface-alt: #e89a2e;
+    --ink: #f5efe4;
+    --muted: #a99c87;
+    --accent: #e85585;
+    --hairline: #3a2f22;
   }
 }

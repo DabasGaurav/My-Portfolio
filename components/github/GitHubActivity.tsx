@@ -12,7 +12,7 @@ export async function GitHubActivity() {
 
   if (repos === null) {
     return (
-      <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted">
+      <p className="font-sans text-sm font-medium text-muted">
         GitHub activity is unavailable right now — try again shortly.
       </p>
     );
@@ -23,20 +23,20 @@ export async function GitHubActivity() {
   }
 
   return (
-    <ul className="flex flex-col gap-4">
+    <ul className="grid gap-4 md:grid-cols-2">
       {repos.map((repo) => (
-        <li key={repo.id} className="border border-hairline p-6">
+        <li key={repo.id} className="card-pop p-6">
           <div className="flex items-baseline justify-between gap-4">
             <a
               href={repo.htmlUrl}
               target="_blank"
               rel="noreferrer"
-              className="font-mono text-sm text-ink transition-colors hover:text-accent"
+              className="font-mono text-sm font-medium text-ink transition-colors hover:text-accent"
             >
               {repo.name}
             </a>
-            <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
-              Updated {timeAgo(repo.updatedAt)}
+            <span className="shrink-0 font-sans text-xs font-medium text-muted">
+              {timeAgo(repo.updatedAt)}
             </span>
           </div>
 
@@ -44,7 +44,7 @@ export async function GitHubActivity() {
             <p className="mt-2 text-muted">{repo.description}</p>
           )}
 
-          <div className="mt-4 flex gap-4 font-mono text-[10px] uppercase tracking-[0.1em] text-muted">
+          <div className="mt-4 flex gap-4 font-sans text-xs font-medium text-muted">
             {repo.language && <span>{repo.language}</span>}
             <span className="tabular-nums">&#9733; {repo.stars}</span>
           </div>

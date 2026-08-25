@@ -14,19 +14,19 @@ export function ExperienceCard({
             key={`${entry.company}-${entry.role}`}
             className={
               entry.placeholder
-                ? "border border-dashed border-hairline p-6"
-                : "border border-ink/15 p-6"
+                ? "card-pop-flat border-dashed p-6 opacity-70"
+                : "card-pop p-6"
             }
           >
             <div className="flex items-baseline justify-between gap-4">
-              <h3 className="font-display text-xl">{entry.role}</h3>
+              <h3 className="font-display text-2xl italic">{entry.role}</h3>
               {entry.placeholder && (
-                <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
+                <span className="shrink-0 rounded-full bg-hairline px-2.5 py-1 font-sans text-[11px] font-medium text-muted">
                   Placeholder
                 </span>
               )}
             </div>
-            <p className="mt-1 font-mono text-xs uppercase tracking-[0.1em] text-muted">
+            <p className="mt-1 font-sans text-sm font-medium text-muted">
               {entry.company} &middot; {entry.period}
             </p>
             <p className="mt-3 text-muted">{entry.summary}</p>
@@ -38,7 +38,7 @@ export function ExperienceCard({
         href={socialConfig.linkedin.url}
         target="_blank"
         rel="noreferrer"
-        className="self-start font-mono text-xs uppercase tracking-[0.15em] text-accent transition-opacity hover:opacity-80"
+        className="self-start font-sans text-sm font-semibold text-accent transition-opacity hover:opacity-70"
       >
         View full profile on LinkedIn &rarr;
       </a>

@@ -11,28 +11,24 @@ type SectionProps = {
 /**
  * Every homepage section (Projects, GitHub, Experience, Blog, ...) renders
  * through this wrapper so heading treatment and spacing stay identical
- * across the site instead of each section styling itself ad hoc. The
- * numeral in the margin (desktop only) is the one place sections are
- * allowed to look different from each other — it breaks the otherwise
- * identical rhythm without touching the content column.
+ * across the site instead of each section styling itself ad hoc.
  */
 export function Section({ id, index, eyebrow, title, children }: SectionProps) {
   return (
-    <section id={id} className="relative scroll-mt-20 border-t border-hairline">
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute top-24 hidden font-mono text-sm text-muted/40 lg:block lg:left-[calc(50%-27rem)]"
-      >
-        {String(index).padStart(2, "0")}
-      </span>
-      <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-          {eyebrow}
-        </p>
-        <h2 className="mt-2 text-balance font-display text-3xl md:text-4xl">
+    <section id={id} className="scroll-mt-20 border-t-2 border-hairline">
+      <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+        <div className="flex items-center gap-3">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-surface-alt font-mono text-[10px] font-medium text-ink-on-alt">
+            {String(index).padStart(2, "0")}
+          </span>
+          <p className="font-sans text-sm font-medium uppercase tracking-[0.15em] text-muted">
+            {eyebrow}
+          </p>
+        </div>
+        <h2 className="mt-3 text-balance font-display text-4xl italic md:text-5xl">
           {title}
         </h2>
-        <div className="mt-8">{children}</div>
+        <div className="mt-10">{children}</div>
       </div>
     </section>
   );

@@ -25,16 +25,16 @@ export default async function CrosspostAdminPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-      <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+      <p className="font-sans text-sm font-medium uppercase tracking-[0.15em] text-muted">
         Crosspost review
       </p>
-      <h1 className="mt-2 font-display text-4xl">Latest teaser</h1>
+      <h1 className="mt-2 font-display text-4xl italic">Latest teaser</h1>
 
       {!teaser ? (
         <p className="mt-8 text-muted">No blog posts to crosspost yet.</p>
       ) : (
-        <div className="mt-8 border border-hairline p-6">
-          <h2 className="font-display text-xl">{teaser.title}</h2>
+        <div className="card-pop-flat mt-8 p-6">
+          <h2 className="font-display text-xl italic">{teaser.title}</h2>
           <p className="mt-4 whitespace-pre-wrap text-ink">{teaser.teaser}</p>
           <p className="mt-4 font-mono text-xs text-accent">{teaser.url}</p>
           <div className="mt-6">
@@ -43,7 +43,7 @@ export default async function CrosspostAdminPage() {
         </div>
       )}
 
-      <p className="mt-8 font-mono text-xs uppercase tracking-[0.1em] text-muted">
+      <p className="mt-8 font-sans text-xs font-medium text-muted">
         Regenerated automatically when a new post is published (see
         vercel.json cron + lib/crosspost.ts). Paste into LinkedIn yourself
         — no API permits posting to a personal profile automatically.

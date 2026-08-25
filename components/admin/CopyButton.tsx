@@ -13,7 +13,7 @@ export function CopyButton({ text }: { text: string }) {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }}
-      className="border border-hairline px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-colors hover:border-accent"
+      className="card-pop bg-surface px-4 py-2 font-sans text-sm font-semibold text-ink"
     >
       {copied ? "Copied" : "Copy teaser + link"}
     </button>

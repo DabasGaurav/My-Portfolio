@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Instrument_Serif, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { ChatDock } from "@/components/chatbot/ChatDock";
@@ -7,14 +7,16 @@ import { PostHogProvider } from "@/components/analytics/PostHogProvider";
 import { siteConfig } from "@/config/site.config";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  weight: ["400"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
 });
 
-const plexSans = IBM_Plex_Sans({
-  variable: "--font-plex-sans",
-  weight: ["400", "500", "600"],
+const hankenGrotesk = Hanken_Grotesk({
+  variable: "--font-hanken-grotesk",
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
@@ -34,7 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
+      className={`${instrumentSerif.variable} ${hankenGrotesk.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <PostHogProvider>

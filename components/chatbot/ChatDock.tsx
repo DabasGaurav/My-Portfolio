@@ -33,10 +33,10 @@ function MessageBubble({
   return (
     <div className={isUser ? "self-end max-w-[85%]" : "self-start max-w-[85%]"}>
       <p
-        className={`whitespace-pre-wrap px-3 py-2 text-sm ${
+        className={`whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm ${
           isUser
             ? "bg-ink text-surface"
-            : "border border-hairline bg-surface text-ink"
+            : "border-2 border-hairline bg-surface text-ink"
         }`}
       >
         {linkifyParts(text).map((part, i) =>
@@ -83,16 +83,16 @@ export function ChatDock() {
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {open && (
-        <div className="mb-4 flex h-[28rem] w-[calc(100vw-3rem)] max-w-sm flex-col border border-hairline bg-surface shadow-lg">
-          <div className="flex items-center justify-between border-b border-hairline px-4 py-3">
-            <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted">
+        <div className="card-pop-flat mb-4 flex h-[28rem] w-[calc(100vw-3rem)] max-w-sm flex-col overflow-hidden bg-surface">
+          <div className="flex items-center justify-between border-b-2 border-hairline bg-surface-alt px-4 py-3">
+            <p className="font-display text-lg italic text-ink-on-alt">
               Ask about me
             </p>
             <button
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close chat"
-              className="font-mono text-muted transition-colors hover:text-ink"
+              className="text-xl leading-none text-ink-on-alt transition-opacity hover:opacity-70"
             >
               &times;
             </button>
@@ -124,18 +124,18 @@ export function ChatDock() {
 
           <form
             onSubmit={handleSubmit}
-            className="flex gap-2 border-t border-hairline p-3"
+            className="flex gap-2 border-t-2 border-hairline p-3"
           >
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask a question…"
-              className="flex-1 border border-hairline bg-surface px-3 py-2 text-sm text-ink outline-none focus:border-accent"
+              className="flex-1 rounded-full border-2 border-hairline bg-surface px-4 py-2 text-sm text-ink outline-none focus:border-accent"
             />
             <button
               type="submit"
               disabled={isBusy}
-              className="bg-accent px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-surface transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="rounded-full bg-accent px-4 py-2 font-sans text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               Send
             </button>
@@ -147,7 +147,7 @@ export function ChatDock() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close chat" : "Ask about me"}
-        className="flex h-11 items-center gap-2 border border-hairline bg-surface px-3 font-mono text-xs uppercase tracking-[0.15em] text-ink shadow-sm transition-colors hover:border-accent sm:h-auto sm:px-5 sm:py-3"
+        className="card-pop flex h-12 items-center gap-2 bg-accent px-4 font-sans text-sm font-semibold text-white sm:px-5"
       >
         <svg
           width="16"

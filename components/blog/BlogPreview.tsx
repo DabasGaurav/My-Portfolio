@@ -15,10 +15,10 @@ export function BlogPreview({ limit = 3 }: { limit?: number }) {
         <Link
           key={post.slug}
           href={`/blog/${post.slug}`}
-          className="block border border-hairline p-6 transition-colors hover:border-accent"
+          className="card-pop block p-6"
         >
-          <h3 className="font-display text-xl">{post.title}</h3>
-          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
+          <h3 className="font-display text-2xl italic">{post.title}</h3>
+          <p className="mt-2 font-sans text-sm font-medium text-muted">
             {formatDate(post.date)}
           </p>
           <p className="mt-3 text-muted">{post.summary}</p>
@@ -27,7 +27,7 @@ export function BlogPreview({ limit = 3 }: { limit?: number }) {
 
       <Link
         href="/blog"
-        className="mt-2 self-start font-mono text-xs uppercase tracking-[0.15em] text-accent transition-opacity hover:opacity-80"
+        className="mt-2 self-start font-sans text-sm font-semibold text-accent transition-opacity hover:opacity-70"
       >
         View all posts &rarr;
       </Link>

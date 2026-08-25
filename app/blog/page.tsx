@@ -11,25 +11,24 @@ export default function BlogIndexPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-      <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+    <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+      <p className="font-sans text-sm font-medium uppercase tracking-[0.15em] text-muted">
         Writing
       </p>
-      <h1 className="mt-2 font-display text-4xl">Blog</h1>
+      <h1 className="mt-2 font-display text-5xl italic">Blog</h1>
 
-      <ul className="mt-10 flex flex-col gap-8">
+      <ul className="mt-10 flex flex-col gap-6">
         {posts.map((post) => (
-          <li key={post.slug} className="border-t border-hairline pt-8">
-            <Link
-              href={`/blog/${post.slug}`}
-              className="font-display text-2xl transition-colors hover:text-accent"
-            >
-              {post.title}
+          <li key={post.slug}>
+            <Link href={`/blog/${post.slug}`} className="card-pop block p-6">
+              <span className="font-display text-2xl italic transition-colors">
+                {post.title}
+              </span>
+              <p className="mt-2 font-sans text-sm font-medium text-muted">
+                {formatDate(post.date)}
+              </p>
+              <p className="mt-3 text-muted">{post.summary}</p>
             </Link>
-            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
-              {formatDate(post.date)}
-            </p>
-            <p className="mt-3 text-muted">{post.summary}</p>
           </li>
         ))}
       </ul>

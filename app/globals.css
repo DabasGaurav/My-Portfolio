@@ -4,13 +4,16 @@
 
 @theme inline {
   --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
   --color-ink: var(--ink);
+  --color-ink-on-alt: var(--ink-on-alt);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-hairline: var(--hairline);
+  --radius-card: var(--radius);
 
-  --font-display: var(--font-fraunces);
-  --font-sans: var(--font-plex-sans);
+  --font-display: var(--font-instrument-serif);
+  --font-sans: var(--font-hanken-grotesk);
   --font-mono: var(--font-plex-mono);
 }
 
@@ -18,6 +21,40 @@ body {
   background: var(--surface);
   color: var(--ink);
   font-family: var(--font-sans);
+}
+
+/* The site's signature card treatment: a solid ink border with a hard
+   offset shadow (no blur, no color tint) instead of the generic soft
+   drop-shadow-and-lift pattern. Hover deepens the offset and nudges the
+   card toward it, like pressing a sticker down.
+
+   Wrapped in @layer components (not left unlayered) so Tailwind utility
+   classes — bg-accent, bg-surface-alt, opacity-70, etc. — applied
+   alongside .card-pop still win: in Tailwind v4, unlayered CSS always
+   beats @layer utilities regardless of source order or specificity. */
+@layer components {
+  .card-pop {
+    position: relative;
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    box-shadow: 5px 5px 0 0 var(--ink);
+    transition:
+      box-shadow 150ms ease,
+      transform 150ms ease;
+  }
+
+  a.card-pop:hover,
+  button.card-pop:hover {
+    box-shadow: 7px 7px 0 0 var(--ink);
+    transform: translate(-2px, -2px);
+  }
+
+  .card-pop-flat {
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+  }
 }
 
 /* Blog post typography: reuses the site's own tokens, which already
@@ -40,11 +77,11 @@ body {
 
 /* The one deliberate motion moment on the site: a staggered hero-load
    reveal (see components/hero/Hero.tsx). Everywhere else uses only plain
-   color/opacity transitions on hover — no scattered micro-interactions. */
+   color/opacity/shadow transitions on hover — no scattered micro-interactions. */
 @keyframes rise-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -52,13 +89,24 @@ body {
   }
 }
 
+/* Longhand properties, not the `animation` shorthand: the shorthand
+   implicitly resets animation-delay to 0s, which would silently cancel
+   the per-element [animation-delay:Xms] utilities used in Hero.tsx to
+   stagger the reveal. */
 .animate-rise-in {
-  animation: rise-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-name: rise-in;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-rise-in {
     animation: none;
   }
+  .card-pop,
+  a.card-pop:hover,
+  button.card-pop:hover {
+    transition: none;
+  }
 }
-

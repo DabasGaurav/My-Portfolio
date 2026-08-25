@@ -30,10 +30,10 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
 
   return (
     <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-      <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted">
+      <p className="font-sans text-sm font-medium uppercase tracking-[0.15em] text-muted">
         {formatDate(post.date)}
       </p>
-      <h1 className="mt-2 text-balance font-display text-4xl">
+      <h1 className="mt-2 text-balance font-display text-5xl italic">
         {post.title}
       </h1>
       <div className="prose mt-10 max-w-none">

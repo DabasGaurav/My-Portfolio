@@ -16,10 +16,11 @@ export function Figure({
         alt={alt}
         width={1200}
         height={675}
-        className="w-full border border-hairline"
+        className="w-full"
+        style={{ borderRadius: "var(--radius)", border: "2px solid var(--ink)" }}
       />
       {caption && (
-        <figcaption className="mt-2 font-mono text-xs uppercase tracking-[0.1em] text-muted">
+        <figcaption className="mt-2 font-sans text-xs font-medium text-muted">
           {caption}
         </figcaption>
       )}

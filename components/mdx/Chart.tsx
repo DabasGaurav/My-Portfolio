@@ -6,8 +6,10 @@ type ChartDatum = {
 /**
  * A single-series bar chart for illustrating a post's data. Follows the
  * dataviz skill's mark spec (capped bar thickness, 4px rounded data-end,
- * hairline baseline, sparing direct labels) and its validated categorical
- * palette (lib/palette.ts) rather than an eyeballed color.
+ * hairline baseline, sparing direct labels). Uses the site's brand accent
+ * as the single series color (contrast-checked at >=5:1 in both themes) —
+ * lib/palette.ts's validated categorical set is for genuine multi-series
+ * charts, which this isn't.
  *
  * Single series only, so no legend box is needed — the title names it.
  * `note` should flag synthetic/demo data per the site's honest-data rule.
@@ -39,14 +41,11 @@ export function Chart({
   const barWidth = Math.min(24, slotWidth * 0.5);
 
   return (
-    <figure className="my-8 border border-hairline p-6">
+    <figure className="card-pop-flat my-8 p-6">
       <style>{`
-        .chart-series { fill: #2a78d6; }
-        @media (prefers-color-scheme: dark) {
-          .chart-series { fill: #3987e5; }
-        }
+        .chart-series { fill: var(--accent); }
       `}</style>
-      <figcaption className="font-mono text-xs uppercase tracking-[0.15em] text-muted">
+      <figcaption className="font-sans text-sm font-semibold text-muted">
         {title}
       </figcaption>
       <svg
@@ -90,7 +89,7 @@ export function Chart({
                 x={x + barWidth / 2}
                 y={height - padding.bottom + 18}
                 textAnchor="middle"
-                className="fill-muted font-mono text-[10px] uppercase tracking-[0.05em]"
+                className="fill-muted font-sans text-[10px] font-medium"
               >
                 {d.label}
               </text>
@@ -99,9 +98,7 @@ export function Chart({
         })}
       </svg>
       {note && (
-        <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.1em] text-muted">
-          {note}
-        </p>
+        <p className="mt-2 font-sans text-xs font-medium text-muted">{note}</p>
       )}
     </figure>
   );

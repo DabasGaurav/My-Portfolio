@@ -16,14 +16,14 @@ export function ProjectCard({ project }: { project: Project }) {
     <article
       className={
         project.placeholder
-          ? "border border-dashed border-hairline p-6"
-          : "border border-ink/15 p-6"
+          ? "card-pop-flat border-dashed p-6 opacity-70"
+          : "card-pop p-6"
       }
     >
       <div className="flex items-baseline justify-between gap-4">
-        <h3 className="font-display text-xl">{project.title}</h3>
+        <h3 className="font-display text-2xl italic">{project.title}</h3>
         {project.placeholder && (
-          <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
+          <span className="shrink-0 rounded-full bg-hairline px-2.5 py-1 font-sans text-[11px] font-medium text-muted">
             Placeholder
           </span>
         )}
@@ -36,7 +36,7 @@ export function ProjectCard({ project }: { project: Project }) {
           {project.stack.map((item) => (
             <li
               key={item}
-              className="rounded-sm border border-hairline px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-muted"
+              className="rounded-full border-2 border-hairline px-3 py-1 font-sans text-xs font-medium text-muted"
             >
               {item}
             </li>
@@ -54,7 +54,7 @@ export function ProjectCard({ project }: { project: Project }) {
               href={href}
               target="_blank"
               rel="noreferrer"
-              className="font-mono text-xs uppercase tracking-[0.15em] text-accent transition-opacity hover:opacity-80"
+              className="font-sans text-sm font-semibold text-accent transition-opacity hover:opacity-70"
             >
               {linkLabels[key]} &rarr;
             </TrackedLink>
