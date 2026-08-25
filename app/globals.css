@@ -17,6 +17,10 @@
   --font-mono: var(--font-plex-mono);
 }
 
+:root {
+  color-scheme: dark;
+}
+
 body {
   background: var(--surface);
   color: var(--ink);

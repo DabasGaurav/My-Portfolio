@@ -1,29 +1,18 @@
 /**
- * Design tokens — "Warm Studio" theme. Contrast-validated (WCAG AA) for
- * every text/surface pairing before being locked in — see the commit
- * message for the numbers. `--ink-on-alt` is a fixed dark value (not a
- * mode-flipping token) because the amber block stays bright in both
- * light and dark mode, so text on it always needs to stay dark.
+ * Design tokens — "Warm Studio" theme, dark by default. Contrast-validated
+ * (WCAG AA) for every text/surface pairing before being locked in — see
+ * the commit history for the numbers. `--ink-on-alt` is a fixed dark
+ * value (not a mode-flipping token) because the amber block stays bright
+ * regardless of theme, so text on it always needs to stay dark.
  */
 
 :root {
-  --surface: #ffffff;
-  --surface-alt: #f5aa2e;
-  --ink: #241e17;
+  --surface: #1c1712;
+  --surface-alt: #e89a2e;
+  --ink: #f5efe4;
   --ink-on-alt: #241e17;
-  --muted: #7a6e5c;
-  --accent: #c42d5d;
-  --hairline: #e8e1d3;
+  --muted: #a99c87;
+  --accent: #e85585;
+  --hairline: #3a2f22;
   --radius: 0.85rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --surface: #1c1712;
-    --surface-alt: #e89a2e;
-    --ink: #f5efe4;
-    --muted: #a99c87;
-    --accent: #e85585;
-    --hairline: #3a2f22;
-  }
 }
