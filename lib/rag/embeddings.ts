@@ -1,5 +1,5 @@
 import { embed, embedMany } from "ai";
-import { google } from "@ai-sdk/google";
+import { google } from "./google-provider";
 
 const EMBEDDING_MODEL = "gemini-embedding-001";
 
