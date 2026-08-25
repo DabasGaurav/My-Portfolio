@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { chunkMarkdown } from "./chunk";
-import { projects } from "@/content/projects";
+import { getRecentRepos } from "@/lib/github";
 import { experience } from "@/content/experience";
 import { siteConfig } from "@/config/site.config";
 import type { Chunk } from "@/types/rag";
@@ -34,16 +34,28 @@ function aboutChunks(): Chunk[] {
   }));
 }
 
-function projectChunks(): Chunk[] {
-  return projects.map((p) => {
-    const text = `${p.title}. ${p.summary} Built with: ${p.stack.join(", ")}.`;
+/**
+ * Sourced live from GitHub — same data the homepage's Work section shows
+ * — instead of a separately maintained project list, so the chatbot can
+ * never describe a project differently than what's actually on the site.
+ */
+async function workChunks(): Promise<Chunk[]> {
+  const repos = await getRecentRepos();
+  return repos.map((repo) => {
+    const text = [
+      `${repo.name}.`,
+      repo.description || "No description set on GitHub yet.",
+      repo.language ? `Written primarily in ${repo.language}.` : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
     return {
-      id: `project-${p.slug}`,
+      id: `work-${repo.id}`,
       text,
       metadata: {
         source: "project",
-        title: p.title,
-        url: p.links.github ?? p.links.demo ?? p.links.video,
+        title: repo.name,
+        url: repo.htmlUrl,
         text,
       },
     };
@@ -85,10 +97,10 @@ function blogChunks(): Chunk[] {
   });
 }
 
-export function buildCorpus(): Chunk[] {
+export async function buildCorpus(): Promise<Chunk[]> {
   return [
     ...aboutChunks(),
-    ...projectChunks(),
+    ...(await workChunks()),
     ...experienceChunks(),
     ...blogChunks(),
   ];

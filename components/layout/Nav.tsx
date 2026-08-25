@@ -2,8 +2,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site.config";
 
 const links = [
-  { href: "#projects", label: "Projects" },
-  { href: "#github", label: "GitHub" },
+  { href: "#work", label: "Work" },
   { href: "#experience", label: "Experience" },
   { href: "#blog", label: "Blog" },
 ];

@@ -14,8 +14,8 @@ async function main() {
     process.exit(1);
   }
 
-  console.log("Building corpus from about/projects/experience/blog...");
-  const corpus = buildCorpus();
+  console.log("Building corpus from about/GitHub/experience/blog...");
+  const corpus = await buildCorpus();
   console.log(`${corpus.length} chunks.`);
 
   console.log("Ensuring Pinecone index exists...");

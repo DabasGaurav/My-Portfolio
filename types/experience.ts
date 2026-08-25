@@ -4,6 +4,6 @@ export type ExperienceEntry = {
   period: string;
   summary: string;
   companyUrl?: string;
-  /** See types/project.ts — same honest-data convention. */
+  /** Rendered with a visible "Placeholder" label — the honest-data convention used site-wide. */
   placeholder?: boolean;
 };

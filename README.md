@@ -53,10 +53,10 @@ The site works fully without this — the chat widget just shows a clear
 3. Add both to `.env.local` (local dev) **and** to the Vercel project's
    environment variables (production) — `vercel env add GEMINI_API_KEY production`
    and same for `PINECONE_API_KEY`.
-4. Run `npm run ingest` locally to embed `content/about.md`, `content/projects.ts`,
-   `content/experience.ts`, and every post in `content/blog/` into Pinecone.
-   Re-run it any time that content changes — it's a manual step, not part
-   of the build.
+4. Run `npm run ingest` locally to embed `content/about.md`, your live
+   GitHub repos, `content/experience.ts`, and every post in `content/blog/`
+   into Pinecone. Re-run it any time that content changes (including after
+   pushing new repos to GitHub) — it's a manual step, not part of the build.
 5. Redeploy (`vercel deploy --prod`) so the deployed API route picks up
    the new env vars.
 
@@ -84,3 +84,14 @@ daily; Vercel's Hobby plan doesn't allow more frequent cron invocations.
 See `PRD.md` §7. MVP is milestones 1–3 (scaffold, projects, GitHub embed).
 This repo builds one milestone at a time, each independently deployable.
 All 7 are shipped as of this commit.
+
+**Deviation from the PRD's IA (§6):** the separate "Projects" and "GitHub
+activity" sections were merged into one live "Work" section
+(`components/work/WorkGrid.tsx`), sourced entirely from the GitHub API.
+The original design kept them apart — curated highlight cards vs. a raw
+activity feed — but in practice that meant a hand-maintained placeholder
+list sitting next to real live data, which read as broken rather than
+in-progress. One source of truth won out over the richer-but-manual
+curation the split would have allowed (a demo video or a separate live-app
+link on a card, for instance). The RAG chatbot's corpus follows the same
+change — `lib/rag/corpus.ts` pulls live repos instead of a static file.
