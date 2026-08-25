@@ -35,11 +35,11 @@ function aboutChunks(): Chunk[] {
 }
 
 /**
- * Sourced live from GitHub — same data the homepage's Work section shows
- * — instead of a separately maintained project list, so the chatbot can
- * never describe a project differently than what's actually on the site.
+ * Sourced live from GitHub — same data the homepage's Projects section
+ * shows — instead of a separately maintained project list, so the
+ * chatbot can never describe a project differently than the site does.
  */
-async function workChunks(): Promise<Chunk[]> {
+async function projectChunks(): Promise<Chunk[]> {
   const repos = await getRecentRepos();
   return repos.map((repo) => {
     const text = [
@@ -50,7 +50,7 @@ async function workChunks(): Promise<Chunk[]> {
       .filter(Boolean)
       .join(" ");
     return {
-      id: `work-${repo.id}`,
+      id: `project-${repo.id}`,
       text,
       metadata: {
         source: "project",
@@ -100,7 +100,7 @@ function blogChunks(): Chunk[] {
 export async function buildCorpus(): Promise<Chunk[]> {
   return [
     ...aboutChunks(),
-    ...(await workChunks()),
+    ...(await projectChunks()),
     ...experienceChunks(),
     ...blogChunks(),
   ];

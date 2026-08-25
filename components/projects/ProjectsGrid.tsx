@@ -8,7 +8,7 @@ import type { GithubRepo } from "@/types/github";
  * data — no separate hand-maintained project list. One source of truth,
  * always current, no risk of a stale/fake card sitting next to real data.
  */
-export async function WorkGrid() {
+export async function ProjectsGrid() {
   let repos: GithubRepo[] | null = null;
   try {
     repos = await getRecentRepos();
@@ -55,7 +55,7 @@ export async function WorkGrid() {
           </div>
 
           <TrackedLink
-            event="work_link_click"
+            event="project_link_click"
             properties={{ repo: repo.name }}
             href={repo.htmlUrl}
             target="_blank"
