@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { hero } from "@/content/hero";
 import { OpenChatButton } from "@/components/chatbot/OpenChatButton";
 
@@ -25,19 +26,21 @@ export function Hero() {
         </div>
 
         <div
-          className="animate-rise-in mx-auto flex aspect-square w-full max-w-64 items-center justify-center bg-surface-alt md:max-w-none [animation-delay:150ms]"
+          className="animate-rise-in relative mx-auto aspect-square w-full max-w-64 overflow-hidden bg-surface-alt md:max-w-none [animation-delay:150ms]"
           style={{
             borderRadius: "var(--radius)",
             border: "2px solid var(--ink)",
             boxShadow: "8px 8px 0 0 var(--ink)",
           }}
         >
-          <span className="font-display text-8xl italic text-ink-on-alt">
-            {hero.name
-              .split(" ")
-              .map((part) => part[0])
-              .join("")}
-          </span>
+          <Image
+            src="/images/gaurav.jpg"
+            alt={hero.name}
+            fill
+            sizes="(min-width: 768px) 40vw, 256px"
+            className="object-cover object-[50%_65%]"
+            priority
+          />
         </div>
       </div>
     </section>

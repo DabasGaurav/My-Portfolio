@@ -11,8 +11,7 @@ export const socialConfig = {
     url: "https://github.com/DabasGaurav",
   },
   linkedin: {
-    // TODO: replace with your real LinkedIn profile URL
-    url: "https://www.linkedin.com/in/REPLACE_ME",
+    url: "https://www.linkedin.com/in/dabasgaurav/",
   },
   email: "dabasgaurav05@gmail.com",
 } as const;
