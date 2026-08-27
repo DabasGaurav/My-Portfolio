@@ -1,18 +1,37 @@
 /**
- * Design tokens — "Warm Studio" theme, dark by default. Contrast-validated
- * (WCAG AA) for every text/surface pairing before being locked in — see
- * the commit history for the numbers. `--ink-on-alt` is a fixed dark
- * value (not a mode-flipping token) because the amber block stays bright
- * regardless of theme, so text on it always needs to stay dark.
+ * Design tokens — "Warm Sand" theme. Light mode is the default; dark mode
+ * follows the OS preference. Every text/surface pairing is WCAG AA
+ * validated (see the commit message for the measured ratios).
+ *
+ * Dual-tone: deep teal is the primary accent (links, primary CTA), muted
+ * clay is the secondary (highlights, secondary CTA, timeline markers).
+ * Clay was darkened from the original #C1714F to #AD5A38 so it clears
+ * 4.5:1 as button/body text rather than large-text-only.
  */
 
 :root {
-  --surface: #1c1712;
-  --surface-alt: #e89a2e;
-  --ink: #f5efe4;
-  --ink-on-alt: #241e17;
-  --muted: #a99c87;
-  --accent: #e85585;
-  --hairline: #3a2f22;
+  --surface: #faf8f5;
+  --surface-raised: #ffffff;
+  --surface-sunken: #f2eee8;
+  --ink: #1f2a2e;
+  --muted: #5f6b66;
+  --accent: #1f6f6b;
+  --accent-2: #ad5a38;
+  --on-accent: #ffffff;
+  --hairline: #e4ded4;
   --radius: 0.85rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #12181a;
+    --surface-raised: #1a2225;
+    --surface-sunken: #0d1214;
+    --ink: #ecefec;
+    --muted: #9aa7a2;
+    --accent: #4fb3ad;
+    --accent-2: #e8916b;
+    --on-accent: #0d1214;
+    --hairline: #26312f;
+  }
 }

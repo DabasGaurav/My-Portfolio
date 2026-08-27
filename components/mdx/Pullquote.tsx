@@ -2,16 +2,11 @@ import type { ReactNode } from "react";
 
 export function Pullquote({ children }: { children: ReactNode }) {
   return (
-    <blockquote
-      className="relative my-10 px-8 py-8 font-display text-2xl italic leading-snug text-ink-on-alt not-italic"
-      style={{
-        background: "var(--surface-alt)",
-        borderRadius: "var(--radius)",
-        border: "2px solid var(--ink)",
-        boxShadow: "6px 6px 0 0 var(--ink)",
-      }}
-    >
-      <span aria-hidden="true" className="mb-2 block font-display text-5xl leading-none">
+    <blockquote className="card-pop-flat relative my-10 px-8 py-8 font-display text-2xl italic leading-snug text-ink not-italic">
+      <span
+        aria-hidden="true"
+        className="mb-2 block font-display text-5xl leading-none text-accent-2"
+      >
         &#8220;
       </span>
       {children}

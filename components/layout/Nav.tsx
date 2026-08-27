@@ -2,15 +2,16 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site.config";
 
 const links = [
-  { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
+  { href: "#work-education", label: "Work & Education" },
+  { href: "#cooking", label: "Currently Cooking" },
+  { href: "#certifications", label: "Certifications" },
   { href: "#blog", label: "Blog" },
 ];
 
 export function Nav() {
   return (
-    <header className="sticky top-0 z-40 border-b-2 border-hairline bg-surface/90 backdrop-blur">
-      <div className="mx-auto flex max-w-4xl flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+    <header className="sticky top-0 z-40 border-b border-hairline bg-surface/90 backdrop-blur">
+      <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <Link href="/" className="font-display text-xl italic">
           {siteConfig.name}
         </Link>

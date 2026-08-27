@@ -15,10 +15,10 @@ type SectionProps = {
  */
 export function Section({ id, index, eyebrow, title, children }: SectionProps) {
   return (
-    <section id={id} className="scroll-mt-20 border-t-2 border-hairline">
-      <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+    <section id={id} className="scroll-mt-20 border-t border-hairline">
+      <div className="mx-auto max-w-5xl px-6 py-16 md:py-24">
         <div className="flex items-center gap-3">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-surface-alt font-mono text-[10px] font-medium text-ink-on-alt">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent font-mono text-[10px] font-medium text-on-accent">
             {String(index).padStart(2, "0")}
           </span>
           <p className="font-sans text-sm font-medium uppercase tracking-[0.15em] text-muted">

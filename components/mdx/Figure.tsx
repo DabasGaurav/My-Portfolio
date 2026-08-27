@@ -17,7 +17,7 @@ export function Figure({
         width={1200}
         height={675}
         className="w-full"
-        style={{ borderRadius: "var(--radius)", border: "2px solid var(--ink)" }}
+        style={{ borderRadius: "var(--radius)", border: "1px solid var(--hairline)" }}
       />
       {caption && (
         <figcaption className="mt-2 font-sans text-xs font-medium text-muted">

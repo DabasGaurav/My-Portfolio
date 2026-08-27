@@ -8,8 +8,8 @@ const links = [
 
 export function Footer() {
   return (
-    <footer className="border-t-2 border-hairline">
-      <div className="mx-auto flex max-w-4xl flex-col gap-4 px-6 py-10 font-sans text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+    <footer className="border-t border-hairline">
+      <div className="mx-auto flex max-w-5xl flex-col gap-4 px-6 py-10 font-sans text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
         <span>&copy; {new Date().getFullYear()}</span>
         <div className="flex gap-6">
           {links.map((link) => (

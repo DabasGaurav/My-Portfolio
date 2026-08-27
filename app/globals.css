@@ -4,11 +4,13 @@
 
 @theme inline {
   --color-surface: var(--surface);
-  --color-surface-alt: var(--surface-alt);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
   --color-ink: var(--ink);
-  --color-ink-on-alt: var(--ink-on-alt);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-on-accent: var(--on-accent);
   --color-hairline: var(--hairline);
   --radius-card: var(--radius);
 
@@ -17,46 +19,46 @@
   --font-mono: var(--font-plex-mono);
 }
 
-:root {
-  color-scheme: dark;
-}
-
 body {
   background: var(--surface);
   color: var(--ink);
   font-family: var(--font-sans);
 }
 
-/* The site's signature card treatment: a solid ink border with a hard
-   offset shadow (no blur, no color tint) instead of the generic soft
-   drop-shadow-and-lift pattern. Hover deepens the offset and nudges the
-   card toward it, like pressing a sticker down.
+/* The site's shared card treatment: a soft, layered shadow on a raised
+   (white) surface, matching the reference site's modern-card language —
+   no colored tints, no borders doing the separating work, just depth.
+   Hover deepens the shadow and lifts the card slightly.
 
    Wrapped in @layer components (not left unlayered) so Tailwind utility
-   classes — bg-accent, bg-surface-alt, opacity-70, etc. — applied
-   alongside .card-pop still win: in Tailwind v4, unlayered CSS always
-   beats @layer utilities regardless of source order or specificity. */
+   classes — bg-accent, opacity-70, etc. — applied alongside .card-pop
+   still win: in Tailwind v4, unlayered CSS always beats @layer utilities
+   regardless of source order or specificity. */
 @layer components {
   .card-pop {
     position: relative;
-    background: var(--surface);
-    border: 2px solid var(--ink);
+    background: var(--surface-raised);
+    border: 1px solid var(--hairline);
     border-radius: var(--radius);
-    box-shadow: 5px 5px 0 0 var(--ink);
+    box-shadow:
+      0 1px 2px rgba(31, 42, 46, 0.04),
+      0 8px 24px rgba(31, 42, 46, 0.06);
     transition:
-      box-shadow 150ms ease,
-      transform 150ms ease;
+      box-shadow 200ms ease,
+      transform 200ms ease;
   }
 
   a.card-pop:hover,
   button.card-pop:hover {
-    box-shadow: 7px 7px 0 0 var(--ink);
-    transform: translate(-2px, -2px);
+    box-shadow:
+      0 2px 4px rgba(31, 42, 46, 0.06),
+      0 16px 32px rgba(31, 42, 46, 0.1);
+    transform: translateY(-3px);
   }
 
   .card-pop-flat {
-    background: var(--surface);
-    border: 2px solid var(--ink);
+    background: var(--surface-raised);
+    border: 1px solid var(--hairline);
     border-radius: var(--radius);
   }
 }

@@ -1,9 +1,10 @@
-export type ExperienceEntry = {
+export type TimelineEntry = {
+  type: "work" | "education";
   role: string;
-  company: string;
+  org: string;
   period: string;
   summary: string;
-  companyUrl?: string;
+  orgUrl?: string;
   /** Rendered with a visible "Placeholder" label — the honest-data convention used site-wide. */
   placeholder?: boolean;
 };

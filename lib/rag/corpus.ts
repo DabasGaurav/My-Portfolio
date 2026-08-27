@@ -2,8 +2,9 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { chunkMarkdown } from "./chunk";
-import { getRecentRepos } from "@/lib/github";
-import { experience } from "@/content/experience";
+import { getPinnedRepos } from "@/lib/github";
+import { timeline } from "@/content/experience";
+import { certifications } from "@/content/certifications";
 import { siteConfig } from "@/config/site.config";
 import type { Chunk } from "@/types/rag";
 
@@ -35,12 +36,14 @@ function aboutChunks(): Chunk[] {
 }
 
 /**
- * Sourced live from GitHub — same data the homepage's Projects section
- * shows — instead of a separately maintained project list, so the
- * chatbot can never describe a project differently than the site does.
+ * Sourced live from your pinned GitHub repos — same data "Currently
+ * Cooking" shows — instead of a separately maintained project list, so
+ * the chatbot can never describe a project differently than the site
+ * does. Each chunk links to the project's own detail page, not straight
+ * to GitHub, so the chatbot's citations match what a visitor can click.
  */
 async function projectChunks(): Promise<Chunk[]> {
-  const repos = await getRecentRepos();
+  const repos = await getPinnedRepos();
   return repos.map((repo) => {
     const text = [
       `${repo.name}.`,
@@ -55,22 +58,57 @@ async function projectChunks(): Promise<Chunk[]> {
       metadata: {
         source: "project",
         title: repo.name,
-        url: repo.htmlUrl,
+        url: `${siteConfig.url}/projects/${repo.name}`,
         text,
       },
     };
   });
 }
 
-function experienceChunks(): Chunk[] {
-  return experience.map((e) => {
-    const text = `${e.role} at ${e.company} (${e.period}). ${e.summary}`;
+function timelineChunks(): Chunk[] {
+  return timeline.map((e) => {
+    const text =
+      e.type === "education"
+        ? `Education: ${e.role} at ${e.org} (${e.period}). ${e.summary}`
+        : `${e.role} at ${e.org} (${e.period}). ${e.summary}`;
     return {
-      id: `experience-${e.company}-${e.role}`.toLowerCase().replace(/\s+/g, "-"),
+      id: `timeline-${e.org}-${e.role}`.toLowerCase().replace(/\s+/g, "-"),
       text,
-      metadata: { source: "experience", title: `${e.role} at ${e.company}`, text },
+      metadata: { source: "experience", title: `${e.role} at ${e.org}`, text },
     };
   });
+}
+
+function certificationChunks(): Chunk[] {
+  return certifications
+    .filter((c) => !c.placeholder)
+    .map((c) => {
+      const text = `Certification: ${c.name}, issued by ${c.issuer} (${c.year}).`;
+      return {
+        id: `certification-${c.name}`.toLowerCase().replace(/\s+/g, "-"),
+        text,
+        metadata: { source: "certification", title: c.name, text },
+      };
+    });
+}
+
+/**
+ * Optional plain-text resume content (content/resume.md), if you've
+ * added one — separate from the downloadable PDF at public/resume.pdf,
+ * since embedding a PDF directly would need an extraction step this
+ * project doesn't have yet. Returns no chunks if the file doesn't exist.
+ */
+function resumeChunks(): Chunk[] {
+  const filePath = path.join(process.cwd(), "content", "resume.md");
+  if (!fs.existsSync(filePath)) return [];
+  const raw = fs.readFileSync(filePath, "utf8");
+  const { content } = matter(raw);
+
+  return chunkMarkdown(content).map((text, i) => ({
+    id: `resume-${i}`,
+    text,
+    metadata: { source: "resume", title: "Resume", text },
+  }));
 }
 
 function blogChunks(): Chunk[] {
@@ -101,7 +139,9 @@ export async function buildCorpus(): Promise<Chunk[]> {
   return [
     ...aboutChunks(),
     ...(await projectChunks()),
-    ...experienceChunks(),
+    ...timelineChunks(),
+    ...certificationChunks(),
+    ...resumeChunks(),
     ...blogChunks(),
   ];
 }

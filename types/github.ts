@@ -6,4 +6,5 @@ export type GithubRepo = {
   language: string | null;
   stars: number;
   updatedAt: string;
+  topics: string[];
 };

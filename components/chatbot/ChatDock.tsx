@@ -35,8 +35,8 @@ function MessageBubble({
       <p
         className={`whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm ${
           isUser
-            ? "bg-ink text-surface"
-            : "border-2 border-hairline bg-surface text-ink"
+            ? "bg-accent text-on-accent"
+            : "border border-hairline bg-surface-sunken text-ink"
         }`}
       >
         {linkifyParts(text).map((part, i) =>
@@ -83,16 +83,16 @@ export function ChatDock() {
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {open && (
-        <div className="card-pop-flat mb-4 flex h-[28rem] w-[calc(100vw-3rem)] max-w-sm flex-col overflow-hidden bg-surface">
-          <div className="flex items-center justify-between border-b-2 border-hairline bg-surface-alt px-4 py-3">
-            <p className="font-display text-lg italic text-ink-on-alt">
+        <div className="card-pop-flat mb-4 flex h-[28rem] w-[calc(100vw-3rem)] max-w-sm flex-col overflow-hidden bg-surface-raised">
+          <div className="flex items-center justify-between border-b border-hairline bg-accent px-4 py-3">
+            <p className="font-display text-lg italic text-on-accent">
               Ask about me
             </p>
             <button
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close chat"
-              className="text-xl leading-none text-ink-on-alt transition-opacity hover:opacity-70"
+              className="text-xl leading-none text-on-accent transition-opacity hover:opacity-70"
             >
               &times;
             </button>
@@ -101,7 +101,7 @@ export function ChatDock() {
           <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4 py-4">
             {messages.length === 0 && (
               <p className="text-sm text-muted">
-                Ask a question about my projects, experience, or writing.
+                Ask a question about my projects, work history, education, or writing.
               </p>
             )}
             {messages.map((message) => (
@@ -124,18 +124,18 @@ export function ChatDock() {
 
           <form
             onSubmit={handleSubmit}
-            className="flex gap-2 border-t-2 border-hairline p-3"
+            className="flex gap-2 border-t border-hairline p-3"
           >
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask a question…"
-              className="flex-1 rounded-full border-2 border-hairline bg-surface px-4 py-2 text-sm text-ink outline-none focus:border-accent"
+              className="flex-1 rounded-full border border-hairline bg-surface px-4 py-2 text-sm text-ink outline-none focus:border-accent"
             />
             <button
               type="submit"
               disabled={isBusy}
-              className="rounded-full bg-accent px-4 py-2 font-sans text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="rounded-full bg-accent px-4 py-2 font-sans text-sm font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               Send
             </button>
@@ -147,7 +147,7 @@ export function ChatDock() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close chat" : "Ask about me"}
-        className="card-pop flex h-12 items-center gap-2 bg-accent px-4 font-sans text-sm font-semibold text-white sm:px-5"
+        className="card-pop flex h-12 items-center gap-2 bg-accent px-4 font-sans text-sm font-semibold text-on-accent sm:px-5"
       >
         <svg
           width="16"
