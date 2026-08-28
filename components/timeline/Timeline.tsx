@@ -41,7 +41,7 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
               }
             >
               <div className="flex items-baseline justify-between gap-4">
-                <h3 className="font-display text-2xl italic">{entry.role}</h3>
+                <h3 className="font-display text-xl font-bold">{entry.role}</h3>
                 <div className="flex shrink-0 items-center gap-2">
                   <span className="rounded-full bg-surface-sunken px-2.5 py-1 font-sans text-[11px] font-medium text-muted">
                     {typeLabel[entry.type]}

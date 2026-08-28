@@ -14,8 +14,8 @@
   --color-hairline: var(--hairline);
   --radius-card: var(--radius);
 
-  --font-display: var(--font-instrument-serif);
-  --font-sans: var(--font-hanken-grotesk);
+  --font-display: var(--font-montserrat);
+  --font-sans: var(--font-plex-sans);
   --font-mono: var(--font-plex-mono);
 }
 
@@ -25,35 +25,22 @@ body {
   font-family: var(--font-sans);
 }
 
-/* The site's shared card treatment: a soft, layered shadow on a raised
-   (white) surface, matching the reference site's modern-card language —
-   no colored tints, no borders doing the separating work, just depth.
-   Hover deepens the shadow and lifts the card slightly.
-
-   Wrapped in @layer components (not left unlayered) so Tailwind utility
-   classes — bg-accent, opacity-70, etc. — applied alongside .card-pop
-   still win: in Tailwind v4, unlayered CSS always beats @layer utilities
-   regardless of source order or specificity. */
+/* The site's shared card treatment: a flat, thin-bordered box with no
+   background tint and no shadow — matches the reference site's card
+   style exactly (border 1px solid, radius 12px, no box-shadow). Hover
+   just brightens the border, the only motion cue. */
 @layer components {
   .card-pop {
     position: relative;
     background: var(--surface-raised);
     border: 1px solid var(--hairline);
     border-radius: var(--radius);
-    box-shadow:
-      0 1px 2px rgba(31, 42, 46, 0.04),
-      0 8px 24px rgba(31, 42, 46, 0.06);
-    transition:
-      box-shadow 200ms ease,
-      transform 200ms ease;
+    transition: border-color 200ms ease;
   }
 
   a.card-pop:hover,
   button.card-pop:hover {
-    box-shadow:
-      0 2px 4px rgba(31, 42, 46, 0.06),
-      0 16px 32px rgba(31, 42, 46, 0.1);
-    transform: translateY(-3px);
+    border-color: var(--accent);
   }
 
   .card-pop-flat {
@@ -61,6 +48,17 @@ body {
     border: 1px solid var(--hairline);
     border-radius: var(--radius);
   }
+}
+
+/* The reference site's signature heading treatment: the last word/phrase
+   of every section title rendered as a gradient-clipped span. Ours runs
+   accent -> accent-2, so the site's two-color system shows up in the one
+   place the reference uses a single gradient. */
+.heading-highlight {
+  background-image: linear-gradient(135deg, var(--accent), var(--accent-2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 /* Blog post typography: reuses the site's own tokens, which already
@@ -83,7 +81,7 @@ body {
 
 /* The one deliberate motion moment on the site: a staggered hero-load
    reveal (see components/hero/Hero.tsx). Everywhere else uses only plain
-   color/opacity/shadow transitions on hover — no scattered micro-interactions. */
+   color/opacity/border transitions on hover — no scattered micro-interactions. */
 @keyframes rise-in {
   from {
     opacity: 0;
@@ -106,8 +104,26 @@ body {
   animation-fill-mode: both;
 }
 
+/* Cross-fade used by the hero's rotating avatar (components/hero/AvatarCarousel). */
+@keyframes avatar-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-avatar-fade {
+  animation-name: avatar-fade;
+  animation-duration: 0.6s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-rise-in {
+  .animate-rise-in,
+  .animate-avatar-fade {
     animation: none;
   }
   .card-pop,

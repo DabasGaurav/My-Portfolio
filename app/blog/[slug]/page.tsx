@@ -33,7 +33,7 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
       <p className="font-sans text-sm font-medium uppercase tracking-[0.15em] text-muted">
         {formatDate(post.date)}
       </p>
-      <h1 className="mt-2 text-balance font-display text-5xl italic">
+      <h1 className="mt-2 text-balance font-display text-5xl font-bold">
         {post.title}
       </h1>
       <div className="prose mt-10 max-w-none">

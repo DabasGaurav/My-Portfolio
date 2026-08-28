@@ -32,7 +32,7 @@ export default async function ProjectDetailPage(
         &larr; Back to Currently Cooking
       </Link>
 
-      <h1 className="mt-6 text-balance font-display text-5xl italic">{repo.name}</h1>
+      <h1 className="mt-6 text-balance font-display text-5xl font-bold">{repo.name}</h1>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
         {repo.language && (
@@ -60,7 +60,7 @@ export default async function ProjectDetailPage(
 
       {detail?.loomUrl && (
         <div className="mt-10">
-          <h2 className="font-display text-2xl italic">Walkthrough</h2>
+          <h2 className="font-display text-2xl font-bold">Walkthrough</h2>
           <div className="card-pop-flat mt-4 aspect-video overflow-hidden">
             <iframe
               src={detail.loomUrl}
@@ -74,7 +74,7 @@ export default async function ProjectDetailPage(
 
       {detail?.demoUrl && (
         <div className="mt-10">
-          <h2 className="font-display text-2xl italic">Demo</h2>
+          <h2 className="font-display text-2xl font-bold">Demo</h2>
           <div className="card-pop-flat mt-4 aspect-video overflow-hidden">
             <video src={detail.demoUrl} controls className="h-full w-full" />
           </div>

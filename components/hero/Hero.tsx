@@ -1,99 +1,97 @@
-import Image from "next/image";
 import { hero } from "@/content/hero";
+import { socialConfig } from "@/config/social.config";
 import { OpenChatButton } from "@/components/chatbot/OpenChatButton";
+import { AvatarCarousel } from "@/components/hero/AvatarCarousel";
 
 export function Hero() {
   const hasResume = hero.resumeUrl.length > 0;
   const hasCalendar = hero.calendarUrl.length > 0;
-  const hasIllustration = hero.illustratedAvatarSrc.length > 0;
+  const hasOpenToWork = hero.openToWorkIn.length > 0;
 
   return (
     <section className="mx-auto max-w-5xl px-6 pb-16 pt-16 md:pb-24 md:pt-24">
       <div className="grid items-center gap-12 md:grid-cols-[1.2fr_1fr] md:gap-16">
         <div>
-          <span className="animate-rise-in inline-block rounded-full border border-hairline bg-surface-raised px-4 py-1.5 font-sans text-sm font-medium text-muted shadow-sm">
-            {hero.badge}
-          </span>
-
-          <h1 className="animate-rise-in mt-6 text-balance font-display text-5xl leading-[1.05] md:text-7xl [animation-delay:100ms]">
-            {hero.name.split(" ")[0]}{" "}
-            <span className="text-accent italic">
-              {hero.name.split(" ").slice(1).join(" ")}
-            </span>
+          <h1 className="animate-rise-in text-balance font-display text-4xl font-bold leading-[1.1] md:text-6xl">
+            Hi, I&apos;m <span className="text-accent">{hero.name}</span>
           </h1>
+
+          {hero.nickname && (
+            <p className="animate-rise-in mt-1 text-sm text-muted [animation-delay:80ms]">
+              (also go by {hero.nickname})
+            </p>
+          )}
+
+          <div className="animate-rise-in mt-4 flex flex-wrap items-center gap-2 [animation-delay:120ms]">
+            <span className="card-pop-flat rounded-full px-4 py-1.5 font-sans text-sm text-muted">
+              {hero.roleTags.join(" · ")}
+            </span>
+            {hasOpenToWork && (
+              <span className="rounded-full border border-accent bg-accent/10 px-4 py-1.5 font-sans text-sm text-accent">
+                Open to work in: {hero.openToWorkIn.join(", ")}
+              </span>
+            )}
+          </div>
 
           <p className="animate-rise-in mt-5 max-w-md text-lg text-muted [animation-delay:200ms]">
             {hero.positioning}
           </p>
 
           <div className="animate-rise-in mt-8 flex flex-wrap items-center gap-3 [animation-delay:300ms]">
-            <OpenChatButton className="card-pop inline-block bg-accent px-7 py-3.5 font-sans text-base font-semibold text-on-accent">
+            <OpenChatButton className="rounded-xl bg-accent px-6 py-3 font-display text-sm font-bold text-on-accent transition-opacity hover:opacity-90">
               {hero.cta.label}
             </OpenChatButton>
-
-            {hasResume && (
-              <a
-                href={hero.resumeUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="card-pop inline-flex items-center gap-2 bg-surface-raised px-6 py-3.5 font-sans text-base font-semibold text-ink"
-              >
-                Resume
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path
-                    d="M8 2v8m0 0L5 7m3 3 3-3M3 12v1.5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5V12"
-                    stroke="currentColor"
-                    strokeWidth="1.3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
-            )}
 
             {hasCalendar && (
               <a
                 href={hero.calendarUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="card-pop inline-flex items-center gap-2 bg-surface-raised px-6 py-3.5 font-sans text-base font-semibold text-ink"
+                className="card-pop-flat rounded-xl px-6 py-3 font-display text-sm font-bold text-ink"
               >
                 Book a call
               </a>
             )}
+
+            {hasResume && (
+              <a
+                href={hero.resumeUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="card-pop-flat rounded-xl px-6 py-3 font-display text-sm font-bold text-ink"
+              >
+                Resume
+              </a>
+            )}
+          </div>
+
+          <div className="animate-rise-in mt-6 flex items-center gap-4 [animation-delay:380ms]">
+            <a
+              href={socialConfig.linkedin.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+              className="text-muted transition-colors hover:text-accent"
+            >
+              <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M3.6 5.4h2.3v7H3.6v-7Zm1.15-3.7a1.33 1.33 0 1 1 0 2.66 1.33 1.33 0 0 1 0-2.66ZM7.4 5.4h2.2v.96h.03c.31-.58 1.06-1.19 2.18-1.19 2.33 0 2.76 1.53 2.76 3.53v3.7h-2.3V9.13c0-.86-.02-1.97-1.2-1.97-1.2 0-1.39.94-1.39 1.9v3.34H7.4v-7Z" />
+              </svg>
+            </a>
+            <a
+              href={`mailto:${socialConfig.email}`}
+              aria-label="Email"
+              className="text-muted transition-colors hover:text-accent"
+            >
+              <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true">
+                <rect x="1.5" y="3" width="13" height="10" rx="1.5" />
+                <path d="m2 4 6 5 6-5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
           </div>
         </div>
 
-        <div className="animate-rise-in relative mx-auto aspect-square w-full max-w-72 md:max-w-none [animation-delay:150ms]">
-          <div
-            className="absolute inset-0 rounded-full opacity-70 blur-2xl"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 45%, var(--accent-2) 0%, transparent 70%)",
-            }}
-            aria-hidden="true"
-          />
-          <div className="group relative aspect-square w-full overflow-hidden rounded-full border-4 border-surface-raised shadow-xl">
-            <Image
-              src="/images/gaurav.jpg"
-              alt={hero.name}
-              fill
-              sizes="(min-width: 768px) 40vw, 288px"
-              className={`object-cover object-[50%_65%] transition-transform duration-500 ${
-                hasIllustration ? "group-hover:opacity-0" : "group-hover:scale-105"
-              }`}
-              priority
-            />
-            {hasIllustration && (
-              <Image
-                src={hero.illustratedAvatarSrc}
-                alt=""
-                fill
-                sizes="(min-width: 768px) 40vw, 288px"
-                className="object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-              />
-            )}
-          </div>
+        <div className="animate-rise-in [animation-delay:150ms]">
+          <AvatarCarousel avatars={hero.avatars} name={hero.name} />
         </div>
       </div>
     </section>

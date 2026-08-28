@@ -51,7 +51,7 @@ export async function ProjectsGrid() {
         <div className="grid gap-6 md:grid-cols-2">
           {repos.map((repo) => (
             <Link key={repo.id} href={`/projects/${repo.name}`} className="card-pop block p-6">
-              <h3 className="font-display text-2xl italic">{repo.name}</h3>
+              <h3 className="font-display text-xl font-bold">{repo.name}</h3>
 
               <p className="mt-3 text-muted">
                 {repo.description || "No description yet on GitHub."}

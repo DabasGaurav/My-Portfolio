@@ -28,13 +28,13 @@ export default async function CrosspostAdminPage() {
       <p className="font-sans text-sm font-medium uppercase tracking-[0.15em] text-muted">
         Crosspost review
       </p>
-      <h1 className="mt-2 font-display text-4xl italic">Latest teaser</h1>
+      <h1 className="mt-2 font-display text-4xl font-bold">Latest teaser</h1>
 
       {!teaser ? (
         <p className="mt-8 text-muted">No blog posts to crosspost yet.</p>
       ) : (
         <div className="card-pop-flat mt-8 p-6">
-          <h2 className="font-display text-xl italic">{teaser.title}</h2>
+          <h2 className="font-display text-xl font-bold">{teaser.title}</h2>
           <p className="mt-4 whitespace-pre-wrap text-ink">{teaser.teaser}</p>
           <p className="mt-4 font-mono text-xs text-accent">{teaser.url}</p>
           <div className="mt-6">

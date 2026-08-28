@@ -85,7 +85,7 @@ export function ChatDock() {
       {open && (
         <div className="card-pop-flat mb-4 flex h-[28rem] w-[calc(100vw-3rem)] max-w-sm flex-col overflow-hidden bg-surface-raised">
           <div className="flex items-center justify-between border-b border-hairline bg-accent px-4 py-3">
-            <p className="font-display text-lg italic text-on-accent">
+            <p className="font-display text-lg font-bold text-on-accent">
               Ask about me
             </p>
             <button

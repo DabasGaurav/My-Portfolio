@@ -13,7 +13,7 @@ export function CertificationsGrid({ certifications }: { certifications: Certifi
             }
           >
             <div className="flex items-baseline justify-between gap-3">
-              <h3 className="font-display text-lg italic">{cert.name}</h3>
+              <h3 className="font-display text-lg font-bold">{cert.name}</h3>
               {cert.placeholder && (
                 <span className="shrink-0 rounded-full bg-hairline px-2.5 py-1 font-sans text-[11px] font-medium text-muted">
                   Placeholder

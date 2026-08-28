@@ -17,7 +17,7 @@ export function BlogPreview({ limit = 3 }: { limit?: number }) {
           href={`/blog/${post.slug}`}
           className="card-pop block p-6"
         >
-          <h3 className="font-display text-2xl italic">{post.title}</h3>
+          <h3 className="font-display text-xl font-bold">{post.title}</h3>
           <p className="mt-2 font-sans text-sm font-medium text-muted">
             {formatDate(post.date)}
           </p>

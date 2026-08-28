@@ -2,19 +2,27 @@
  * Homepage hero copy. Placeholder text — edit freely, this is the only
  * place the hero's words live.
  *
- * resumeUrl / calendarUrl: leave empty to hide that button entirely
- * (honest-data — no dead links) until you have a real one. Resume file
- * goes in public/resume.pdf; calendarUrl is your real booking link.
+ * resumeUrl / calendarUrl / openToWorkIn: leave empty to hide that piece
+ * entirely (honest-data — no dead links, no fabricated claims) until you
+ * have a real one. Resume file goes in public/resume.pdf; calendarUrl is
+ * your real booking link (e.g. a Google Calendar appointment link).
+ *
+ * avatars: the rotating hero image + role-label pairs (matches the
+ * reference site's cycling avatar). Add more entries once you have more
+ * images — the carousel just cycles through whatever's here, so one
+ * entry works fine too, it just won't visibly rotate.
  */
 
 export const hero = {
   name: "Gaurav Dabas",
+  nickname: "",
   positioning: "Technical PM who builds AI-native products end to end.",
-  badge: "Shipping this site in public",
+  roleTags: ["Technical PM", "AI Builder", "Product Strategist"],
+  openToWorkIn: [] as string[],
   cta: {
     label: "Ask my AI about me",
   },
   resumeUrl: "",
   calendarUrl: "",
-  illustratedAvatarSrc: "",
+  avatars: [{ src: "/images/gaurav.jpg", role: "Technical Product Manager" }],
 } as const;

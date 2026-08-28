@@ -19,7 +19,7 @@
   --accent-2: #ad5a38;
   --on-accent: #ffffff;
   --hairline: #e4ded4;
-  --radius: 0.85rem;
+  --radius: 0.75rem;
 }
 
 @media (prefers-color-scheme: dark) {
