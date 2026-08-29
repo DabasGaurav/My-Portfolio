@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import type { TimelineEntry } from "@/types/experience";
 import { socialConfig } from "@/config/social.config";
 import { haptic } from "@/lib/haptics";
@@ -73,22 +74,35 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
                       : "card-pop p-6"
                 }
               >
-                <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="font-display text-xl font-bold">{entry.role}</h3>
-                  <div className="flex shrink-0 items-center gap-2">
-                    <span className="rounded-full bg-surface-sunken px-2.5 py-1 font-sans text-[11px] font-medium text-muted">
-                      {typeLabel[entry.type]}
-                    </span>
-                    {entry.placeholder && (
-                      <span className="rounded-full bg-hairline px-2.5 py-1 font-sans text-[11px] font-medium text-muted">
-                        Placeholder
-                      </span>
-                    )}
+                <div className="flex items-start gap-4">
+                  {entry.logo && (
+                    <Image
+                      src={entry.logo}
+                      alt={`${entry.org} logo`}
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 shrink-0 rounded-lg object-cover shadow-sm"
+                    />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-baseline justify-between gap-4">
+                      <h3 className="font-display text-xl font-bold">{entry.role}</h3>
+                      <div className="flex shrink-0 items-center gap-2">
+                        <span className="rounded-full bg-surface-sunken px-2.5 py-1 font-sans text-[11px] font-medium text-muted">
+                          {typeLabel[entry.type]}
+                        </span>
+                        {entry.placeholder && (
+                          <span className="rounded-full bg-hairline px-2.5 py-1 font-sans text-[11px] font-medium text-muted">
+                            Placeholder
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <p className="mt-1 font-sans text-sm font-medium text-muted">
+                      {entry.org} &middot; {entry.period}
+                    </p>
                   </div>
                 </div>
-                <p className="mt-1 font-sans text-sm font-medium text-muted">
-                  {entry.org} &middot; {entry.period}
-                </p>
                 {entry.summary && <p className="mt-3 text-muted">{entry.summary}</p>}
                 {clickable && (
                   <p className="mt-3 font-sans text-xs font-semibold text-accent">

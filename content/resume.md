@@ -6,7 +6,7 @@ Gaurav Dabas — linkedin.com/in/gauravdabas
 
 ## Education
 
-- Indian School of Business | Post Graduate Programme in Management — 2025 – 2027
+- Indian School of Business | Post Graduate Programme in Management — Apr 2026 – Present
 - Delhi Technological University (DTU), India | Bachelor of Technology — Jul 2017 – Aug 2021
 
 ## Work Experience

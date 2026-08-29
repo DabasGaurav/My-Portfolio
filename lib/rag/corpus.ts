@@ -5,6 +5,7 @@ import { chunkMarkdown } from "./chunk";
 import { getPinnedRepos, getRepoReadme } from "@/lib/github";
 import { timeline } from "@/content/experience";
 import { certifications } from "@/content/certifications";
+import { testimonials } from "@/content/testimonials";
 import { siteConfig } from "@/config/site.config";
 import type { Chunk } from "@/types/rag";
 
@@ -120,6 +121,19 @@ function certificationChunks(): Chunk[] {
     });
 }
 
+function testimonialChunks(): Chunk[] {
+  return testimonials
+    .filter((t) => !t.placeholder)
+    .map((t) => {
+      const text = `Testimonial from ${t.name}${t.role ? ` (${t.role})` : ""}: "${t.quote}"`;
+      return {
+        id: `testimonial-${t.name}`.toLowerCase().replace(/\s+/g, "-"),
+        text,
+        metadata: { source: "testimonial", title: `Testimonial from ${t.name}`, text },
+      };
+    });
+}
+
 /**
  * Optional plain-text resume content (content/resume.md), if you've
  * added one — separate from the downloadable PDF at public/resume.pdf,
@@ -169,6 +183,7 @@ export async function buildCorpus(): Promise<Chunk[]> {
     ...(await projectChunks()),
     ...timelineChunks(),
     ...certificationChunks(),
+    ...testimonialChunks(),
     ...resumeChunks(),
     ...blogChunks(),
   ];

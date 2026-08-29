@@ -5,6 +5,8 @@ export type TimelineEntry = {
   period: string;
   summary: string;
   orgUrl?: string;
+  /** Company/university logo, cropped from the LinkedIn profile export. */
+  logo?: string;
   /** Rendered with a visible "Placeholder" label — the honest-data convention used site-wide. */
   placeholder?: boolean;
   /**

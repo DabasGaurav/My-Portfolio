@@ -1,5 +1,5 @@
 export type ChunkMetadata = {
-  source: "about" | "project" | "experience" | "blog" | "certification" | "resume";
+  source: "about" | "project" | "experience" | "blog" | "certification" | "resume" | "testimonial";
   title: string;
   url?: string;
   text: string;

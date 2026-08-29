@@ -18,19 +18,30 @@ export const timeline: TimelineEntry[] = [
     org: "Indian School of Business",
     period: "Apr 2026 — Present",
     summary: "Sports Club President.",
+    logo: "/images/logos/isb.png",
   },
   {
     type: "work",
     role: "Product Manager",
     org: "ION",
     period: "Apr 2025 — Mar 2026",
+    logo: "/images/logos/ion.png",
     summary:
-      "Owned the product strategy and roadmap for an exchange fee & tax computation engine processing high-frequency trading data, aligning multiple cross-functional teams to deliver at pace.",
+      "Owned product strategy for an exchange fee & tax computation engine processing high-frequency trading data — architecting client-side integrations and leading multi-phase onboarding for tier-1 financial institutions.",
     raw: `Product Manager
 Apr 2025 - Mar 2026 · 1 yr
 
 • Owned the product strategy and roadmap for an exchange fee & tax computation engine
-processing high-frequency trading data, aligning multiple cross-functional teams to deliver at…
+processing high-frequency trading data, aligning multiple cross-functional teams to deliver at
+scale while continuing to push platform innovation.
+• Architected the technical foundation for client-side integrations, defining API contracts,
+system designs, and end-to-end data flows, working through the user journeys and wireframes
+needed to bring them to life.
+• Led multi-phase onboarding for tier-1 financial institutions, from discovery and requirements
+to specs, on-demand modifications, and live cutovers across multi-million trading accounts and
+complex workflows, all against fixed timelines.
+• Established a data-driven discovery process by identifying recurring patterns in client issues
+to guide product investments and improve overall product health.
 
 Product Management, Agile Methodologies and +3 skills`,
   },
@@ -39,6 +50,7 @@ Product Management, Agile Methodologies and +3 skills`,
     role: "Software Engineer",
     org: "ION",
     period: "Jun 2021 — Apr 2025",
+    logo: "/images/logos/ion.png",
     summary:
       "Built and led the migration of FeesModule, a fintech back-office platform calculating fees, brokerage, tax, and commission for 1M+ trades in real time across 90+ worldwide exchanges. Migrated the platform core from a monolithic EJB/JMS/JSF stack to Spring Boot microservices + Angular, cutting processing time 6x. Served as SME for exchange fee and GST/VAT computation, and built an automated testing framework that raised code coverage from 55% to 90%.",
     raw: `Software Engineer
@@ -66,6 +78,7 @@ Microservices, Distributed Systems and +5 skills`,
     role: "Software Engineer Intern",
     org: "Reliance Industries Limited",
     period: "Jul 2020 — Aug 2020",
+    logo: "/images/logos/reliance.png",
     summary:
       "Built an intelligent document search solution for RIL's Oil & Gas knowledge base, applying NLP and semantic search to surface relevant information across large volumes of technical documents — an early precursor to today's RAG-driven enterprise knowledge systems.",
     raw: `Software Engineer Intern
@@ -87,5 +100,6 @@ Python (Programming Language), Natural Language Processing (NLP) and +2 skills`,
     period: "2017 — 2021",
     summary:
       "Research Intern (May–Jun 2020): built a sentiment-enhanced movie recommendation system that combined user reviews and viewing history to personalize recommendations across story, acting, visuals, and overall experience.",
+    logo: "/images/logos/dtu.png",
   },
 ];

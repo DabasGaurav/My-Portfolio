@@ -8,6 +8,8 @@ import { CertificationsGrid } from "@/components/certifications/CertificationsGr
 import { certifications } from "@/content/certifications";
 import { TeardownsGrid } from "@/components/teardowns/TeardownsGrid";
 import { teardowns } from "@/content/teardowns";
+import { TestimonialsGrid } from "@/components/testimonials/TestimonialsGrid";
+import { testimonials } from "@/content/testimonials";
 
 export default function Home() {
   return (
@@ -42,6 +44,16 @@ export default function Home() {
         description="Certifications and credentials, pulled from LinkedIn."
       >
         <CertificationsGrid certifications={certifications} />
+      </Section>
+
+      <Section
+        id="testimonials"
+        eyebrow="Word of mouth"
+        title="Testimonials"
+        highlight="Testimonials"
+        description="What people I've worked with say."
+      >
+        <TestimonialsGrid testimonials={testimonials} />
       </Section>
 
       <Section
