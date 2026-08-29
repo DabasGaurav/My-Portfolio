@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { chunkMarkdown } from "./chunk";
-import { getPinnedRepos } from "@/lib/github";
+import { getPinnedRepos, getRepoReadme } from "@/lib/github";
 import { timeline } from "@/content/experience";
 import { certifications } from "@/content/certifications";
 import { siteConfig } from "@/config/site.config";
@@ -44,33 +44,61 @@ function aboutChunks(): Chunk[] {
  */
 async function projectChunks(): Promise<Chunk[]> {
   const repos = await getPinnedRepos();
-  return repos.map((repo) => {
-    const text = [
+  const chunks: Chunk[] = [];
+
+  for (const repo of repos) {
+    const summary = [
       `${repo.name}.`,
       repo.description || "No description set on GitHub yet.",
       repo.language ? `Written primarily in ${repo.language}.` : "",
+      repo.topics.length ? `Topics: ${repo.topics.join(", ")}.` : "",
     ]
       .filter(Boolean)
       .join(" ");
-    return {
+
+    chunks.push({
       id: `project-${repo.id}`,
-      text,
+      text: summary,
       metadata: {
         source: "project",
         title: repo.name,
         url: `${siteConfig.url}/projects/${repo.name}`,
-        text,
+        text: summary,
       },
-    };
-  });
+    });
+
+    // README gives the chatbot real depth on how/why each project was
+    // built, not just the one-line GitHub description.
+    const readme = await getRepoReadme(repo.name);
+    if (readme) {
+      chunkMarkdown(readme).forEach((text, i) => {
+        chunks.push({
+          id: `project-${repo.id}-readme-${i}`,
+          text: `${repo.name} — from its README: ${text}`,
+          metadata: {
+            source: "project",
+            title: `${repo.name} (README)`,
+            url: `${siteConfig.url}/projects/${repo.name}`,
+            text,
+          },
+        });
+      });
+    }
+  }
+
+  return chunks;
 }
 
 function timelineChunks(): Chunk[] {
   return timeline.map((e) => {
-    const text =
+    const base =
       e.type === "education"
         ? `Education: ${e.role} at ${e.org} (${e.period}). ${e.summary}`
         : `${e.role} at ${e.org} (${e.period}). ${e.summary}`;
+    // Include the verbatim LinkedIn text too, when there is one, so the
+    // chatbot can answer with the exact bullet-level detail, not just
+    // the curated one-line summary shown on the timeline card.
+    const text = e.raw ? `${base}\n\nFull LinkedIn entry:\n${e.raw}` : base;
     return {
       id: `timeline-${e.org}-${e.role}`.toLowerCase().replace(/\s+/g, "-"),
       text,

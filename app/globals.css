@@ -79,9 +79,11 @@ body {
   font-family: var(--font-display);
 }
 
-/* The one deliberate motion moment on the site: a staggered hero-load
-   reveal (see components/hero/Hero.tsx). Everywhere else uses only plain
-   color/opacity/border transitions on hover — no scattered micro-interactions. */
+/* Hero-load reveal (see components/hero/Hero.tsx), plus the tap/hover
+   micro-interactions used across cards, buttons, and modals (Timeline,
+   CertificationsGrid, ExperienceModal) — hover-lift + active:scale
+   utilities are applied directly via Tailwind classes at each call site,
+   this file only owns the keyframe-based ones. */
 @keyframes rise-in {
   from {
     opacity: 0;
@@ -121,14 +123,52 @@ body {
   animation-fill-mode: both;
 }
 
+/* Experience/certification modals (ExperienceModal.tsx). */
+@keyframes modal-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-modal-in {
+  animation-name: modal-in;
+  animation-duration: 0.18s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.animate-modal-pop {
+  animation-name: modal-pop;
+  animation-duration: 0.22s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-rise-in,
-  .animate-avatar-fade {
+  .animate-avatar-fade,
+  .animate-modal-in,
+  .animate-modal-pop {
     animation: none;
   }
   .card-pop,
   a.card-pop:hover,
-  button.card-pop:hover {
-    transition: none;
+  button.card-pop:hover,
+  * {
+    transition: none !important;
   }
 }

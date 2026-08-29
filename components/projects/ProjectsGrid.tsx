@@ -50,7 +50,11 @@ export async function ProjectsGrid() {
       {repos !== null && repos.length > 0 && (
         <div className="grid gap-6 md:grid-cols-2">
           {repos.map((repo) => (
-            <Link key={repo.id} href={`/projects/${repo.name}`} className="card-pop block p-6">
+            <Link
+              key={repo.id}
+              href={`/projects/${repo.name}`}
+              className="card-pop group block p-6 transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg active:scale-[0.98]"
+            >
               <h3 className="font-display text-xl font-bold">{repo.name}</h3>
 
               <p className="mt-3 text-muted">
@@ -76,8 +80,9 @@ export async function ProjectsGrid() {
                 </span>
               </div>
 
-              <span className="mt-5 inline-block font-sans text-sm font-semibold text-accent">
-                See details &rarr;
+              <span className="mt-5 inline-flex items-center gap-1 font-sans text-sm font-semibold text-accent">
+                See details
+                <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
               </span>
             </Link>
           ))}

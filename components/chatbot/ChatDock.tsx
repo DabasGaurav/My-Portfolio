@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useChat } from "@ai-sdk/react";
 import { isTextUIPart } from "ai";
 import { OPEN_CHAT_EVENT } from "@/lib/chat-events";
+import { haptic } from "@/lib/haptics";
 
 function linkifyParts(text: string) {
   const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
@@ -76,6 +77,7 @@ export function ChatDock() {
     e.preventDefault();
     const text = input.trim();
     if (!text || isBusy) return;
+    haptic("tap");
     sendMessage({ text });
     setInput("");
   }
@@ -83,16 +85,19 @@ export function ChatDock() {
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {open && (
-        <div className="card-pop-flat mb-4 flex h-[28rem] w-[calc(100vw-3rem)] max-w-sm flex-col overflow-hidden bg-surface-raised">
+        <div className="animate-modal-pop card-pop-flat mb-4 flex h-[28rem] w-[calc(100vw-3rem)] max-w-sm flex-col overflow-hidden bg-surface-raised">
           <div className="flex items-center justify-between border-b border-hairline bg-accent px-4 py-3">
             <p className="font-display text-lg font-bold text-on-accent">
               Ask about me
             </p>
             <button
               type="button"
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                haptic("tap");
+                setOpen(false);
+              }}
               aria-label="Close chat"
-              className="text-xl leading-none text-on-accent transition-opacity hover:opacity-70"
+              className="text-xl leading-none text-on-accent transition-transform hover:opacity-70 active:scale-90"
             >
               &times;
             </button>
@@ -135,7 +140,7 @@ export function ChatDock() {
             <button
               type="submit"
               disabled={isBusy}
-              className="rounded-full bg-accent px-4 py-2 font-sans text-sm font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="rounded-full bg-accent px-4 py-2 font-sans text-sm font-semibold text-on-accent transition-transform hover:opacity-90 active:scale-95 disabled:opacity-50"
             >
               Send
             </button>
@@ -145,9 +150,12 @@ export function ChatDock() {
 
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          haptic("toggle");
+          setOpen((v) => !v);
+        }}
         aria-label={open ? "Close chat" : "Ask about me"}
-        className="card-pop flex h-12 items-center gap-2 bg-accent px-4 font-sans text-sm font-semibold text-on-accent sm:px-5"
+        className="card-pop flex h-12 items-center gap-2 bg-accent px-4 font-sans text-sm font-semibold text-on-accent transition-transform hover:-translate-y-0.5 active:scale-95 sm:px-5"
       >
         <svg
           width="16"

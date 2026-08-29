@@ -146,6 +146,39 @@ export async function getPinnedRepos(): Promise<GithubRepo[]> {
   }));
 }
 
+/**
+ * Fetches a repo's README (rendered to plain-ish text, stripped of
+ * markdown noise) for the RAG corpus — used only by scripts/ingest.ts,
+ * never at request time. Returns null if there's no README or the repo
+ * is private/inaccessible.
+ */
+export async function getRepoReadme(name: string): Promise<string | null> {
+  const headers: HeadersInit = {
+    Accept: "application/vnd.github.raw+json",
+  };
+  if (process.env.GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+
+  const res = await fetch(
+    `https://api.github.com/repos/${socialConfig.github.username}/${name}/readme`,
+    { headers },
+  );
+
+  if (!res.ok) return null;
+
+  const raw = await res.text();
+  return raw
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/^#+\s*/gm, "")
+    .replace(/[*_`>]/g, "")
+    .replace(/\n{2,}/g, "\n\n")
+    .trim()
+    .slice(0, 4000);
+}
+
 /** Single repo lookup, for project detail pages (app/projects/[slug]). */
 export async function getRepoByName(name: string): Promise<GithubRepo | null> {
   const headers: HeadersInit = { Accept: "application/vnd.github+json" };

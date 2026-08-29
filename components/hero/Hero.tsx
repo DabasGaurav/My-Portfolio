@@ -1,7 +1,10 @@
+"use client";
+
 import { hero } from "@/content/hero";
 import { socialConfig } from "@/config/social.config";
 import { OpenChatButton } from "@/components/chatbot/OpenChatButton";
 import { AvatarCarousel } from "@/components/hero/AvatarCarousel";
+import { haptic } from "@/lib/haptics";
 
 export function Hero() {
   const hasResume = hero.resumeUrl.length > 0;
@@ -47,7 +50,8 @@ export function Hero() {
                 href={hero.calendarUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="card-pop-flat rounded-xl px-6 py-3 font-display text-sm font-bold text-ink"
+                onClick={() => haptic("tap")}
+                className="card-pop-flat rounded-xl px-6 py-3 font-display text-sm font-bold text-ink transition-transform hover:-translate-y-0.5 active:scale-95"
               >
                 Book a call
               </a>
@@ -58,7 +62,8 @@ export function Hero() {
                 href={hero.resumeUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="card-pop-flat rounded-xl px-6 py-3 font-display text-sm font-bold text-ink"
+                onClick={() => haptic("tap")}
+                className="card-pop-flat rounded-xl px-6 py-3 font-display text-sm font-bold text-ink transition-transform hover:-translate-y-0.5 active:scale-95"
               >
                 Resume
               </a>
@@ -71,7 +76,8 @@ export function Hero() {
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"
-              className="text-muted transition-colors hover:text-accent"
+              onClick={() => haptic("tap")}
+              className="text-muted transition-transform hover:scale-110 hover:text-accent active:scale-90"
             >
               <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                 <path d="M3.6 5.4h2.3v7H3.6v-7Zm1.15-3.7a1.33 1.33 0 1 1 0 2.66 1.33 1.33 0 0 1 0-2.66ZM7.4 5.4h2.2v.96h.03c.31-.58 1.06-1.19 2.18-1.19 2.33 0 2.76 1.53 2.76 3.53v3.7h-2.3V9.13c0-.86-.02-1.97-1.2-1.97-1.2 0-1.39.94-1.39 1.9v3.34H7.4v-7Z" />
@@ -80,7 +86,8 @@ export function Hero() {
             <a
               href={`mailto:${socialConfig.email}`}
               aria-label="Email"
-              className="text-muted transition-colors hover:text-accent"
+              onClick={() => haptic("tap")}
+              className="text-muted transition-transform hover:scale-110 hover:text-accent active:scale-90"
             >
               <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true">
                 <rect x="1.5" y="3" width="13" height="10" rx="1.5" />

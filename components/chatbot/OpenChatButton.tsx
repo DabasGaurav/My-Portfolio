@@ -2,6 +2,7 @@
 
 import { trackEvent } from "@/lib/analytics";
 import { dispatchOpenChat } from "@/lib/chat-events";
+import { haptic } from "@/lib/haptics";
 
 export function OpenChatButton({
   children,
@@ -13,8 +14,9 @@ export function OpenChatButton({
   return (
     <button
       type="button"
-      className={className}
+      className={`transition-transform active:scale-95 ${className ?? ""}`}
       onClick={() => {
+        haptic("toggle");
         trackEvent("hero_cta_click");
         dispatchOpenChat();
       }}

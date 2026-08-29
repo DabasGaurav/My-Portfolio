@@ -10,12 +10,14 @@ export const certifications: Certification[] = [
     issuer: "Stanford Online (Coursera)",
     year: "2020",
     url: "https://coursera.org/verify/6R83895C6SGM",
+    image: "/images/certifications/stanford-ml.png",
   },
   {
     name: "Introduction to Web Development",
     issuer: "UC Davis (Coursera)",
     year: "2019",
     url: "https://coursera.org/verify/T7EKZNLJSN2R",
+    image: "/images/certifications/ucdavis-webdev.png",
   },
   // LinkedIn lists "3 licenses" but only surfaces these 2 in the exported
   // PDF — the third's name/issuer/credential ID wasn't in the export.
