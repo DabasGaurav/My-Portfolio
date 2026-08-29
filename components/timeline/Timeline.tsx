@@ -56,7 +56,7 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
               <p className="mt-1 font-sans text-sm font-medium text-muted">
                 {entry.org} &middot; {entry.period}
               </p>
-              <p className="mt-3 text-muted">{entry.summary}</p>
+              {entry.summary && <p className="mt-3 text-muted">{entry.summary}</p>}
             </div>
           </li>
         ))}

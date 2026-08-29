@@ -24,5 +24,9 @@ export const hero = {
   },
   resumeUrl: "",
   calendarUrl: "",
-  avatars: [{ src: "/images/gaurav.jpg", role: "Technical Product Manager" }],
+  avatars: [
+    { src: "/images/gaurav.jpg", role: "Technical Product Manager" },
+    { src: "/images/gaurav-2.png", role: "AI Builder" },
+    { src: "/images/gaurav-3.png", role: "Product Strategist" },
+  ],
 } as const;
