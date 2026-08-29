@@ -14,10 +14,8 @@ export const siteConfig = {
     "Interactive portfolio of Gaurav Dabas: projects, live GitHub activity, an MDX blog, and a RAG chatbot you can ask questions to.",
   url: rawSiteUrl,
   domain: {
-    // Swap this once gauravdabas.in is connected in Vercel — set
-    // NEXT_PUBLIC_SITE_URL there and this whole site picks it up.
+    // gauravdabas.in is connected (NEXT_PUBLIC_SITE_URL in Vercel).
     current: rawSiteUrl,
-    planned: "https://gauravdabas.in",
   },
 } as const;
 
