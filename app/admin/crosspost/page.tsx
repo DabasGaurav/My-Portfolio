@@ -45,8 +45,9 @@ export default async function CrosspostAdminPage() {
 
       <p className="mt-8 font-sans text-xs font-medium text-muted">
         Regenerated automatically when a new post is published (see
-        vercel.json cron + lib/crosspost.ts). Paste into LinkedIn yourself
-        — no API permits posting to a personal profile automatically.
+        vercel.json cron + lib/crosspost.ts). Auto-queued to LinkedIn via
+        Zapier + Buffer (app/api/crosspost/feed) — this page is a manual
+        preview/backup, not the only way it gets posted.
       </p>
     </div>
   );
