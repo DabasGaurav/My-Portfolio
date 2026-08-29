@@ -22,7 +22,7 @@ export const hero = {
   cta: {
     label: "Ask my AI about me",
   },
-  resumeUrl: "",
+  resumeUrl: "/resume.pdf",
   calendarUrl: "",
   avatars: [
     { src: "/images/gaurav.jpg", role: "Technical Product Manager" },
