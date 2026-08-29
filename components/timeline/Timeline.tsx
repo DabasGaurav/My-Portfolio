@@ -76,13 +76,15 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
               >
                 <div className="flex items-start gap-4">
                   {entry.logo && (
-                    <Image
-                      src={entry.logo}
-                      alt={`${entry.org} logo`}
-                      width={40}
-                      height={40}
-                      className="h-10 w-10 shrink-0 rounded-lg object-cover shadow-sm"
-                    />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-hairline bg-surface-raised p-1.5 shadow-sm">
+                      <Image
+                        src={entry.logo}
+                        alt={`${entry.org} logo`}
+                        width={32}
+                        height={32}
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
                   )}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-baseline justify-between gap-4">

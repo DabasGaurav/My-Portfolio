@@ -18,13 +18,15 @@ export function CertificationsGrid({ certifications }: { certifications: Certifi
         >
           <div className="flex items-start gap-3">
             {cert.image && (
-              <Image
-                src={cert.image}
-                alt={`${cert.issuer} logo`}
-                width={44}
-                height={44}
-                className="h-11 w-11 shrink-0 rounded-lg object-cover shadow-sm transition-transform duration-200 group-hover:scale-105"
-              />
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-hairline bg-surface-raised p-1.5 shadow-sm transition-transform duration-200 group-hover:scale-105">
+                <Image
+                  src={cert.image}
+                  alt={`${cert.issuer} logo`}
+                  width={36}
+                  height={36}
+                  className="h-full w-full object-contain"
+                />
+              </div>
             )}
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline justify-between gap-3">
