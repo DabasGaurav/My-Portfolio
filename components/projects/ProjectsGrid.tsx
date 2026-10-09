@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPinnedRepos } from "@/lib/github";
+import { getPinnedRepos, projectDisplayName } from "@/lib/github";
 import { socialConfig } from "@/config/social.config";
 import type { GithubRepo } from "@/types/github";
 
@@ -55,7 +55,7 @@ export async function ProjectsGrid() {
               href={`/projects/${repo.name}`}
               className="card-pop group block p-6 transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg active:scale-[0.98]"
             >
-              <h3 className="font-display text-xl font-bold">{repo.name}</h3>
+              <h3 className="font-display text-xl font-bold">{projectDisplayName(repo)}</h3>
 
               <p className="mt-3 text-muted">
                 {repo.description || "No description yet on GitHub."}

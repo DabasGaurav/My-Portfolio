@@ -196,3 +196,8 @@ export async function getRepoByName(name: string): Promise<GithubRepo | null> {
 
   return mapRepo((await res.json()) as GithubApiRepo);
 }
+
+/** Stable display name for the featured creator product across repository renames. */
+export function projectDisplayName(repo: GithubRepo): string {
+  return repo.id === 1348150803 ? "CreatorSignal.ai" : repo.name;
+}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getRepoByName } from "@/lib/github";
+import { getRepoByName, projectDisplayName } from "@/lib/github";
 import { getProjectDetail } from "@/content/projects-detail";
 
 export async function generateMetadata(
@@ -10,7 +10,7 @@ export async function generateMetadata(
   const { slug } = await props.params;
   const repo = await getRepoByName(slug);
   if (!repo) return {};
-  return { title: repo.name, description: repo.description ?? undefined };
+  return { title: projectDisplayName(repo), description: repo.description ?? undefined };
 }
 
 export default async function ProjectDetailPage(
@@ -32,7 +32,7 @@ export default async function ProjectDetailPage(
         &larr; Back to Currently Cooking
       </Link>
 
-      <h1 className="mt-6 text-balance font-display text-5xl font-bold">{repo.name}</h1>
+      <h1 className="mt-6 text-balance font-display text-5xl font-bold">{projectDisplayName(repo)}</h1>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
         {repo.language && (
@@ -64,7 +64,7 @@ export default async function ProjectDetailPage(
           <div className="card-pop-flat mt-4 aspect-video overflow-hidden">
             <iframe
               src={detail.loomUrl}
-              title={`${repo.name} walkthrough`}
+              title={`${projectDisplayName(repo)} walkthrough`}
               allow="fullscreen"
               className="h-full w-full"
             />
