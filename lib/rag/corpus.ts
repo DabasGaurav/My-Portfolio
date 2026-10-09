@@ -2,7 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { chunkMarkdown } from "./chunk";
-import { getPinnedRepos, getRepoReadme } from "@/lib/github";
+import { getRepoReadme } from "@/lib/github";
+import { projectDetails } from "@/content/projects-detail";
 import { timeline } from "@/content/experience";
 import { certifications } from "@/content/certifications";
 import { testimonials } from "@/content/testimonials";
@@ -37,49 +38,46 @@ function aboutChunks(): Chunk[] {
 }
 
 /**
- * Sourced live from your pinned GitHub repos — same data "Currently
- * Cooking" shows — instead of a separately maintained project list, so
- * the chatbot can never describe a project differently than the site
- * does. Each chunk links to the project's own detail page, not straight
- * to GitHub, so the chatbot's citations match what a visitor can click.
+ * Curated project stories match the homepage. README chunks add technical
+ * detail when the corpus is re-indexed.
  */
 async function projectChunks(): Promise<Chunk[]> {
-  const repos = await getPinnedRepos();
   const chunks: Chunk[] = [];
 
-  for (const repo of repos) {
+  for (const project of projectDetails) {
     const summary = [
-      `${repo.name}.`,
-      repo.description || "No description set on GitHub yet.",
-      repo.language ? `Written primarily in ${repo.language}.` : "",
-      repo.topics.length ? `Topics: ${repo.topics.join(", ")}.` : "",
+      `${project.name}.`,
+      project.summary,
+      project.problem,
+      ...project.approach,
+      ...project.productChoices,
     ]
       .filter(Boolean)
       .join(" ");
 
     chunks.push({
-      id: `project-${repo.id}`,
+      id: `project-${project.repo}`,
       text: summary,
       metadata: {
         source: "project",
-        title: repo.name,
-        url: `${siteConfig.url}/projects/${repo.name}`,
+        title: project.name,
+        url: `${siteConfig.url}/projects/${project.repo}`,
         text: summary,
       },
     });
 
     // README gives the chatbot real depth on how/why each project was
     // built, not just the one-line GitHub description.
-    const readme = await getRepoReadme(repo.name);
+    const readme = await getRepoReadme(project.repo);
     if (readme) {
       chunkMarkdown(readme).forEach((text, i) => {
         chunks.push({
-          id: `project-${repo.id}-readme-${i}`,
-          text: `${repo.name} — from its README: ${text}`,
+          id: `project-${project.repo}-readme-${i}`,
+          text: `${project.name} — from its README: ${text}`,
           metadata: {
             source: "project",
-            title: `${repo.name} (README)`,
-            url: `${siteConfig.url}/projects/${repo.name}`,
+            title: `${project.name} (README)`,
+            url: `${siteConfig.url}/projects/${project.repo}`,
             text,
           },
         });

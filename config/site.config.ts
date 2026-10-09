@@ -8,10 +8,10 @@ const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export const siteConfig = {
   name: "Gaurav Dabas",
-  title: "Gaurav Dabas — Technical PM & Builder",
-  tagline: "I build AI-native products end to end, and this site is the proof.",
+  title: "Gaurav Dabas — Product Manager & Builder",
+  tagline: "Product manager with an engineering background, building useful things.",
   description:
-    "Interactive portfolio of Gaurav Dabas: projects, live GitHub activity, an MDX blog, and a RAG chatbot you can ask questions to.",
+    "Explore Gaurav Dabas's product work, project case studies, and the decisions behind what he builds.",
   url: rawSiteUrl,
   domain: {
     // gauravdabas.in is connected (NEXT_PUBLIC_SITE_URL in Vercel).

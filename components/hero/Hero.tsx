@@ -41,8 +41,12 @@ export function Hero() {
           </p>
 
           <div className="animate-rise-in mt-8 flex flex-wrap items-center gap-3 [animation-delay:300ms]">
-            <OpenChatButton className="rounded-xl bg-accent px-6 py-3 font-display text-sm font-bold text-on-accent transition-opacity hover:opacity-90">
+            <a href="#work" onClick={() => haptic("tap")} className="rounded-xl bg-accent px-6 py-3 font-display text-sm font-bold text-on-accent transition-opacity hover:opacity-90">
               {hero.cta.label}
+            </a>
+
+            <OpenChatButton className="card-pop-flat rounded-xl px-6 py-3 font-display text-sm font-bold text-ink transition-colors hover:border-accent">
+              Ask me about my work
             </OpenChatButton>
 
             {hasCalendar && (
@@ -97,7 +101,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="animate-rise-in [animation-delay:150ms]">
+        <div className="hidden animate-rise-in md:block [animation-delay:150ms]">
           <AvatarCarousel avatars={hero.avatars} name={hero.name} />
         </div>
       </div>
