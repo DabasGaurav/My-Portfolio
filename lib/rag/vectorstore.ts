@@ -3,6 +3,7 @@ import type { Chunk, ChunkMetadata, RetrievedChunk } from "@/types/rag";
 import { EMBEDDING_DIMENSIONS } from "./embeddings";
 
 const INDEX_NAME = process.env.PINECONE_INDEX ?? "portfolio-rag";
+const NAMESPACE = process.env.PINECONE_NAMESPACE ?? "portfolio-2026-10";
 
 function client() {
   const apiKey = process.env.PINECONE_API_KEY;
@@ -31,7 +32,7 @@ export async function upsertChunks(
   chunks: Chunk[],
   embeddings: number[][],
 ): Promise<void> {
-  const index = client().index(INDEX_NAME);
+  const index = client().index(INDEX_NAME).namespace(NAMESPACE);
   const records = chunks.map((chunk, i) => ({
     id: chunk.id,
     values: embeddings[i],
@@ -48,7 +49,7 @@ export async function queryTopK(
   queryEmbedding: number[],
   topK = 5,
 ): Promise<RetrievedChunk[]> {
-  const index = client().index(INDEX_NAME);
+  const index = client().index(INDEX_NAME).namespace(NAMESPACE);
   const result = await index.query({
     vector: queryEmbedding,
     topK,

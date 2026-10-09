@@ -9,6 +9,7 @@ export type ProjectDetail = {
   approach: string[];
   productChoices: string[];
   next: string;
+  preview: { observe: string; decide: string; test: string };
   accent: "teal" | "clay" | "blue";
   demoUrl?: string;
   loomUrl?: string;

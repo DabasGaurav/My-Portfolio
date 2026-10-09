@@ -61,7 +61,7 @@ function MessageBubble({
 }
 
 export function ChatDock() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [input, setInput] = useState("");
   const { messages, sendMessage, status, error } = useChat();
 
@@ -72,24 +72,29 @@ export function ChatDock() {
   }, []);
 
   const isBusy = status === "submitted" || status === "streaming";
+  const starters = ["Which project should I explore first?"];
+
+  function ask(text: string) {
+    if (isBusy) return;
+    haptic("tap");
+    sendMessage({ text });
+  }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const text = input.trim();
     if (!text || isBusy) return;
-    haptic("tap");
-    sendMessage({ text });
+    ask(text);
     setInput("");
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
       {open && (
-        <div className="animate-modal-pop card-pop-flat mb-4 flex h-[28rem] w-[calc(100vw-3rem)] max-w-sm flex-col overflow-hidden bg-surface-raised">
+        <div className={`animate-modal-pop card-pop-flat flex w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden bg-surface-raised shadow-2xl shadow-black/10 ${messages.length === 0 ? "h-52" : "h-[min(30rem,64dvh)]"}`}>
           <div className="flex items-center justify-between border-b border-hairline bg-accent px-4 py-3">
-            <p className="font-display text-lg font-bold text-on-accent">
-              Ask about me
-            </p>
+            <div><p className="font-mono text-[10px] uppercase tracking-[0.2em] text-on-accent/70">Portfolio guide · live</p>
+            <p className="font-display text-lg font-bold text-on-accent">Ask about the work</p></div>
             <button
               type="button"
               onClick={() => {
@@ -105,9 +110,12 @@ export function ChatDock() {
 
           <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4 py-4">
             {messages.length === 0 && (
-              <p className="text-sm text-muted">
-                Ask a question about my projects, work history, education, or writing.
-              </p>
+              <div>
+                <p className="text-xs leading-relaxed text-muted">Explore the decisions behind the work.</p>
+                <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+                  {starters.map((starter) => <button key={starter} type="button" onClick={() => ask(starter)} className="shrink-0 rounded-full border border-hairline px-3 py-1.5 text-left text-xs font-medium text-ink transition-colors hover:border-accent hover:bg-surface-sunken">{starter}</button>)}
+                </div>
+              </div>
             )}
             {messages.map((message) => (
               <MessageBubble
@@ -148,13 +156,13 @@ export function ChatDock() {
         </div>
       )}
 
-      <button
+      {!open && <button
         type="button"
         onClick={() => {
           haptic("toggle");
           setOpen((v) => !v);
         }}
-        aria-label={open ? "Close chat" : "Ask about me"}
+        aria-label={open ? "Close chat" : "Ask about the work"}
         className="card-pop flex h-12 items-center gap-2 bg-accent px-4 font-sans text-sm font-semibold text-on-accent transition-transform hover:-translate-y-0.5 active:scale-95 sm:px-5"
       >
         <svg
@@ -171,8 +179,8 @@ export function ChatDock() {
             strokeWidth="1.2"
           />
         </svg>
-        <span className="hidden sm:inline">{open ? "Close" : "Ask about me"}</span>
-      </button>
+        <span className="hidden sm:inline">{open ? "Close guide" : "Ask about the work"}</span>
+      </button>}
     </div>
   );
 }
