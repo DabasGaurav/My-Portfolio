@@ -21,6 +21,7 @@ export const projectDetails: ProjectDetail[] = [
       "Built a deterministic hosted demo around synthetic material so the workflow is easy to explore.",
     ],
     next: "The next useful test is with real proposal writers: where do they trust the draft, and where do they still return to the source documents?",
+    preview: { observe: "RFPs demand speed without unsupported claims.", decide: "Put source evidence beside every answer.", test: "See what proposal writers trust or override." },
     accent: "teal",
     demoUrl: "https://rfp-proposal.streamlit.app/",
   },
@@ -43,10 +44,11 @@ export const projectDetails: ProjectDetail[] = [
       "Designed for both sides of the marketplace: volunteer discovery and organizer planning.",
     ],
     next: "Validate the confirmation timing with organizers and volunteers, then measure whether it improves attendance.",
+    preview: { observe: "Organizers cannot plan around uncertain attendance.", decide: "Ask volunteers to reconfirm before the event.", test: "Measure attendance and refilled places." },
     accent: "clay",
   },
   {
-    repo: "CreatorOS",
+    repo: "creatorsignal.ai",
     name: "CreatorSignal.ai",
     kind: "Creator tools · AI",
     status: "In development",
@@ -64,6 +66,7 @@ export const projectDetails: ProjectDetail[] = [
       "Built the product and technical foundation together so the recommendation flow can evolve.",
     ],
     next: "Keep testing whether recommendations are specific enough to change what creators actually publish.",
+    preview: { observe: "Data rarely suggests a clear next content move.", decide: "Show one recommendation with its evidence.", test: "See whether creators publish differently." },
     accent: "blue",
   },
 ];

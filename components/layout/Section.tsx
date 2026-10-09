@@ -20,9 +20,9 @@ export function Section({ id, eyebrow, title, highlight, description, children }
   const prefix = title.endsWith(highlight) ? title.slice(0, -highlight.length) : title;
 
   return (
-    <section id={id} className="scroll-mt-20 border-t border-hairline">
+    <section id={id} className="scroll-mt-20 border-y border-hairline bg-surface-sunken/45">
       <div className="mx-auto max-w-5xl px-6 py-16 md:py-24">
-        <p className="font-sans text-sm text-muted">{eyebrow}</p>
+        <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent">{eyebrow}</p>
         <h2 className="mt-1 text-balance font-display text-3xl font-bold md:text-4xl">
           {prefix}
           <span className="heading-highlight">{highlight}</span>

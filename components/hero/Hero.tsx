@@ -12,9 +12,10 @@ export function Hero() {
   const hasOpenToWork = hero.openToWorkIn.length > 0;
 
   return (
-    <section className="mx-auto max-w-5xl px-6 pb-16 pt-16 md:pb-24 md:pt-24">
+    <section className="relative mx-auto max-w-5xl px-6 pb-16 pt-14 md:pb-24 md:pt-20">
       <div className="grid items-center gap-12 md:grid-cols-[1.2fr_1fr] md:gap-16">
         <div>
+          <p className="mb-6 font-mono text-xs uppercase tracking-[0.2em] text-accent">01 / Introduction · Gaurav&apos;s product notebook</p>
           <h1 className="animate-rise-in text-balance font-display text-4xl font-bold leading-[1.1] md:text-6xl">
             Hi, I&apos;m <span className="text-accent">{hero.name}</span>
           </h1>
@@ -101,7 +102,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="hidden animate-rise-in md:block [animation-delay:150ms]">
+        <div className="mx-auto w-48 animate-rise-in md:w-full md:-translate-x-24 [animation-delay:150ms]">
           <AvatarCarousel avatars={hero.avatars} name={hero.name} />
         </div>
       </div>

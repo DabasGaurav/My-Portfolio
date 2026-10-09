@@ -1,97 +1,31 @@
-# Portfolio
+# Gaurav Dabas — portfolio
 
-Gaurav Dabas's interactive portfolio — a Next.js (App Router) site built as a
-first end-to-end AI-native product. Full context and roadmap live in `PRD.md`
-(kept alongside this repo, not committed here).
+Live at [gauravdabas.in](https://gauravdabas.in). This is a product portfolio: the selected work comes first, with short background context and deeper case studies behind each project.
 
-**Status:** Milestone 7 — crossposting agent. All 7 milestones are shipped.
+## What's here
 
-## Stack
+- An interactive project explorer for Proposal Copilot, Show Up, and CreatorSignal.ai
+- Case studies covering the problem, approach, product choices, and next test
+- A rotating portrait with manual and pause controls
+- A portfolio guide that opens on arrival and answers from the current curated project and background content
 
-- Next.js 16 (App Router) + TypeScript
-- Tailwind CSS v4 (CSS-first config — see `app/globals.css` + `styles/tokens.css`)
-- Fonts: Fraunces (display), IBM Plex Sans (body), IBM Plex Mono (data/labels)
-- Hosting: Vercel
-
-## Getting started
+## Run locally
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+The site uses Next.js 16, React 19, TypeScript, Tailwind CSS 4, and Vercel. The portfolio guide needs `GEMINI_API_KEY` in `.env.local`; the rest of the site works without it.
 
-## Where things live
+## Where to edit
 
-- `config/` — site identity and connection settings (domain, GitHub username,
-  social links). Change the URL here (and in Vercel env vars) when the
-  custom domain is connected — nothing else hardcodes it.
-- `content/` — editable page copy as typed data files, not hardcoded JSX.
-- `styles/tokens.css` — the color palette (validated for contrast/CVD via
-  the dataviz skill's checker before being locked in).
-- `lib/palette.ts` — the separate, pre-validated chart-series palette used
-  by any data visualization on the site.
-- `components/layout/Section.tsx` — every homepage section renders through
-  this wrapper so spacing/heading treatment stay consistent site-wide.
+- `content/hero.ts` — intro, role labels, portrait rotation
+- `content/projects-detail.ts` — selected projects and case-study content
+- `content/experience.ts` — background details
+- `components/projects/ProjectsGrid.tsx` — interactive project explorer
+- `components/chatbot/ChatDock.tsx` — open chat and suggested question
+- `lib/rag/prompt.ts` — the guide's current source of truth
+- `styles/tokens.css` — color system
 
-## Environment variables
-
-Copy `.env.local.example` to `.env.local` and fill in as milestones need them.
-
-## Chatbot setup (Milestone 6)
-
-The site works fully without this — the chat widget just shows a clear
-"not configured" message until you add these two free-tier accounts:
-
-1. **Gemini API key** — [aistudio.google.com/apikey](https://aistudio.google.com/apikey),
-   free tier, no billing required. Set `GEMINI_API_KEY`.
-2. **Pinecone API key** — [app.pinecone.io](https://app.pinecone.io), free
-   Starter plan. Set `PINECONE_API_KEY`. `PINECONE_INDEX` is optional
-   (defaults to `portfolio-rag`) — the ingest script creates the index
-   automatically if it doesn't exist yet, so no manual dashboard setup.
-3. Add both to `.env.local` (local dev) **and** to the Vercel project's
-   environment variables (production) — `vercel env add GEMINI_API_KEY production`
-   and same for `PINECONE_API_KEY`.
-4. Run `npm run ingest` locally to embed `content/about.md`, your live
-   GitHub repos, `content/experience.ts`, and every post in `content/blog/`
-   into Pinecone. Re-run it any time that content changes (including after
-   pushing new repos to GitHub) — it's a manual step, not part of the build.
-5. Redeploy (`vercel deploy --prod`) so the deployed API route picks up
-   the new env vars.
-
-## Crossposting agent setup (Milestone 7)
-
-Reuses the same `GEMINI_API_KEY` from Milestone 6 — nothing new to sign up
-for. What it does: `vercel.json` schedules a daily hit to `/api/crosspost`,
-which generates a LinkedIn teaser for the latest blog post (Gemini) and
-caches it per post slug via Next's Data Cache (`lib/crosspost.ts`) — a new
-post gets a fresh teaser; re-running the cron for the same post reuses the
-cached one instead of re-generating. Visit `/admin/crosspost` (unlisted,
-not in Nav — no auth per the PRD's no-CMS/no-auth constraint, so treat the
-URL as unlisted-but-not-secret) to read and copy the current teaser,
-ready to paste into LinkedIn — there's no API that allows posting to a
-personal profile automatically, so this last step stays manual by design.
-
-Optional: set `CRON_SECRET` (any random string, e.g. `openssl rand -hex 32`)
-in Vercel's env vars — Vercel sends it automatically as a bearer token on
-cron-triggered requests once it's set, which stops random visitors from
-triggering `/api/crosspost` directly. Cron schedule is set to run once
-daily; Vercel's Hobby plan doesn't allow more frequent cron invocations.
-
-## Milestones
-
-See `PRD.md` §7. MVP is milestones 1–3 (scaffold, projects, GitHub embed).
-This repo builds one milestone at a time, each independently deployable.
-All 7 are shipped as of this commit.
-
-**Deviation from the PRD's IA (§6):** the separate "Projects" and "GitHub
-activity" sections were merged into one live "Work" section
-(`components/work/WorkGrid.tsx`), sourced entirely from the GitHub API.
-The original design kept them apart — curated highlight cards vs. a raw
-activity feed — but in practice that meant a hand-maintained placeholder
-list sitting next to real live data, which read as broken rather than
-in-progress. One source of truth won out over the richer-but-manual
-curation the split would have allowed (a demo video or a separate live-app
-link on a card, for instance). The RAG chatbot's corpus follows the same
-change — `lib/rag/corpus.ts` pulls live repos instead of a static file.
+The chat route uses curated content directly so portfolio answers stay aligned with the site. The older Pinecone ingestion files remain in `lib/rag/` for future search experiments but are not required by the live guide.

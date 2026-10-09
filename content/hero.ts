@@ -26,5 +26,7 @@ export const hero = {
   calendarUrl: "",
   avatars: [
     { src: "/images/gaurav.jpg", role: "Product Manager" },
+    { src: "/images/gaurav-2.png", role: "Engineer turned PM" },
+    { src: "/images/gaurav-3.png", role: "Builder" },
   ],
 } as const;
