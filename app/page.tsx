@@ -1,15 +1,8 @@
 import { Hero } from "@/components/hero/Hero";
 import { Section } from "@/components/layout/Section";
 import { ProjectsGrid } from "@/components/projects/ProjectsGrid";
-import { BlogPreview } from "@/components/blog/BlogPreview";
 import { Timeline } from "@/components/timeline/Timeline";
 import { timeline } from "@/content/experience";
-import { CertificationsGrid } from "@/components/certifications/CertificationsGrid";
-import { certifications } from "@/content/certifications";
-import { TeardownsGrid } from "@/components/teardowns/TeardownsGrid";
-import { teardowns } from "@/content/teardowns";
-import { TestimonialsGrid } from "@/components/testimonials/TestimonialsGrid";
-import { testimonials } from "@/content/testimonials";
 
 export default function Home() {
   return (
@@ -17,64 +10,25 @@ export default function Home() {
       <Hero />
 
       <Section
-        id="work-education"
-        eyebrow="My Work & Impact"
-        title="Work & Education"
-        highlight="Education"
-        description="A timeline of roles and degrees, pulled from LinkedIn."
-      >
-        <Timeline entries={timeline} />
-      </Section>
-
-      <Section
-        id="cooking"
-        eyebrow="GitHub, live"
-        title="Currently Cooking"
-        highlight="Cooking"
-        description="Projects and code repositories I'm actively building."
+        id="work"
+        eyebrow="Selected work"
+        title="Things I've Built"
+        highlight="Built"
+        description="Three products, three different problems. Open a project to see the thinking, the tradeoffs, and the code."
       >
         <ProjectsGrid />
       </Section>
 
-      <Section
-        id="certifications"
-        eyebrow="Professional Credentials"
-        title="Certifications & Badges"
-        highlight="Badges"
-        description="Certifications and credentials, pulled from LinkedIn."
-      >
-        <CertificationsGrid certifications={certifications} />
-      </Section>
-
-      <Section
-        id="testimonials"
-        eyebrow="Word of mouth"
-        title="Testimonials"
-        highlight="Testimonials"
-        description="What people I've worked with say."
-      >
-        <TestimonialsGrid testimonials={testimonials} />
-      </Section>
-
-      <Section
-        id="teardowns"
-        eyebrow="Deep dives"
-        title="Product Teardowns"
-        highlight="Teardowns"
-        description="Analyses of products I admire, uncovering patterns and insights."
-      >
-        <TeardownsGrid teardowns={teardowns} />
-      </Section>
-
-      <Section
-        id="blog"
-        eyebrow="Writing"
-        title="Latest Thoughts"
-        highlight="Thoughts"
-        description="Insights on AI, building, and product development."
-      >
-        <BlogPreview />
-      </Section>
+      <section id="background" className="scroll-mt-20 border-t border-hairline">
+        <div className="mx-auto grid max-w-5xl gap-8 px-6 py-12 md:grid-cols-[0.75fr_1.25fr] md:items-center md:py-16">
+          <div>
+            <p className="font-sans text-sm text-muted">A little context</p>
+            <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">From code to product.</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted">The work above is the story. Here&apos;s the short version of how I got here.</p>
+          </div>
+          <Timeline entries={timeline} />
+        </div>
+      </section>
     </>
   );
 }

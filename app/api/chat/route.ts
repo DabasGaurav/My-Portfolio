@@ -7,7 +7,7 @@ import {
 import { google } from "@/lib/rag/google-provider";
 import { embedQuery } from "@/lib/rag/embeddings";
 import { queryTopK } from "@/lib/rag/vectorstore";
-import { SYSTEM_PROMPT, buildContextBlock } from "@/lib/rag/prompt";
+import { SYSTEM_PROMPT, buildContextBlock, buildCurrentPortfolioContext } from "@/lib/rag/prompt";
 
 export const maxDuration = 30;
 
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
   const result = streamText({
     model: google("gemini-3.6-flash"),
-    system: `${SYSTEM_PROMPT}\n\nContext:\n${context}`,
+    system: `${SYSTEM_PROMPT}\n\n${buildCurrentPortfolioContext()}\n\nRetrieved context:\n${context}`,
     messages: await convertToModelMessages(messages),
   });
 

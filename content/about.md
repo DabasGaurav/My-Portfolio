@@ -2,14 +2,11 @@
 title: "About Gaurav"
 ---
 
-Gaurav Dabas is a Technical Product Manager who builds AI-native products
-end to end — from idea through deployed product.
+Gaurav Dabas is a product manager with an engineering background. He spent nearly four years building fintech systems at ION, then moved into product management there. He is now studying in the Post Graduate Programme in Management at the Indian School of Business.
 
-This portfolio is his first end-to-end AI-native build: a Next.js site
-with a live GitHub embed, an MDX blog, a RAG chatbot (this one), and an
-assisted crossposting agent, shipped one milestone at a time.
+His portfolio focuses on the things he has built and the product decisions behind them. Selected projects include Proposal Copilot, a source-grounded RFP proposal workflow with human review; Show Up, a volunteering product focused on reliable commitments; and CreatorSignal.ai, a creator tool exploring how Instagram Reels data can inform the next content decision.
 
-Replace this placeholder with real biographical detail — background,
-what you're looking for, what makes you distinct. This file is the
-chatbot's primary source for "who is this person" questions, so the more
-specific and honest it is, the better the chatbot's answers will be.
+Gaurav is interested in product management roles across domains. His engineering experience informs how he works with technical teams, but his focus is understanding problems, making clear product choices, and getting useful products into people's hands.
+
+For current work and education details, see his LinkedIn profile: https://www.linkedin.com/in/dabasgaurav/
+For projects and source code, see GitHub: https://github.com/DabasGaurav/

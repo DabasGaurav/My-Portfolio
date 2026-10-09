@@ -16,17 +16,15 @@
 export const hero = {
   name: "Gaurav Dabas",
   nickname: "",
-  positioning: "Technical PM who builds AI-native products end to end.",
-  roleTags: ["Technical PM", "AI Builder", "Product Strategist"],
+  positioning: "I turn complicated problems into products people can actually use. I started in engineering, moved into product at ION, and now keep building while studying at ISB.",
+  roleTags: ["Product Manager", "Engineer turned PM", "Builder"],
   openToWorkIn: [] as string[],
   cta: {
-    label: "Ask my AI about me",
+    label: "Explore my work",
   },
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "",
   calendarUrl: "",
   avatars: [
-    { src: "/images/gaurav.jpg", role: "Technical Product Manager" },
-    { src: "/images/gaurav-2.png", role: "AI Builder" },
-    { src: "/images/gaurav-3.png", role: "Product Strategist" },
+    { src: "/images/gaurav.jpg", role: "Product Manager" },
   ],
 } as const;

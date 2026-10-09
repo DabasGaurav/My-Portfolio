@@ -1,8 +1,15 @@
 export type ProjectDetail = {
-  /** Must match the GitHub repo name exactly — used as the URL slug too. */
   repo: string;
-  /** Longer write-up for the detail page. Falls back to the GitHub description if omitted. */
-  explanation?: string;
-  loomUrl?: string;
+  name: string;
+  kind: string;
+  status: string;
+  hook: string;
+  summary: string;
+  problem: string;
+  approach: string[];
+  productChoices: string[];
+  next: string;
+  accent: "teal" | "clay" | "blue";
   demoUrl?: string;
+  loomUrl?: string;
 };
