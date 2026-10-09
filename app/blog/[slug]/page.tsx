@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -14,13 +15,10 @@ export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata(
-  props: PageProps<"/blog/[slug]">,
-): Promise<Metadata> {
+export async function generateMetadata(props: PageProps<"/blog/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
   const post = getPostBySlug(slug);
-  if (!post) return {};
-  return { title: post.title, description: post.summary };
+  return post ? { title: post.title, description: post.summary } : {};
 }
 
 export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
@@ -29,16 +27,9 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
   if (!post) notFound();
 
   return (
-    <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-      <p className="font-sans text-sm font-medium uppercase tracking-[0.15em] text-muted">
-        {formatDate(post.date)}
-      </p>
-      <h1 className="mt-2 text-balance font-display text-5xl font-bold">
-        {post.title}
-      </h1>
-      <div className="prose mt-10 max-w-none">
-        <MDXRemote source={post.content} components={mdxComponents} />
-      </div>
+    <article className="blog-post">
+      <header className="blog-post-hero"><div><Link href="/blog">← All writing</Link><p className="eyebrow">{formatDate(post.date)}</p><h1>{post.title}</h1><p>{post.summary}</p></div></header>
+      <div className="blog-post-content prose"><MDXRemote source={post.content} components={mdxComponents} /></div>
     </article>
   );
 }

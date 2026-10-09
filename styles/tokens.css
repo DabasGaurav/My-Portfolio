@@ -1,37 +1,14 @@
-/**
- * Design tokens — "Warm Sand" theme. Light mode is the default; dark mode
- * follows the OS preference. Every text/surface pairing is WCAG AA
- * validated (see the commit message for the measured ratios).
- *
- * Dual-tone: deep teal is the primary accent (links, primary CTA), muted
- * clay is the secondary (highlights, secondary CTA, timeline markers).
- * Clay was darkened from the original #C1714F to #AD5A38 so it clears
- * 4.5:1 as button/body text rather than large-text-only.
- */
-
 :root {
-  --surface: #faf8f5;
-  --surface-raised: #ffffff;
-  --surface-sunken: #f2eee8;
-  --ink: #1f2a2e;
-  --muted: #5f6b66;
-  --accent: #1f6f6b;
-  --accent-2: #ad5a38;
-  --on-accent: #ffffff;
-  --hairline: #e4ded4;
-  --radius: 0.75rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --surface: #12181a;
-    --surface-raised: #1a2225;
-    --surface-sunken: #0d1214;
-    --ink: #ecefec;
-    --muted: #9aa7a2;
-    --accent: #4fb3ad;
-    --accent-2: #e8916b;
-    --on-accent: #0d1214;
-    --hairline: #26312f;
-  }
+  --surface: #f7f1e8;
+  --surface-raised: #fffaf3;
+  --surface-sunken: #e9ded8;
+  --ink: #251c26;
+  --muted: #655760;
+  --accent: #b63d26;
+  --accent-bright: #ff6748;
+  --accent-2: #f5e75b;
+  --on-accent: #251c26;
+  --hairline: #c9bbb9;
+  --lilac: #d8c8e0;
+  --radius: 0.125rem;
 }

@@ -1,10 +1,16 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useChat } from "@ai-sdk/react";
 import { isTextUIPart } from "ai";
 import { OPEN_CHAT_EVENT } from "@/lib/chat-events";
 import { haptic } from "@/lib/haptics";
+
+const starters = [
+  "Which project should I explore first?",
+  "What product decisions did you make?",
+  "How did you move into PM?",
+];
 
 function linkifyParts(text: string) {
   const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
@@ -13,9 +19,7 @@ function linkifyParts(text: string) {
   let match: RegExpExecArray | null;
 
   while ((match = regex.exec(text))) {
-    if (match.index > lastIndex) {
-      parts.push({ text: text.slice(lastIndex, match.index) });
-    }
+    if (match.index > lastIndex) parts.push({ text: text.slice(lastIndex, match.index) });
     parts.push({ label: match[1], url: match[2] });
     lastIndex = match.index + match[0].length;
   }
@@ -23,56 +27,44 @@ function linkifyParts(text: string) {
   return parts;
 }
 
-function MessageBubble({
-  role,
-  text,
-}: {
-  role: "user" | "assistant";
-  text: string;
-}) {
-  const isUser = role === "user";
+function MessageBubble({ role, text }: { role: "user" | "assistant"; text: string }) {
   return (
-    <div className={isUser ? "self-end max-w-[85%]" : "self-start max-w-[85%]"}>
-      <p
-        className={`whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm ${
-          isUser
-            ? "bg-accent text-on-accent"
-            : "border border-hairline bg-surface-sunken text-ink"
-        }`}
-      >
-        {linkifyParts(text).map((part, i) =>
-          "text" in part ? (
-            <span key={i}>{part.text}</span>
-          ) : (
-            <a
-              key={i}
-              href={part.url}
-              target="_blank"
-              rel="noreferrer"
-              className="text-accent underline underline-offset-2"
-            >
-              {part.label}
-            </a>
-          ),
-        )}
-      </p>
+    <div className={`chat-message ${role === "user" ? "is-user" : "is-assistant"}`}>
+      {linkifyParts(text).map((part, index) =>
+        "text" in part ? <span key={index}>{part.text}</span> :
+        <a key={index} href={part.url} target="_blank" rel="noreferrer">{part.label}</a>,
+      )}
     </div>
   );
 }
 
 export function ChatDock() {
   const [open, setOpen] = useState(true);
+  const [manuallyOpened, setManuallyOpened] = useState(false);
   const [input, setInput] = useState("");
   const { messages, sendMessage, status, error } = useChat();
+  const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handler = () => setOpen(true);
+    const handler = () => { setManuallyOpened(true); setOpen(true); };
     window.addEventListener(OPEN_CHAT_EVENT, handler);
     return () => window.removeEventListener(OPEN_CHAT_EVENT, handler);
   }, []);
 
+  useEffect(() => {
+    if (manuallyOpened || messages.length > 0) return;
+    const onScroll = () => {
+      if (window.innerWidth <= 720 && window.scrollY > 180) setOpen(false);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [manuallyOpened, messages.length]);
+
+  useEffect(() => {
+    if (messages.length > 0) endRef.current?.scrollIntoView({ block: "end", behavior: "smooth" });
+  }, [messages, status]);
+
   const isBusy = status === "submitted" || status === "streaming";
-  const starters = ["Which project should I explore first?"];
 
   function ask(text: string) {
     if (isBusy) return;
@@ -80,8 +72,8 @@ export function ChatDock() {
     sendMessage({ text });
   }
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
     const text = input.trim();
     if (!text || isBusy) return;
     ask(text);
@@ -89,31 +81,19 @@ export function ChatDock() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
-      {open && (
-        <div className={`animate-modal-pop card-pop-flat flex w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden bg-surface-raised shadow-2xl shadow-black/10 ${messages.length === 0 ? "h-52" : "h-[min(30rem,64dvh)]"}`}>
-          <div className="flex items-center justify-between border-b border-hairline bg-accent px-4 py-3">
-            <div><p className="font-mono text-[10px] uppercase tracking-[0.2em] text-on-accent/70">Portfolio guide · live</p>
-            <p className="font-display text-lg font-bold text-on-accent">Ask about the work</p></div>
-            <button
-              type="button"
-              onClick={() => {
-                haptic("tap");
-                setOpen(false);
-              }}
-              aria-label="Close chat"
-              className="text-xl leading-none text-on-accent transition-transform hover:opacity-70 active:scale-90"
-            >
-              &times;
-            </button>
+    <div className="chat-dock">
+      {open ? (
+        <section className={`chat-panel ${messages.length > 0 ? "has-messages" : ""}`} aria-label="Ask Gaurav chat">
+          <div className="chat-header">
+            <div><strong>Ask Gaurav</strong><span className="chat-live">LIVE</span></div>
+            <button type="button" onClick={() => { haptic("tap"); setOpen(false); }} aria-label="Close chat">×</button>
           </div>
-
-          <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4 py-4">
+          <div className="chat-messages" aria-live="polite">
             {messages.length === 0 && (
-              <div>
-                <p className="text-xs leading-relaxed text-muted">Explore the decisions behind the work.</p>
-                <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
-                  {starters.map((starter) => <button key={starter} type="button" onClick={() => ask(starter)} className="shrink-0 rounded-full border border-hairline px-3 py-1.5 text-left text-xs font-medium text-ink transition-colors hover:border-accent hover:bg-surface-sunken">{starter}</button>)}
+              <div className="chat-welcome">
+                <p>Curious about a project or my background? Ask here.</p>
+                <div className="chat-starters">
+                  {starters.map((starter) => <button key={starter} type="button" onClick={() => ask(starter)} disabled={isBusy}>{starter}</button>)}
                 </div>
               </div>
             )}
@@ -121,66 +101,21 @@ export function ChatDock() {
               <MessageBubble
                 key={message.id}
                 role={message.role === "user" ? "user" : "assistant"}
-                text={message.parts
-                  .filter(isTextUIPart)
-                  .map((part) => part.text)
-                  .join("")}
+                text={message.parts.filter(isTextUIPart).map((part) => part.text).join("")}
               />
             ))}
-            {isBusy && <p className="text-sm text-muted">Thinking&hellip;</p>}
-            {error && (
-              <p className="text-sm text-accent">
-                {error.message || "Something went wrong — try again shortly."}
-              </p>
-            )}
+            {isBusy && <p className="chat-thinking">Thinking…</p>}
+            {error && <p className="chat-error" role="alert">{error.message || "Something went wrong. Please try again."}</p>}
+            <div ref={endRef} />
           </div>
-
-          <form
-            onSubmit={handleSubmit}
-            className="flex gap-2 border-t border-hairline p-3"
-          >
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask a question…"
-              className="flex-1 rounded-full border border-hairline bg-surface px-4 py-2 text-sm text-ink outline-none focus:border-accent"
-            />
-            <button
-              type="submit"
-              disabled={isBusy}
-              className="rounded-full bg-accent px-4 py-2 font-sans text-sm font-semibold text-on-accent transition-transform hover:opacity-90 active:scale-95 disabled:opacity-50"
-            >
-              Send
-            </button>
+          <form onSubmit={handleSubmit} className="chat-form">
+            <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="Ask a question…" aria-label="Your question" />
+            <button type="submit" disabled={!input.trim() || isBusy} aria-label="Send question">↗</button>
           </form>
-        </div>
+        </section>
+      ) : (
+        <button type="button" className="chat-launcher" onClick={() => { haptic("toggle"); setManuallyOpened(true); setOpen(true); }} aria-label="Open Ask Gaurav chat">Ask Gaurav <span aria-hidden="true">↗</span></button>
       )}
-
-      {!open && <button
-        type="button"
-        onClick={() => {
-          haptic("toggle");
-          setOpen((v) => !v);
-        }}
-        aria-label={open ? "Close chat" : "Ask about the work"}
-        className="card-pop flex h-12 items-center gap-2 bg-accent px-4 font-sans text-sm font-semibold text-on-accent transition-transform hover:-translate-y-0.5 active:scale-95 sm:px-5"
-      >
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          aria-hidden="true"
-          className="shrink-0"
-        >
-          <path
-            d="M2 3.5C2 2.67 2.67 2 3.5 2h9c.83 0 1.5.67 1.5 1.5v6c0 .83-.67 1.5-1.5 1.5H6l-2.8 2.1a.5.5 0 0 1-.8-.4V11h-.9C2.67 11 2 10.33 2 9.5v-6Z"
-            stroke="currentColor"
-            strokeWidth="1.2"
-          />
-        </svg>
-        <span className="hidden sm:inline">{open ? "Close guide" : "Ask about the work"}</span>
-      </button>}
     </div>
   );
 }
