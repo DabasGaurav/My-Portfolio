@@ -1,21 +1,19 @@
 import Link from "next/link";
-import { siteConfig } from "@/config/site.config";
-
-const links = [
-  { href: "/#work", label: "Selected work" },
-  { href: "/#background", label: "Background" },
-];
+import { socialConfig } from "@/config/social.config";
 
 export function Nav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-hairline bg-surface/90 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-4">
-        <Link href="/" className="font-display text-xl font-bold">
-          {siteConfig.name.split(" ")[0]}<span className="text-accent">.</span>
+    <header className="site-nav">
+      <div className="site-nav-inner">
+        <Link href="/" className="site-brand" aria-label="Gaurav Dabas, home">
+          <span className="site-brand-mark">GD</span>
+          <span>Gaurav Dabas</span>
         </Link>
-        <nav className="flex flex-wrap gap-x-6 gap-y-1" aria-label="Main navigation">
-          {links.map((link) => <Link key={link.href} href={link.href} className="font-sans text-sm text-muted transition-colors hover:text-accent">{link.label}</Link>)}
+        <nav className="site-nav-links" aria-label="Main navigation">
+          <Link href="/#work">Work</Link>
+          <Link href="/#background">Background</Link>
         </nav>
+        <a className="site-nav-contact" href={`mailto:${socialConfig.email}`}>Let&apos;s talk <span aria-hidden="true">↗</span></a>
       </div>
     </header>
   );
