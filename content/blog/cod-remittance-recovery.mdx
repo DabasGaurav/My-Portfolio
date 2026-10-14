@@ -1,6 +1,6 @@
 ---
 title: "The cash-on-delivery money nobody checks"
-summary: "Half a D2C brand's orders can be cash on delivery, and the money comes back in one bulk transfer. I built a prototype that checks every order and hands the founder a ready-to-send claim."
+summary: "Half a D2C brand's orders can be cash on delivery, and the money comes back in one bulk transfer. I designed a Razorpay app feature that checks every order and hands the founder a ready-to-send claim."
 date: "2026-10-14"
 ---
 
@@ -20,13 +20,15 @@ Checking means a night in Excel, matching remittance files to orders. So most fo
   Most founders never check, because checking costs a night in Excel.
 </Pullquote>
 
-## The idea: let the system that knows the order check the payout
+## The idea: a Razorpay app feature that checks the payout
 
-Razorpay already knows what each order should bring in. So after every Shiprocket payout, the app can check each order against the merchant's own order record, and when money is missing, hand the founder **a ready claim with proof, sent from her own email**.
+Razorpay already knows what each order should bring in. So after every Shiprocket payout, the Razorpay app can check each order against the merchant's own order record, and when money is missing, hand the founder **a ready claim with proof, sent from her own email**.
 
 One line I held on to the whole way through: **COD goes from the courier to your bank. Razorpay never holds it.** The product never touches the money. It only tells the truth about it.
 
 ## The two-minute job
+
+Here is the feature as it would appear inside the Razorpay app:
 
 <PhoneShots
   shots='[
@@ -67,7 +69,7 @@ The part I care about most is what it refuses to do. It never claims early. It n
 I built this over about three days, and I treated AI less like a chatbot and more like a team working under written rules.
 
 - **Research:** I pulled 3,915 app reviews, had 2,517 coded line by line, and used a second, different model as a blind coder to check reliability. It agreed at Cohen's κ of 0.91 to 0.97.
-- **Problem choice:** I compared 30 candidate problems on an 8-criterion framework before settling on COD remittance.
+- **Problem choice:** I compared 30 candidate merchant problems in the Razorpay app on an 8-criterion framework before settling on COD remittance.
 - **Stress tests:** three rounds of eight independent reviewer agents, each recomputing every number.
 - **Rules for the agents:** nothing invented, every claim traced to a source that was actually opened, and whoever made something never checked it.
 
