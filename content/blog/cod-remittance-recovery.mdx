@@ -308,6 +308,290 @@ The prototype is plain HTML, CSS and JavaScript, with no framework and no build 
 
 **What's next.** Delhivery and other couriers, Shiprocket's report by webhook instead of email, bank-credit confirmation through RazorpayX, and claims filed straight through Shiprocket's API.
 
+- [Open the live prototype](https://dabasgaurav.github.io/cod-remittance-recovery/)
+- [Read the code on GitHub](https://github.com/DabasGaurav/cod-remittance-recovery)
+
+---
+
+## 1. The app: Razorpay for merchants
+
+Razorpay is a payment gateway for online businesses, and by one estimate it serves 63% of India's D2C brands. Its merchant app is where a founder checks money on the go. Open it and you get:
+
+- **Home:** "Collected today", and below it **"Next settlement"**, the amount Razorpay will put in your bank and when.
+- **Payments:** a Transactions tab and a Settlements tab, itemised down to each payment.
+- **Magic Checkout:** Razorpay's one-click checkout for Shopify and WooCommerce stores. It handles COD *before* dispatch, with COD screening, RTO (return-to-origin) protection and partial COD, where the customer pays part online.
+
+For prepaid money, this is excellent. Every rupee has a line, a date and a status. That standard is exactly what makes the COD half look so bare.
+
+## 2. The industry: D2C in India still runs on cash
+
+India's D2C brands sell on their own Shopify or WooCommerce stores and ship through courier aggregators such as Shiprocket, which alone has over two lakh active sellers. Cash on delivery is still the default for many shoppers: 62% of Indian online shoppers paid COD in the last year (Statista), and COD is still the majority of orders.
+
+Here is how a COD rupee actually travels:
+
+<Flow
+  steps='[
+    {"title":"Customer pays at the door","body":"Cash or the courier’s UPI QR"},
+    {"title":"Courier collects","body":"Last-mile partner hands it up the chain"},
+    {"title":"Shiprocket holds it","body":"Nets wallet charges: freight, COD fees, RTO, weight"},
+    {"title":"Bulk remittance","body":"Mon/Wed/Fri, 8 working days after delivery, hundreds of orders in one transfer","tone":"warn"},
+    {"title":"Merchant’s bank","body":"One credit, one bank reference (UTR)"}
+  ]'
+  caption="The COD money chain on Shiprocket’s Standard plan. Razorpay sees the order at checkout, then loses sight of the money."
+/>
+
+The prepaid rupee never leaves Razorpay's sight. The COD rupee leaves at dispatch and comes back through a chain Razorpay doesn't touch. **It is the one leg of a merchant's order-to-cash that no product watches.**
+
+## 3. The user in the spotlight
+
+<Callout label="Meet Kavya">
+  Kavya runs **Papaearth**, a ₹50 lakh-a-month D2C brand on Magic Checkout. Half her orders are COD, shipped through Shiprocket. She has no finance team: she *is* the finance team, usually from the packing floor, phone in hand.
+
+  **Her goal:** know that every rupee she earned actually reached her bank. **Her frustration:** the only view of what she is owed is the courier's own.
+</Callout>
+
+I scoped deliberately to one segment: **founder-run brands doing roughly ₹20 lakh to ₹1 crore a month** (micro to small enterprises). Bigger brands already hire for this. Mosaic Wellness, for example, recruits a Finance Manager with 7–10 years of experience to *"handle COD remittance reconciliation with courier partners"*, on Power Query. Smaller brands have the same problem and nobody to solve it. They also run the business from their phone, which made the Razorpay app the natural surface.
+
+## 4. Where the app falls short
+
+Put the two halves of Kavya's money side by side, as the Razorpay app sees them today:
+
+<DataTable
+  data='{
+    "head":["","Prepaid money","COD money"],
+    "rows":[
+      ["Who holds it","Razorpay","The courier, then Shiprocket"],
+      ["Visibility","Itemised per payment, in the app","One bulk transfer, outside the app"],
+      ["When it arrives","Known: **Next settlement** on Home","D+8 working days, Mon/Wed/Fri, if nothing is held"],
+      ["Deductions","Itemised fees","Netted silently against a courier wallet"],
+      ["If something is wrong","Visible in Settlements","**Nothing tells her**"]
+    ]
+  }'
+  caption="The same merchant, two very different levels of visibility."
+/>
+
+What that means for Kavya, in her words rather than ours:
+
+- **"I don't know what I'm owed."** At any moment roughly 40% of a month's delivered COD is still with Shiprocket, spread across hundreds of orders.
+- **"I can't see what went missing."** One transfer covers hundreds of orders, so a missing ₹999 order disappears inside a ₹1.5 lakh credit.
+- **"Deductions are a black box."** Freight, COD fees, RTO charges and weight penalties are netted against a wallet. One seller's review describes a balance going negative across "266 separate line items".
+- **"Checking costs a night."** Export the remittance, VLOOKUP it against orders in Excel, find the UTR in the bank app, raise a ticket. So she doesn't check.
+
+This isn't an edge case. Shiprocket's own support runs a dedicated "Remittance not Received" escalation to its Finance Desk, and its rules hold back COD when the wallet goes negative or an invoice is overdue. Disputes over courier money are routine. The community's best advice to a new seller is simply: *"Regularly check your bank statements."*
+
+## 5. How merchants cope today
+
+<DataTable
+  data='{
+    "head":["What exists","What it does","Why it isn’t enough"],
+    "rows":[
+      ["Excel by hand","Export, VLOOKUP, check the bank, raise a ticket","Hours per payout; founders skip it"],
+      ["Shiprocket’s COD Remittance tab","Shows what Shiprocket says it owes","The payer grading itself; no independent record"],
+      ["A finance hire","Reconciles line by line","Only bigger brands can afford one"],
+      ["Early or instant COD","Pays out faster, for a fee","Speeds money up; checks nothing"],
+      ["Bank statement alerts","Shows one credit arrived","Says nothing about which orders it covers"]
+    ]
+  }'
+/>
+
+The gap is specific: **nothing checks the courier's figure against an independent record of what each order should bring in, on the founder's phone.**
+
+## 6. Why Razorpay should be the one to solve it
+
+1. **It already holds the expected side.** Magic Checkout knows every order's total, the online advance on partial COD, and the AWB (tracking number). Merchants have already linked Shiprocket's API for RTO protection. Only Razorpay can check the courier's number independently.
+2. **It closes Razorpay's own order-to-cash gap.** Magic Checkout covers COD before dispatch; after delivery, nobody owns it.
+3. **It defends the prepaid half.** Shiprocket now bundles its own checkout (Fastrr) with remittance and early COD, and GoKwik offers free COD tooling. Watching a merchant's COD gives her one more reason to stay on Magic Checkout, where Razorpay earns on the prepaid half.
+4. **It reuses what exists.** The "Next settlement" habit on Home, the existing Shiprocket link, and the evidence-pack pattern Razorpay already uses for card disputes.
+
+---
+
+## 7. What we picked, out of what
+
+I started from a long list. In a wider exercise I compared 30 merchant problems across the Razorpay app, scoring each on eight criteria behind a gate: *is this a product problem, or a policy one?* Held settlements, KYC and settlement speed failed that gate, because regulation and risk drive them, not product managers. The COD money chain passed: a new use case that Razorpay doesn't own yet.
+
+Within COD, these were the real options:
+
+<DataTable
+  data='{
+    "head":["Option","Verdict","Why"],
+    "rows":[
+      ["Advance COD money early (credit)","Rejected","RBI bars payment aggregators from holding COD; early COD is credit Shiprocket already sells"],
+      ["Nudge COD buyers to prepay","Not this job","Magic Checkout already works before dispatch; the unowned moment is after delivery"],
+      ["Refund COD customers","Not this job","A different flow with a different user"],
+      ["A cash tracker across every courier","Later","One courier proves the job end to end; each new courier is a new integration"],
+      ["An AI agent that reads courier files","Rejected","Arithmetic with one right answer, sent in the founder’s name: a model adds a fresh chance of a wrong number every week"],
+      ["**Check every Shiprocket payout and hand over a ready claim**","**Picked**","Real money she already earned, a clear job, and data Razorpay can get without the merchant lifting a finger"]
+    ]
+  }'
+/>
+
+The first version of the picked option still asked too much of founders: weekly bank-statement uploads and wallet exports. No founder keeps that habit. I cut it to **one setup and zero weekly effort**.
+
+## 8. The solution: COD Remittance Recovery
+
+**Setup, once (about two minutes).** A consent screen names exactly what is read. Shiprocket is linked by reusing the API user the merchant already gave Magic Checkout, and her orders are matched with tracking. Then Shiprocket's daily Remittance Report is scheduled to a private Razorpay address. The screen confirms when the first one arrives.
+
+**The two-minute job.** After that, Kavya hears from the feature only when money is actually claimable.
+
+<PhoneShots
+  shots='[
+    {"src":"/images/blog/cod-remittance/setup.png","alt":"Setup screen confirming Shiprocket is linked and orders are matched with tracking","caption":"Setup: Shiprocket linked, orders matched with tracking."},
+    {"src":"/images/blog/cod-remittance/push.png","alt":"Lock screen push notification saying ₹6,123 to claim from Shiprocket","caption":"Alert: only when money is claimable."},
+    {"src":"/images/blog/cod-remittance/home.png","alt":"Home card showing Shiprocket owes ₹4,69,810 split into overdue and on time","caption":"Home: one number, split into overdue and on time."},
+    {"src":"/images/blog/cod-remittance/payout.png","alt":"Payout check comparing amount due with amount paid for the Friday payout","caption":"Payout check: the gap is exactly 5 unpaid and 2 short orders."}
+  ]'
+/>
+
+<PhoneShots
+  shots='[
+    {"src":"/images/blog/cod-remittance/claim.png","alt":"Claim pack listing unpaid and short-paid orders with tick boxes","caption":"Claim pack: proof per order. Untick any, or claim just one."},
+    {"src":"/images/blog/cod-remittance/email.png","alt":"Claim email ready to send from her own mail app with a CSV attached","caption":"Send: from her own email, CSV attached."}
+  ]'
+/>
+
+1. **Push:** *"₹6,123 to claim from Shiprocket."*
+2. **Home:** *"Shiprocket owes you ₹4,69,810"*. ₹4,63,815 is on time. ₹5,995 across 7 orders is past Shiprocket's own 10 working days, plus a wrong ₹128 return charge.
+3. **Payout check:** for the Fri 9 Oct payout, ₹1,55,385 was due and ₹1,49,390 was paid. The gap is exactly those orders, to the rupee.
+4. **Claim pack:** every order with its proof. She can untick any, claim only one, or mark one as resolved (settled, raised elsewhere, or written off) without losing its history.
+5. **Send:** it opens in her own mail app with a CSV attached. A reminder follows on Mon 19 Oct, and orders are marked recovered automatically when they show up in a later payout.
+
+**The design principles behind it**
+
+- **One number first.** "Shiprocket owes you" is a sentence anyone understands. The jargon stays behind it ("remittance", "CRF", "UTR") and is explained only when she taps through.
+- **It lives where she already looks.** The card sits right under "Next settlement" on Home, so there's no new habit to build.
+- **Trust over recall.** Claim only after Shiprocket's 10 working days, with two payouts received and no payout on hold. One false claim costs more trust than ten found rupees earn.
+- **She sends; Razorpay never does.** Shiprocket hears from its own customer, and Razorpay never acts on money it doesn't hold.
+
+---
+
+## 9. How it works: the developer's half
+
+### Two accounts, two pipes
+
+Everything comes from accounts the merchant already has:
+
+- **Her Razorpay account:** Magic Checkout orders, each with its order total and any amount paid online before dispatch.
+- **Her Shiprocket seller account:** the API user she created for Magic Checkout, plus a scheduled daily report pointed at Razorpay.
+
+Shiprocket sends two kinds of data. The **API (JSON)** gives tracking, delivery dates, COD amounts and the wallet statement:
+
+```json
+{
+  "order_id": "PE-20417",
+  "awb_code": "141826597301",
+  "payment_method": "cod",
+  "cod_amount": 999,
+  "current_status": "DELIVERED",
+  "delivered_date": "2026-09-25 14:12"
+}
+```
+
+The **daily Remittance Report (CSV)** lists every order paid in every payout:
+
+```text
+CRF ID,AWB,Order ID,COD,Remitted,Date
+…0901,…9302,PE-20440,1499,1049,2026-10-09
+…0901,…1755,PE-20475,1299,999,2026-10-09
+…0901,…0277,PE-20409,799,799,2026-10-09
+… 147 lines · ₹1,49,390 · UTR …4471
+```
+
+### The join
+
+Each Razorpay order is joined to its Shiprocket shipment by order ID and AWB. Prepaid orders drop out, since there's no cash to collect. Here is one order, end to end:
+
+<DataTable
+  data='{
+    "head":["Source","What it says about #PE-20417"],
+    "rows":[
+      ["Razorpay order","₹999 total, ₹0 paid online, so ₹999 owed"],
+      ["Shiprocket API","AWB …7301, COD ₹999 ✓, delivered Fri 25 Sep"],
+      ["Rules","Due in the Fri 9 Oct payout; claimable after Mon 12 Oct"],
+      ["Daily report","Not in the Fri 9 Oct payout, and not in Mon 12 Oct either"],
+      ["**Result**","**Not paid: claim ₹999**"]
+    ]
+  }'
+/>
+
+### The rules engine, step by step
+
+1. **Collect** orders from Razorpay, tracking and wallet from the Shiprocket API, and payout lines from the daily report.
+2. **Join** each order to its shipment by order ID and AWB.
+3. **Owed** = order total − amount paid online before dispatch. It must match Shiprocket's COD amount within ₹1, or the order is flagged *Needs a look* instead of being claimed.
+4. **Due** = the first working Monday, Wednesday or Friday on or after 8 working days from delivery. Holidays move it to the next working day.
+5. **Paid** = the sum of every payout line for the order. Lines are kept forever and de-duplicated on AWB + CRF, so overlapping reports never double-count.
+6. **Status:** paid, on time, late, not paid, or paid short.
+7. **Claim guard:** only after Shiprocket's 10 working days, with the due payout and the next one both received, report coverage complete and no payout on hold.
+8. **Wallet:** return (RTO) freight charged on a delivered order is a wrong charge, and goes into the claim.
+
+The calendar logic is the heart of it, and it is deliberately boring:
+
+```js
+// Shiprocket Standard: paid on the first Mon/Wed/Fri
+// on or after 8 working days from delivery.
+// A holiday moves the payout to the next working day.
+const isWorking = (d) => isWeekday(d) && !holidays.has(d);
+const nextWorking = (d) => { while (!isWorking(d)) d = addDays(d, 1); return d; };
+const isPayoutSlot = (d) => [1, 3, 5].includes(dayOfWeek(d));
+
+function dueDate(deliveredOn) {
+  let d = addWorkingDays(deliveredOn, 8);
+  while (!isPayoutSlot(d)) d = addDays(d, 1);
+  return nextWorking(d);
+}
+```
+
+That one holiday rule mattered. Without it, Fri 2 Oct (Gandhi Jayanti) would have looked like a missed payout, and the product would have accused Shiprocket of holding money it simply paid on Monday.
+
+### Order states
+
+Every order is either **fully known** (paid, or claimable) or still **pending** (in transit, on time, or waiting). Pending orders simply sit as "on time" until their due date passes. Then they either get paid, or move to overdue.
+
+<Flow
+  steps='[
+    {"title":"In transit","body":"The payout clock starts at delivery"},
+    {"title":"On time","body":"Waiting for its due payout"},
+    {"title":"Late","body":"Missed its payout, but still within Shiprocket’s 10 working days","tone":"warn"},
+    {"title":"Overdue · claim","body":"Past the promise, two payouts checked","tone":"accent"},
+    {"title":"Claimed → recovered","body":"Or marked resolved, with history kept"}
+  ]'
+  caption="Most orders go straight from On time to Paid. Only the exceptions travel the rest of the chain."
+/>
+
+### The edge cases that decide whether anyone trusts it
+
+<DataTable
+  data='{
+    "head":["Situation","What the engine does"],
+    "rows":[
+      ["A payout day falls on a holiday","Shifts it to the next working day, so there’s no false alarm"],
+      ["Partial COD (part paid online)","Owed = total − advance, so it’s never over-claimed"],
+      ["Overlapping 30-day reports","De-duplicates on AWB + CRF and never deletes a line"],
+      ["No payout on a payout day with orders due","Treats it as a possible hold: can’t tell yet, no claims"],
+      ["Shiprocket’s report doesn’t arrive","Pauses claims and asks her to check the schedule"],
+      ["Razorpay and Shiprocket amounts disagree","Flags the order as Needs a look, never claims it"],
+      ["An order stays unpaid for weeks","Coverage accumulates, so it never drops off the claim"],
+      ["RTO freight on a delivered order","Flags it as a wrong wallet charge"]
+    ]
+  }'
+/>
+
+### The prototype
+
+The prototype is plain HTML, CSS and JavaScript, with no framework and no build step. A seeded random generator builds the same synthetic merchant every time, so every number reproduces exactly. The screens never hard-code a figure: they ask the rules engine. Eight merchant situations (money to claim, all paid, late, payout on hold, report missing, needs a look, two weeks unclaimed, partial recovery) each change the *data*, not the UI, and every screen recomputes. Playwright tests click through every screen in every situation and assert the numbers on screen.
+
+## 10. How we'd know it works, and how we'd ship it
+
+**North star: the share of claimable COD recovered within 30 days.** I first wrote "₹ recovered per merchant", then noticed it rises when couriers pay *worse*. A good north star should move with our product work, not with someone else's mistakes.
+
+- **Inputs we can move:** setup completion, payouts checked within 24 hours of arriving, alert to claim sent within 48 hours, and push-to-sent time (target: two minutes or less).
+- **Guardrails:** claims Shiprocket rejects as wrong (target: close to zero), alerts with nothing to claim, and notification opt-outs.
+- **Business outcome:** six-month Magic Checkout retention and prepaid volume of merchants using it, against a holdout.
+
+**Rollout.** First, a one-week data pull across Magic Checkout merchants with Shiprocket linked, to size how often payouts are missing or short. Then a 10-merchant pilot. Then wider release behind the consent screen.
+
+**What's next.** Delhivery and other couriers, Shiprocket's report by webhook instead of email, bank-credit confirmation through RazorpayX, and claims filed straight through Shiprocket's API.
+
 ## What's honest to say about it
 
 The demo data is synthetic. Using a merchant's stored Shiprocket access for these checks would need her consent and a partner agreement. And Shiprocket can change its report format, which is exactly why a missing or unreadable report pauses claims instead of guessing.
