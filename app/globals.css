@@ -262,7 +262,7 @@ a.card-pop:hover, button.card-pop:hover { border-color: var(--accent); box-shado
 .blog-list { max-width: 1180px; min-height: 40vh; margin: auto; padding: 2rem 1.5rem 5rem; }
 .blog-list-item { display: flex; align-items: center; justify-content: space-between; gap: 2rem; border-top: 2px solid var(--ink); padding: 1.5rem 0; transition: padding .2s; }
 .blog-list-item:hover { padding-left: .7rem; }
-.blog-list-item h2 { margin: .5rem 0; font-family: var(--font-syne), sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; letter-spacing: -.045em; }
+.blog-list-item h2, .blog-list-item h3 { margin: .5rem 0; font-family: var(--font-syne), sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; letter-spacing: -.045em; }
 .blog-list-item p { color: var(--muted); font-size: .85rem; }
 .blog-list-item > span { font-size: 1.5rem; }
 .blog-post-content { max-width: 760px; margin: auto; padding: 3rem 1.5rem 5rem; }

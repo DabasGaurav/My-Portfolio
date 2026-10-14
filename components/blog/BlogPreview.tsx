@@ -2,35 +2,23 @@ import Link from "next/link";
 import { getAllPosts } from "@/lib/mdx";
 import { formatDate } from "@/lib/time";
 
+/** Latest posts for the homepage. Renders nothing until there is a post. */
 export function BlogPreview({ limit = 3 }: { limit?: number }) {
   const posts = getAllPosts().slice(0, limit);
-
-  if (posts.length === 0) {
-    return <p className="text-muted">No posts published yet.</p>;
-  }
+  if (posts.length === 0) return null;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div>
       {posts.map((post) => (
-        <Link
-          key={post.slug}
-          href={`/blog/${post.slug}`}
-          className="card-pop block p-6"
-        >
-          <h3 className="font-display text-xl font-bold">{post.title}</h3>
-          <p className="mt-2 font-sans text-sm font-medium text-muted">
-            {formatDate(post.date)}
-          </p>
-          <p className="mt-3 text-muted">{post.summary}</p>
+        <Link key={post.slug} href={`/blog/${post.slug}`} className="blog-list-item">
+          <div>
+            <span className="eyebrow">{formatDate(post.date)}</span>
+            <h3>{post.title}</h3>
+            <p>{post.summary}</p>
+          </div>
+          <span aria-hidden="true">↗</span>
         </Link>
       ))}
-
-      <Link
-        href="/blog"
-        className="mt-2 self-start font-sans text-sm font-semibold text-accent transition-opacity hover:opacity-70"
-      >
-        View all posts &rarr;
-      </Link>
     </div>
   );
 }

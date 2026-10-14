@@ -8,8 +8,9 @@ import { Figure } from "@/components/mdx/Figure";
 import { Chart } from "@/components/mdx/Chart";
 import { Pullquote } from "@/components/mdx/Pullquote";
 import { Callout } from "@/components/mdx/Callout";
+import { PhoneShots } from "@/components/mdx/PhoneShots";
 
-const mdxComponents = { Figure, Chart, Pullquote, Callout };
+const mdxComponents = { Figure, Chart, Pullquote, Callout, PhoneShots };
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));

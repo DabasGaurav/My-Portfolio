@@ -1,0 +1,89 @@
+---
+title: "The cash-on-delivery money nobody checks"
+summary: "Half a D2C brand's orders can be cash on delivery, and the money comes back in one bulk transfer. I built a prototype that checks every order and hands the founder a ready-to-send claim."
+date: "2026-10-14"
+---
+
+If you run a D2C brand in India, a large share of your orders is probably cash on delivery. The customer pays the courier at the door. Days later the courier sends your money back, and that is where things get murky.
+
+## The problem nobody opens a spreadsheet for
+
+Picture a founder, Kavya. She sells through Razorpay Magic Checkout and ships with Shiprocket. Roughly half her orders are COD.
+
+- **Prepaid** money settles through Razorpay, itemised, one line per order.
+- **COD** money comes back days later in **one bulk transfer covering hundreds of orders**, net of wallet charges.
+- If an order is missing, paid short, or hit with a wrong return fee, **nothing tells her**.
+
+Checking means a night in Excel, matching remittance files to orders. So most founders never check. The money isn't lost to fraud. It's lost to friction.
+
+<Pullquote>
+  Most founders never check, because checking costs a night in Excel.
+</Pullquote>
+
+## The idea: let the system that knows the order check the payout
+
+Razorpay already knows what each order should bring in. So after every Shiprocket payout, the app can check each order against the merchant's own order record, and when money is missing, hand the founder **a ready claim with proof, sent from her own email**.
+
+One line I held on to the whole way through: **COD goes from the courier to your bank. Razorpay never holds it.** The product never touches the money. It only tells the truth about it.
+
+## The two-minute job
+
+<PhoneShots
+  shots='[
+    {"src":"/images/blog/cod-remittance/home.png","alt":"Home screen showing the amount the courier owes, split into overdue and on-time orders","caption":"Home: one number, split into overdue and on time."},
+    {"src":"/images/blog/cod-remittance/payout.png","alt":"Payout check screen comparing the amount due with the amount paid","caption":"Payout check: the gap is exactly 5 unpaid and 2 short orders."},
+    {"src":"/images/blog/cod-remittance/claim.png","alt":"Claim pack screen listing unpaid and short-paid orders with tick boxes","caption":"Claim pack: proof per order. Untick any, or claim just one."},
+    {"src":"/images/blog/cod-remittance/email.png","alt":"Claim email ready to send from her own mail app","caption":"Send: opens in her own mail app with a CSV attached."}
+  ]'
+/>
+
+Setup takes about two minutes, once: consent, link Shiprocket, schedule the daily remittance report. After that the job is short:
+
+1. **A push alert**, only when money is actually claimable: *"₹6,123 to claim from Shiprocket."*
+2. **A home card**: *"Shiprocket owes you ₹4,69,810"*, split into what is on time and what is overdue.
+3. **A payout check**: for the Fri 9 Oct payout, ₹1,55,385 was due and ₹1,49,390 was paid. The gap is exactly 5 unpaid orders and 2 short ones.
+4. **A claim pack** with proof per order, sent from her own email.
+5. **A reminder**, and orders are matched as recovered when they show up in a later payout.
+
+## Deliberately no AI in the product
+
+<Callout label="Why the product is rule-based">
+  The job is arithmetic with one right answer, and the claim goes out in the
+  founder's name. A model adds a fresh chance of a wrong number every week.
+  Here every rupee traces back to an order, a payout line or a wallet entry.
+</Callout>
+
+For every delivered COD order the check does the same few things:
+
+- **Owed:** order total minus what was paid online. It must match the courier's COD amount within ₹1, or the order is flagged *Needs a look* instead of claimed.
+- **Due:** the first working Monday, Wednesday or Friday on or after 8 working days from delivery. Holidays move it to the next working day.
+- **Paid:** add up every payout line for the order, de-duplicated so nothing is counted twice.
+- **Claim guard:** only after the courier's 10 working days, with two payouts received, complete report coverage and no payout on hold.
+
+The part I care about most is what it refuses to do. It never claims early. It never claims during a hold. If a report is missing it pauses instead of guessing. If the numbers disagree it flags the order instead of sending a claim. I built eight merchant situations into the prototype to prove exactly that, and every screen recomputes live when you switch between them.
+
+## Building it, with AI as a team I had to manage
+
+I built this over about three days, and I treated AI less like a chatbot and more like a team working under written rules.
+
+- **Research:** I pulled 3,915 app reviews, had 2,517 coded line by line, and used a second, different model as a blind coder to check reliability. It agreed at Cohen's κ of 0.91 to 0.97.
+- **Problem choice:** I compared 30 candidate problems on an 8-criterion framework before settling on COD remittance.
+- **Stress tests:** three rounds of eight independent reviewer agents, each recomputing every number.
+- **Rules for the agents:** nothing invented, every claim traced to a source that was actually opened, and whoever made something never checked it.
+
+The judgement calls stayed with me: which problem, for whom, what to cut, what to trust. Some of what I rejected shaped the product more than what I kept:
+
+- **AI inside the product.** The first instinct was a model preparing claims. I replaced it with a fixed, auditable rules engine.
+- **Ranking problems by review counts.** Reviews over-represent people who lost money, so they measure anger, not size. They corroborate; they never rank.
+- **Weekly uploads of bank statements.** No founder keeps that habit. One setup and a scheduled report replaced them.
+- **An all-or-nothing "Claim all".** Founders often want to chase one order, or have already settled another. Now every order has a tick box and a live total.
+
+## What's honest to say about it
+
+The demo data is synthetic, built deterministically so every number reproduces. Using a merchant's stored Shiprocket access for these checks would need consent and a partner agreement. And Shiprocket can change its report formats, which is why a missing report pauses claims rather than guessing. Next on the list: more couriers, the report by webhook, and claims filed straight through Shiprocket's API.
+
+If you want to poke at it, switch between the eight situations and watch the numbers move:
+
+- [Open the live prototype](https://dabasgaurav.github.io/cod-remittance-recovery/)
+- [Read the code on GitHub](https://github.com/DabasGaurav/cod-remittance-recovery)
+- [Read the full AI build log](https://github.com/DabasGaurav/cod-remittance-recovery/blob/main/BUILD-LOG.md)

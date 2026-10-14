@@ -12,6 +12,7 @@ export function Nav() {
         <nav className="site-nav-links" aria-label="Main navigation">
           <Link href="/#work">Work</Link>
           <Link href="/#background">Background</Link>
+          <Link href="/blog">Writing</Link>
         </nav>
         <a className="site-nav-contact" href={`mailto:${socialConfig.email}`}>Let&apos;s talk <span aria-hidden="true">↗</span></a>
       </div>

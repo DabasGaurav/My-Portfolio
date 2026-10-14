@@ -2,9 +2,13 @@ import { Hero } from "@/components/hero/Hero";
 import { Section } from "@/components/layout/Section";
 import { ProjectsGrid } from "@/components/projects/ProjectsGrid";
 import { Timeline } from "@/components/timeline/Timeline";
+import { BlogPreview } from "@/components/blog/BlogPreview";
+import { getAllPosts } from "@/lib/mdx";
 import { timeline } from "@/content/experience";
 
 export default function Home() {
+  const hasPosts = getAllPosts().length > 0;
+
   return (
     <>
       <Hero />
@@ -16,6 +20,16 @@ export default function Home() {
       >
         <ProjectsGrid />
       </Section>
+      {hasPosts && (
+        <Section
+          id="writing"
+          eyebrow="Writing"
+          title="Notes From Building"
+          description="What I made, what I got wrong, and what I'd test next."
+        >
+          <BlogPreview />
+        </Section>
+      )}
       <section id="background" className="background-section scroll-mt-20">
         <div className="background-inner">
           <div>

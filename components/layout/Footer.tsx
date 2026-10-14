@@ -17,6 +17,7 @@ export function Footer() {
           <span>© {new Date().getFullYear()} {hero.name}</span>
           <div>
             <Link href="/#work">Projects</Link>
+            <Link href="/blog">Writing</Link>
             <a href={socialConfig.github.url} target="_blank" rel="noreferrer">GitHub</a>
             <a href={socialConfig.linkedin.url} target="_blank" rel="noreferrer">LinkedIn</a>
             <a href={`mailto:${socialConfig.email}`}>Email</a>
