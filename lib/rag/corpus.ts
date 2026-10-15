@@ -22,7 +22,11 @@ function aboutChunks(): Chunk[] {
 async function projectChunks(): Promise<Chunk[]> {
   const chunks: Chunk[] = [];
   for (const project of projectDetails) {
-    const text = [project.name, project.summary, project.problem, ...project.approach, ...project.productChoices].join(" ");
+    const text = [
+      project.name, project.summary, project.problem, ...project.approach, ...project.productChoices,
+      ...(project.decisions ?? []).map((d) => `${d.title}: chose ${d.chose} Turned down ${d.rejected} Why: ${d.why}`),
+      ...(project.gaps ?? []), project.next, ...(project.nextSteps ?? []),
+    ].join(" ");
     const url = `${siteConfig.url}/projects/${project.repo}`;
     chunks.push({
       id: `project-${project.repo}`,

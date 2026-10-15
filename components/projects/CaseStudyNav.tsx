@@ -2,15 +2,17 @@
 
 import { useEffect, useState } from "react";
 
-const sections = [
+export type CaseStudySection = { id: string; label: string };
+
+const defaultSections: CaseStudySection[] = [
   { id: "problem", label: "Problem" },
   { id: "approach", label: "Approach" },
   { id: "decisions", label: "Product choices" },
   { id: "next", label: "Next test" },
 ];
 
-export function CaseStudyNav() {
-  const [active, setActive] = useState("problem");
+export function CaseStudyNav({ sections = defaultSections }: { sections?: CaseStudySection[] }) {
+  const [active, setActive] = useState(sections[0]?.id ?? "problem");
 
   useEffect(() => {
     const update = () => {
@@ -25,7 +27,7 @@ export function CaseStudyNav() {
     window.addEventListener("scroll", update, { passive: true });
     update();
     return () => window.removeEventListener("scroll", update);
-  }, []);
+  }, [sections]);
 
   return (
     <nav className="case-study-nav" aria-label="Case study sections">

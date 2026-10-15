@@ -16,7 +16,7 @@ Rules:
 
 export function buildCurrentPortfolioContext(): string {
   const projects = projectDetails.map((project) =>
-    `Title: ${project.name}\nURL: ${siteConfig.url}/projects/${project.repo}\nGitHub: https://github.com/${socialConfig.github.username}/${project.repo}\nDemo: ${project.demoUrl ?? "No public demo listed"}\nStatus: ${project.status}\n${project.summary} ${project.problem} ${project.approach.join(" ")} ${project.productChoices.join(" ")} Next: ${project.next}`,
+    `Title: ${project.name}\nURL: ${siteConfig.url}/projects/${project.repo}\nGitHub: https://github.com/${socialConfig.github.username}/${project.repo}\nDemo: ${project.demoUrl ?? "No public demo listed"}\nStatus: ${project.status}\n${project.summary} ${project.problem} ${project.approach.join(" ")} ${project.productChoices.join(" ")}${project.gaps ? ` Not working yet: ${project.gaps.join(" ")}` : ""} Next: ${project.next}`,
   );
   const background = timeline.map((entry) => `${entry.role} at ${entry.org} (${entry.period}). ${entry.summary ?? ""}`);
   return `Gaurav Dabas is a product manager with an engineering background. ${hero.positioning}\nLinkedIn: ${socialConfig.linkedin.url}\nGitHub: ${socialConfig.github.url}\n\nSelected projects:\n${projects.join("\n\n")}\n\nBackground:\n${background.join("\n")}`;
