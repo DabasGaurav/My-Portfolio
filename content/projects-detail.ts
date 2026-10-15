@@ -82,7 +82,7 @@ export const projectDetails: ProjectDetail[] = [
       "The model writes ideas and explanations; plain code ranks and makes the final pick, so the pick is testable and repeatable.",
       "Five simpler baselines are logged with every pick from day one, so the pipeline has to prove it beats them.",
     ],
-    next: "Talk to creators, then run a beta of 15 to 30, measuring first whether they post the pick at all, then whether it beats their usual Reel and the simpler baselines.",
+    next: "Run a beta of 15 to 30 creators, measuring first whether they post the pick, then whether it beats their usual Reel and the simpler baselines.",
     preview: {
       observe: "Insights show creators how the last Reel did. Nothing tells them what to post next.",
       decide: "The model writes ideas. Plain code ranks them, picks one, and shows its working.",

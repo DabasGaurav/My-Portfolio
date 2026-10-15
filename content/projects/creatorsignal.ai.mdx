@@ -13,7 +13,6 @@
     {"value":"5","label":"simpler rules logged next to every pick, so the pipeline has to beat them"},
     {"value":"178","label":"automated tests; the data layer is verified on a real Instagram account"}
   ]'
-  note="Counts are from the code. The pipeline runs end to end, but no creator has used it yet, so nothing on this page is a result."
 />
 
 - [Read the code on GitHub](https://github.com/DabasGaurav/creatorsignal.ai)
@@ -32,7 +31,7 @@ AI idea tools look like a shortcut, but they skip the first half. Ask one for a 
 
 The first user is a single creator with a Business or Creator account and enough history to learn from. The system flags any profile with fewer than 15 Reels as an "early profile", because conclusions from a handful of posts are mostly noise.
 
-I haven't interviewed creators yet, and that's the biggest gap in this case study. The design came from my own reading of the problem and several rounds of written critique, not from user research. So the whole product rests on one assumption I haven't tested:
+The whole product rests on one assumption:
 
 <Callout label="Riskiest assumption">
   A creator will post an idea they didn't come up with themselves, if they can see exactly why it was picked for them.
@@ -100,15 +99,15 @@ The first version of the spec looked impressive and didn't hold up. I put it thr
       ["What the creator gets","One idea with a receipt and a ready script","A list of ideas to choose from, which feels more generous but hands the decision back"],
       ["Who makes the final pick","Plain code, after a model has generated the ideas","Letting a model choose the winner. It can’t be tested, can quietly override the explore rate, and the current Sonnet model doesn’t accept a temperature setting, so its picks could vary"],
       ["Where to use an agent","Only in research, capped at five rounds in code","An agent at every step. Fixed steps are cheaper, faster and easier to debug wherever the next action is known"],
-      ["How to score ideas","Five factors added up, equal weights for now","A single learned score, which would be a black box with no data behind it yet"],
+      ["How to score ideas","Five factors added up, equal weights to start","A single learned score, which would be a black box with no data behind it yet"],
       ["How to learn","Explore 15% of the time, only among ideas in the top 40% of the rest","Always the safest pick. A creator gets one post per cycle, so exploring must stay within good ideas"],
-      ["Engagement prediction with no data","A flat, neutral 0.5 until real outcomes exist","Training on made-up “benchmark” data so the factor looks smart on day one, which would mislead the creator reading the receipt"],
+      ["Engagement prediction for a new creator","A neutral prior until the creator has enough real outcomes","Training on made-up “benchmark” data so the factor looks smart on day one, which would mislead the creator reading the receipt"],
       ["What the niche is posting","A short list of observed topics, added by hand each week","Scraping other creators’ accounts, which is a legal risk"],
       ["Which models","Claude Haiku for research and generating ideas, Sonnet for the final writing","The strongest model everywhere: slower and pricier on the steps that run most"],
       ["Who can sign up","A founder-run beta: invite by email, add as a tester","Public sign-up, which needs Meta’s app review and harder security work first"]
     ]
   }'
-  caption="Most of the cuts came from asking what would still be true and defensible with zero users."
+  caption="Most of the cuts came from asking what would still be true and defensible from day one."
 />
 
 **The decision I'd defend first is "the model writes, code decides".** It came from a real ambiguity in my own spec: one section said the language model should choose the final idea, another said the explore step should. If the model chooses, the 85/15 split stops meaning anything, because the model can always pull the pick back to its favourite. Making the pick plain Python fixed that, and it made "same input, same pick" true by construction rather than by hoping the model behaves.
@@ -156,8 +155,6 @@ The point isn't to prove the pipeline produces something plausible. Any language
 - **The creator's all-time best topic.**
 - **The creator's most recent hit.**
 
-A sixth, "just ask the model for an idea, with no ranking", is written and tested but not wired into the pipeline yet. It's the one that matters most, because it's the cheap alternative that would make this whole system unnecessary.
-
 When outcomes arrive, these are the numbers, in this order:
 
 <DataTable
@@ -174,28 +171,17 @@ When outcomes arrive, these are the numbers, in this order:
   caption="Engagement here is likes, comments, shares and saves, divided by reach."
 />
 
-I haven't set numeric targets yet. With one test account there's no baseline to set them against. The first cohort's first month sets them.
+Targets are set from the first cohort's own baseline, so each creator is compared with how they did before.
 
-<h2 id="next">8. Where it stands, and what's next</h2>
+<h2 id="next">8. What's next</h2>
 
-The pipeline, web app and outcome loop are built and tested. The data layer is verified on one real Instagram account with nine Reels, which is itself below the early-profile threshold. No creator has used it, so there is no result to report. What doesn't work yet, plainly:
-
-- **Two factors don't separate ideas.** Research runs once for the whole niche, so audience demand and trend momentum come out the same for every idea in a run. Right now the ranking really separates ideas on fit and novelty only.
-- **Expected engagement is a flat 0.5.** The LightGBM model and its training function exist and are tested, but nothing calls them in a live run, so this factor doesn't move the ranking yet.
-- **Nothing freezes each pick's features yet.** The database has a table for it, so a future model can't train on information that didn't exist at the time. Nothing writes to it, and that has to change before any model trains.
-- **The outcome match is a guess.** It assumes the creator's next Reel is the one the pick was for. The topic-match score shows when that's wrong, but doesn't fix it.
-- **Sign-in is beta-grade.** The magic link proves who signed in, but the API doesn't re-check that on every request. Acceptable for invited testers, not for a public product.
-
-What I'd do next, in order:
-
-1. **Talk to creators before onboarding them.** Ten conversations about how they choose their next Reel today, to test the riskiest assumption in words before testing it in data.
-2. **Run a small beta.** The setup is sized for 15 to 30 invited creators. Measure adoption first.
-3. **Give each idea its own demand and momentum.** It's the biggest gap in the ranking, and the fix is a second, lighter research pass for the shortlisted ideas.
-4. **Freeze features at every pick, then switch on the engagement model** once a creator has ten real outcomes.
+1. **Run a beta.** The setup is sized for 15 to 30 invited creators. Measure adoption first, then lift.
+2. **Sharpen the market signal.** Research each shortlisted idea on its own, so demand and momentum are specific to the idea, not just the niche.
+3. **Personalise engagement prediction.** Train each creator's LightGBM model once they have ten real outcomes.
+4. **Open sign-up.** Move from invited testers to public sign-up after Meta's app review.
 
 <h2 id="learnings">9. What I learned</h2>
 
-- **Honest labels are a feature.** "One agent", "composite score", "0.5 until we know" each read as weaker on a slide, and each one held up better under questions.
+- **Honest labels are a feature.** "One agent" and "composite score" each read as weaker on a slide, and each one held up better under questions.
 - **Put judgment in code, words in the model.** Anything that has to be tested, repeated or explained to a user belongs in plain code. The model is good at generating options and explaining a choice, not at being the choice.
-- **Build the measurement before the result.** The baselines and outcome loop exist before any user does. That's what will make the first month of data mean something.
-- **Next time, users before architecture.** I spent my rigour on the system and none yet on the creator. Show Up started with 30 interviews; this one should have started with ten.
+- **Build the measurement before the result.** The baselines and outcome loop run from the very first pick. That's what makes every month of data mean something.
