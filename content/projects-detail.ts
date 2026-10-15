@@ -44,10 +44,10 @@ export const projectDetails: ProjectDetail[] = [
   {
     repo: "show-up",
     name: "Show Up",
-    kind: "Two-sided marketplace · Social impact",
+    kind: "Micro-volunteering · Two-sided marketplace",
     status: "Live MVP",
-    hook: "Make backing out easy, and volunteers start turning up.",
-    summary: "A live volunteering app built from 30 interviews: NGOs share one link, volunteers save a spot in a minute, and a two-day check-in tells both sides who is really coming.",
+    hook: "Micro-volunteering for people with fragmented time, built on trust in both directions.",
+    summary: "A live app for short, clearly scoped volunteering that busy people can actually fit in. NGOs are checked before they go live, volunteers build a visible track record, and a two-day check-in cuts no-shows for both sides.",
     problem: "Every NGO we interviewed loses volunteers who sign up and don't come, with no warning. Volunteers drop out because plans change and there is no guilt-free way to say so, so NGOs over-recruit and chase people the night before.",
     approach: [
       "NGOs post a short activity in under five minutes and share one link in their own WhatsApp groups.",
