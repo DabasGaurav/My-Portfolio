@@ -1,0 +1,190 @@
+<Callout label="In 30 seconds">
+  **The problem.** A consulting proposal is a credibility test. AI can draft one in seconds, but it writes with the same confidence whether or not the firm can back a claim, and one invented credential can lose the bid or the client.
+
+  **The bet.** Let the model write, and never let it vouch for itself. Fixed rules check every sentence against the firm's own documents, and three named people make the decisions that matter: whether to bid, whether each section is right, and the price.
+
+  **The product.** A working agent that turns a client's request for proposal (RFP) into a review-ready draft, where every claim shows its source and anything unsupported blocks release.
+</Callout>
+
+<Stats
+  items='[
+    {"value":"216k","label":"hours a year the case firm spends writing proposals"},
+    {"value":"3","label":"human sign-offs before anything can leave"},
+    {"value":"0","label":"times the model checks its own work"},
+    {"value":"184","label":"automated tests, including attempts to sneak claims past the checks"}
+  ]'
+  note="Vertex Consulting Group (VCG) is the fictional firm in the case, and its figures are the case’s own. The sample RFPs and firm documents in the demo are synthetic."
+/>
+
+- [Try the live agent](https://vcg-proposal-copilot.streamlit.app/)
+- [Read the code on GitHub](https://github.com/DabasGaurav/vcg-proposal-copilot)
+
+---
+
+<h2 id="problem">1. The problem: a confident sentence with nothing behind it</h2>
+
+I built Proposal Copilot for the consulting round of the Bottoms Up 5.0 case competition with my team, WD Advisors. The case: VCG, a 2,000-consultant firm, has six possible uses for generative AI, ₹8 crore of ideas and ₹3 crore to spend. We had to pick three, and build a working AI agent for one of them.
+
+Proposals are where consultants feel the pressure most. In the case, 1,200 consultants spend about 180 hours a year each on them, roughly 216,000 hours in all. Most of that time goes on the same loop: read a long RFP, hunt through old case studies and CVs for proof, write it up, then have a partner check it.
+
+The obvious product is "AI writes the proposal". The problem with it is just as obvious once you try it. A language model writes *"VCG has previously redesigned lending for a large Indian bank"* with exactly the same confidence whether or not that happened. In a proposal, every sentence is a promise, and a partner who can't tell which sentences are true has to re-check all of them. That isn't saving time.
+
+So the real question wasn't "can AI write a proposal?" It was:
+
+<Callout label="Riskiest assumption">
+  A reviewer will trust and approve an AI draft faster than they could write one, if every claim shows where it came from and nothing unsupported can slip through.
+</Callout>
+
+<h2 id="why">2. Why proposals, out of six options</h2>
+
+We scored all six of VCG's options on value, ease of building, adoption, risk and strategic fit. Proposal Development made our funded three, and it was the clear choice for the agent for three reasons:
+
+- **It has a real workflow.** Intake, a bid decision, drafting, checking, sign-off. An agent needs steps; a chat window doesn't.
+- **It already has human gates.** A practice lead decides whether to bid, and a partner approves the price. The agent could fit around decisions the firm already makes instead of inventing new ones.
+- **Its time turns into revenue.** An hour saved on a proposal can go into the next bid. In the case's numbers, it costs ₹1.1 crore to build, returns ₹0.5 crore in year one and ₹0.9 crore a year by year three.
+
+<h2 id="bet">3. The bet: the model writes, rules check, people decide</h2>
+
+Every design choice comes from one rule: **the model only writes.** It never decides whether a sentence is true, whether to bid, or whether the proposal can go out.
+
+<Flow
+  steps='[
+    {"title":"Read and search","body":"Pull out each requirement with its exact quote, then find proof in past work"},
+    {"title":"Bid or no bid?","body":"A practice lead decides, with a name and a reason","tone":"warn"},
+    {"title":"Draft","body":"The model writes from the selected evidence only, and cites it"},
+    {"title":"Check every claim","body":"Rules test numbers, names and context against the source"},
+    {"title":"Sign off","body":"Sections, the price and every gap, each by a named person","tone":"warn"}
+  ]'
+  caption="Two of the five steps are human decisions. There is no route in the code that exports without them."
+/>
+
+<h2 id="walkthrough">4. A run, screen by screen</h2>
+
+Here is the agent on a sample RFP from "ABC Bank", a retail bank in India that wants to redesign its lending process. The RFP asks for proof of more than a 30% improvement in turnaround time. The firm's best real result is 18%. That gap is the point of the demo.
+
+**The bid decision.** Before any writing, the agent checks how much of what the client asks for the firm can actually prove. Of about 20 requirements, four need proof from past work, and the documents prove two. It says so, recommends a review rather than a bid, and waits for a practice lead to decide and give a reason.
+
+<Figure
+  src="/images/projects/vcg-proposal-copilot/bid-qualification.png"
+  alt="Bid qualification screen showing 50% evidence fit, 2 of 4 evidence requirements covered, and fields for the practice lead's name and rationale"
+  caption="The agent advises; a person decides. The reason is recorded with their name."
+/>
+
+**The state of the draft.** After drafting, the overview says plainly that the proposal is not cleared for release, and lists exactly why.
+
+<Figure
+  src="/images/projects/vcg-proposal-copilot/overview.png"
+  alt="Overview tab showing Not cleared for release, 82 claims assessed, 4 substantiated, 22 unsubstantiated, and 0 of 7 sections approved"
+  caption="A live run: 82 claims checked, 4 backed by the firm’s documents, 22 blocked. The agent is honest about its own draft."
+/>
+
+**A claim that passes.** For any sentence, the reviewer sees five steps: the client's requirement, the exact quote from the RFP, the source passage, what the model wrote, and the verdict. The name, the role and the 18 years all match the partner's CV.
+
+<Figure
+  src="/images/projects/vcg-proposal-copilot/claim-supported.png"
+  alt="Claim inspection showing a substantiated claim about Ananya Mehta traced to her CV, with numeric consistent and attribution valid"
+  caption="Supported: every fact in the sentence is found in the cited passage."
+/>
+
+**A claim that doesn't.** This sentence reads like a credential: a past lending redesign for a large Indian bank. It cites nothing, so it can't go out. This is the sentence that gets a firm into trouble, and the agent catches it before a partner reads it.
+
+<Figure
+  src="/images/projects/vcg-proposal-copilot/claim-blocked.png"
+  alt="Claim inspection showing an unsubstantiated claim that cites no evidence, marked as an orphan claim"
+  caption="Blocked: a confident sentence with no source behind it."
+/>
+
+**Release.** Three things have to be true before export: every section approved, the price signed by a partner, and every blocked claim either fixed or overridden with a written reason. If anyone edits the price after the partner signs, the sign-off is cancelled.
+
+<Figure
+  src="/images/projects/vcg-proposal-copilot/review-gate.png"
+  alt="Review tab showing the release gate closed, the partner's commercial sign-off, and Approve, Request changes, Reject and Regenerate buttons for a section"
+  caption="The release gate lists what’s left. Nothing is ever sent to the client by the system."
+/>
+
+<h2 id="decisions">5. The decisions, and what each one cost</h2>
+
+<DataTable
+  data='{
+    "head":["Decision","What I chose","What I gave up"],
+    "rows":[
+      ["Who checks the claims","Fixed rules: numbers, names and context must match the cited source","An AI judge, which could catch subtler errors but marks its own homework"],
+      ["Where the model is used","Writing the sections, and nothing else","Model-led reading of the RFP: I tested it, and a small model made it worse"],
+      ["What counts as a requirement","Only one that quotes the RFP word for word","Requirements the model “infers” the client wants"],
+      ["When evidence is missing","A visible [EVIDENCE GAP] in the draft","Smooth filler text that reads better and hides the hole"],
+      ["How the bid score works","Share of requirements the evidence actually proves","Share where search found something, which scored an 18% case 100/100 against a 45% ask"],
+      ["Who can release","Three named sign-offs; a changed price voids the partner’s","One-click export"],
+      ["Where the model runs","A hosted model for the demo; a local model when tenders can’t leave the firm","One setup for both: hosted is faster and better written, local keeps data in"]
+    ]
+  }'
+  caption="Most of these trade quality of writing for trust. For a proposal, I think that’s the right way round."
+/>
+
+**The model earns its place only where I measured it.** My first version used the model for every step. On a small local model, reading the RFP through the model scored bid fit at 0% and left 70 citations pointing at nothing, because the requirements it extracted matched no evidence. Splitting the draft into individual claims hung for 14 minutes. Plain parsing did both jobs instantly and better. So the model writes, and the structure around it is ordinary code.
+
+**"Supported" means consistent, not true.** I was careful with the words in the product. The agent checks a claim against the firm's own documents. If a document is wrong, a claim built on it will pass. The interface and the README both call it evidence checking, not fact-checking.
+
+<h2 id="build">6. How I built it</h2>
+
+I wrote the spec and the acceptance tests first, then built the agent with Claude Code as my pair programmer. It's Python, with a Streamlit interface, keyword search over the firm's documents, and every run saved to a database so it can be reopened and audited. A few things I'd point a reviewer to:
+
+- **The demo was a test before it was a feature.** The firm's documents include an office sustainability report where electricity use fell 35%. When the model claims a 35% lending improvement, the number exists in the corpus, just in the wrong place. The rule only accepts a figure if the words around it match the claim's topic. "18% passes, 35% is caught" was written down before any code, and the test suite checks it on every change.
+- **I tried to break my own checks.** An independent audit and a round of adversarial testing found eleven ways to sneak a claim past the verifier. Each one became a fix and a test. The fixes include catching a claim that cites one real source and one invented one, checking a figure whatever verb introduces it, and refusing "other Indian banks" when one of the cited cases is from Southeast Asia.
+- **Expectations were written before results.** For five new sample RFPs, I wrote down what the agent *should* do, from the documents alone, before running it once. Then I compared.
+- **It reports its own cost.** Each run records tokens, time and cost: about 14,500 tokens and ₹0.16 at paid rates for a full proposal. The cost of this product is integration and reviewers' time, not the model.
+
+<Figure
+  src="/images/projects/vcg-proposal-copilot/cost.png"
+  alt="Execution tab showing gpt-oss-20b on Groq, 11,562 input tokens, 2,972 output tokens, and monthly cost estimates at 10,000 proposals"
+  caption="Measured on a live run. Monthly figures at scale are estimates from stated rates."
+/>
+
+<Stats
+  items='[
+    {"value":"184","label":"automated tests, all passing"},
+    {"value":"11","label":"ways past the checks found by audit and stress tests, all closed"},
+    {"value":"7","label":"model calls per proposal; the checks make none"},
+    {"value":"₹0.16","label":"model cost of one full proposal at paid rates"}
+  ]'
+/>
+
+<h2 id="metric">7. How we’d know it works</h2>
+
+The model's cost rounds to zero, so the measures that matter are about the people around it. One of them is a rule, not a target:
+
+<DataTable
+  data='{
+    "head":["Metric","Why it matters","Target"],
+    "rows":[
+      ["Unsupported claims that reach a client","The whole promise of the product","**Zero**, every time"],
+      ["Reviewer minutes per section","Is checking a sourced draft faster than writing it?","Below the time to write it, measured against a baseline"],
+      ["Share of claims backed by evidence","How much useful text the model produces","Rising as search and the model improve"],
+      ["Overrides, and their reasons","Each reason is a fix list for the rules or the documents","Falling over time"],
+      ["Win rate on proposals that used it","The business result, slow to show","Tracked quarterly against similar bids"]
+    ]
+  }'
+/>
+
+The pilot I’d run: one practice, real proposals on documents the firm is allowed to use, and a stopwatch on partner review time. If drafting gets faster but review gets slower, we've moved the bottleneck, not removed it.
+
+<h2 id="next">8. Where it stands, and what's next</h2>
+
+The agent works end to end on synthetic data, and the live demo runs a real model. Running it showed me where it falls short, which is more useful than the demo itself:
+
+- **It blocks true sentences that forget to cite.** In one run, the same fact about the lead partner was supported in one section and blocked in another, depending on how the model attached its citation. Safe, but it creates review work.
+- **The model writes far more than the evidence supports.** On the free model, a handful of claims out of about 80 were fully backed. Some of the rest are fine sentences with no citation; some are section headings the checker treats as claims.
+- **The bid screen shows a score, not the gaps.** The agent knows which requirements failed and why ("the RFP asks for 30%, the best evidence is 18%"), but the screen only shows "2 of 4". A practice lead deciding on a number is the wrong design.
+- **Search is basic, and the company systems are sample files.** The CRM, HR and rate-card inputs are labelled samples, not live connections.
+
+What I'd do next, in order:
+
+1. **Cut the noise.** Attach the citation automatically when a sentence matches a selected passage word for word, and stop checking headings.
+2. **Put the gaps on the bid screen**, with the reason for each, so the decision is made on evidence rather than a percentage.
+3. **Run the pilot** above with real proposal writers, and measure reviewer time before anything else.
+
+<h2 id="learnings">9. What I learned</h2>
+
+- **Write the failing test before the feature.** "18% passes, 35% is caught" told me what done looked like before the model wrote a word.
+- **Use the model where it earns its place, and measure that.** It made the writing better and the structure worse.
+- **An honest gap beats a confident sentence.** The most valuable thing the agent produces is the list of things it can't prove.
+- **Trust is a design problem.** Reviewers don't need a smarter model; they need to see the working: the requirement, the quote, the source, the verdict.
