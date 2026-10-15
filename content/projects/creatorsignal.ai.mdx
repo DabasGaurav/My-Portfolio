@@ -1,0 +1,201 @@
+<Callout label="In 30 seconds">
+  **The problem.** A Reels creator asks the same question before every post: what should I make next? Instagram tells them how the last Reel did. It doesn't tell them what to do next, and generic AI idea tools don't know what has worked for them.
+
+  **The bet.** Give one recommendation, not a list, and show the working behind it. If a creator can see why an idea was picked, they're more likely to post it, and once they post it the product can measure whether it worked.
+
+  **The product.** A pipeline that reads a creator's own Reels and what their niche is searching for, scores 20 to 50 ideas in plain code, picks one, writes the script, and later checks their next Reel to record what happened.
+</Callout>
+
+<Stats
+  items='[
+    {"value":"1","label":"recommendation per request, with a receipt showing how each factor scored"},
+    {"value":"1 of 7","label":"pipeline steps is an AI agent; the other six are fixed"},
+    {"value":"5","label":"simpler rules logged next to every pick, so the pipeline has to beat them"},
+    {"value":"178","label":"automated tests; the data layer is verified on a real Instagram account"}
+  ]'
+  note="Counts are from the code. The pipeline runs end to end, but no creator has used it yet, so nothing on this page is a result."
+/>
+
+- [Read the code on GitHub](https://github.com/DabasGaurav/creatorsignal.ai)
+
+---
+
+<h2 id="problem">1. The problem: data about the last Reel, nothing about the next one</h2>
+
+A creator who posts three or four Reels a week makes the same decision three or four times a week. Instagram's Insights is good at one half of it: reach, views, likes, saves, shares for every Reel they've already posted. The other half, what to post next, is left to the creator.
+
+So they do it by hand. They scroll their own Insights to guess which topics landed. They check YouTube, Reddit and Google to see what their niche is asking about. Then they pick something, mostly on instinct.
+
+AI idea tools look like a shortcut, but they skip the first half. Ask one for a Reel idea and it has no idea which of your topics worked, which hooks your audience responds to, or what you've already posted five times this month. **The ideas fit anyone, which means they fit no one in particular.**
+
+<h2 id="assumption">2. Who it's for, and the riskiest assumption</h2>
+
+The first user is a single creator with a Business or Creator account and enough history to learn from. The system flags any profile with fewer than 15 Reels as an "early profile", because conclusions from a handful of posts are mostly noise.
+
+I haven't interviewed creators yet, and that's the biggest gap in this case study. The design came from my own reading of the problem and several rounds of written critique, not from user research. So the whole product rests on one assumption I haven't tested:
+
+<Callout label="Riskiest assumption">
+  A creator will post an idea they didn't come up with themselves, if they can see exactly why it was picked for them.
+</Callout>
+
+If that's wrong, nothing downstream matters: not the ranking, not the model, not the explore rate. That's why the first metric in section 7 is whether creators post the pick at all.
+
+<h2 id="bet">3. The bet: one pick, with its working shown</h2>
+
+Most tools in this space give you a dashboard or a list of ten ideas. Both hand the decision back to the creator. I went the other way: one recommendation, with a receipt.
+
+<Flow
+  steps='[
+    {"title":"Connect Instagram","body":"Sign in with a magic link, then connect the account. History syncs and a Creator DNA is built"},
+    {"title":"Ask for a Reel","body":"Progress shows each stage: researching, generating, ranking, selecting, writing"},
+    {"title":"Read the receipt","body":"One idea, its composite score, how each factor scored, and why now and why you","tone":"warn"},
+    {"title":"Post it, with a script","body":"Hook, script, storyboard, caption and call to action, ready to film"},
+    {"title":"See what happened","body":"Their next Reel is matched automatically: did they use it, and how did it do?"}
+  ]'
+  caption="The creator’s loop. Nobody pastes links or tags posts; the outcome is picked up from Instagram."
+/>
+
+The receipt is the product. It shows five bars (fit with this creator, audience demand, trend momentum, novelty, expected engagement), a short "why now" grounded in the research, and a "why you" grounded in their own history. About one pick in seven is labelled **Experiment**, so the creator knows when the system is deliberately trying something less certain. After they post, a second, smaller receipt sits under the first: predicted engagement, actual engagement, and how closely the Reel matched the idea.
+
+Behind that loop is a seven-step pipeline. Here it is in five stages:
+
+<Flow
+  steps='[
+    {"title":"Research","body":"An agent picks YouTube, Reddit or Google Trends, writes a query, and stops when the evidence is enough. Five rounds at most"},
+    {"title":"Generate","body":"One model call turns the evidence and Creator DNA into 20 to 50 ideas"},
+    {"title":"Rank and log","body":"Plain code scores each idea on five factors, and records what five simpler rules would pick"},
+    {"title":"Pick","body":"Code takes the top idea 85% of the time, a strong runner-up 15%","tone":"warn"},
+    {"title":"Explain and write","body":"A model writes why now, why you, and the script for the pick it was given"}
+  ]'
+  caption="Only the first stage is an agent. Models generate and write; code ranks and decides."
+/>
+
+<h2 id="evolution">4. How the design changed before I wrote any code</h2>
+
+The first version of the spec looked impressive and didn't hold up. I put it through several rounds of written technical critique before building, and almost every headline feature changed.
+
+<DataTable
+  data='{
+    "head":["The first spec said","What it became","Why"],
+    "rows":[
+      ["A multi-agent system","One agent, inside a fixed pipeline","The rest was a straight line of single calls. Calling it multi-agent would fall apart the moment someone asked how the agents decide"],
+      ["A multiplied-out score, plus weights that added up to 90","A weighted sum of five factors, each between 0 and 1","The formula mixed two ideas, and the weights didn’t sum to 100. A sum is easy to explain and to show on a receipt"],
+      ["“Confidence: 91/100”","“Composite score”","Confidence implies the number was checked against real outcomes. It wasn’t, and can’t be until creators post"],
+      ["No plan for new creators","An early-profile flag and neutral defaults","A creator with ten Reels doesn’t have enough history to learn from, and the product should say so"],
+      ["Always recommend the top idea","85% top idea, 15% a strong runner-up","Always taking the top idea means the system only ever learns about ideas it already likes"],
+      ["No comparison point","Five baselines logged with every pick","A score means nothing until you know it beats something simpler"]
+    ]
+  }'
+  caption="Each change made the product claim less and defend more."
+/>
+
+**The lesson I took from this: the honest version is the stronger version.** A spec that says "one agent, here's exactly why there" survives questions. A spec that says "multi-agent" doesn't.
+
+<h2 id="decisions">5. The decisions, and what each one cost</h2>
+
+<DataTable
+  data='{
+    "head":["Decision","What I chose","What I gave up"],
+    "rows":[
+      ["What the creator gets","One idea with a receipt and a ready script","A list of ideas to choose from, which feels more generous but hands the decision back"],
+      ["Who makes the final pick","Plain code, after a model has generated the ideas","Letting a model choose the winner. It can’t be tested, can quietly override the explore rate, and the current Sonnet model doesn’t accept a temperature setting, so its picks could vary"],
+      ["Where to use an agent","Only in research, capped at five rounds in code","An agent at every step. Fixed steps are cheaper, faster and easier to debug wherever the next action is known"],
+      ["How to score ideas","Five factors added up, equal weights for now","A single learned score, which would be a black box with no data behind it yet"],
+      ["How to learn","Explore 15% of the time, only among ideas in the top 40% of the rest","Always the safest pick. A creator gets one post per cycle, so exploring must stay within good ideas"],
+      ["Engagement prediction with no data","A flat, neutral 0.5 until real outcomes exist","Training on made-up “benchmark” data so the factor looks smart on day one, which would mislead the creator reading the receipt"],
+      ["What the niche is posting","A short list of observed topics, added by hand each week","Scraping other creators’ accounts, which is a legal risk"],
+      ["Which models","Claude Haiku for research and generating ideas, Sonnet for the final writing","The strongest model everywhere: slower and pricier on the steps that run most"],
+      ["Who can sign up","A founder-run beta: invite by email, add as a tester","Public sign-up, which needs Meta’s app review and harder security work first"]
+    ]
+  }'
+  caption="Most of the cuts came from asking what would still be true and defensible with zero users."
+/>
+
+**The decision I'd defend first is "the model writes, code decides".** It came from a real ambiguity in my own spec: one section said the language model should choose the final idea, another said the explore step should. If the model chooses, the 85/15 split stops meaning anything, because the model can always pull the pick back to its favourite. Making the pick plain Python fixed that, and it made "same input, same pick" true by construction rather than by hoping the model behaves.
+
+<h2 id="build">6. How I built it</h2>
+
+I wrote the spec in three build documents and built it in that order: the data foundation, then the recommendation engine, then the web app and outcome loop. The stack is Python with FastAPI and LangGraph, Postgres on Neon, Qdrant for embeddings (from Voyage AI), Claude Haiku and Sonnet, LightGBM, and a Next.js web app. A few things I'd point a reviewer to:
+
+- **Everything that decides is a pure function.** The score, each factor, the explore pick, the baselines and the Creator DNA all take data in and return a number, with no database or model call inside. That's why most of the 178 tests run with no credentials at all.
+- **The agent can't run away.** Its five-round limit is a loop in code, not a line in the prompt. Every model call is injectable, so the loop's stopping, fallback and caching logic is tested without calling a model.
+- **Creator DNA is point-in-time.** It only counts Reels posted before the moment it's computed, so it can be rebuilt exactly as it stood on any past date when evaluating old picks.
+- **Embeddings carry a version.** If the model, or even the way caption text is assembled, changes, the version changes, so old and new vectors are never compared.
+- **Access tokens are encrypted** before they're stored, and a refresh job renews them in their last week before expiry.
+
+Building against real APIs changed four things the spec had assumed:
+
+<DataTable
+  data='{
+    "head":["The spec assumed","What was actually true","What I changed"],
+    "rows":[
+      ["Instagram data needs Facebook Login and a linked Facebook Page","Meta’s newer Instagram Login API needs no Page, on different hosts and endpoints","Rebuilt the connection on it, which removes a step that blocks any creator without a Facebook Page"],
+      ["Reel length would be a useful feature","The API has no duration field, on any version","Length-based features now fall back to “unknown” instead of failing"],
+      ["Scoring each idea on its own was fine","Each idea was embedded three times, which broke the free tier’s limit of 3 requests a minute","Embed every idea once per run, in one batch"],
+      ["A failing research source would be skipped","A misconfigured Reddit app crashed the whole run","Every source is optional now; a failure means “try another”, and results are cached for 12 hours"]
+    ]
+  }'
+/>
+
+<Stats
+  items='[
+    {"value":"178","label":"automated tests, most needing no credentials"},
+    {"value":"20–50","label":"ideas generated and scored per request"},
+    {"value":"5","label":"research rounds at most, enforced in code"},
+    {"value":"12 h","label":"how long research results are cached"}
+  ]'
+/>
+
+<h2 id="metric">7. How I'll know it works</h2>
+
+The point isn't to prove the pipeline produces something plausible. Any language model can do that. The point is to prove it beats simpler ways of choosing an idea. So every run logs what these would have picked from the same ideas:
+
+- **Trending only:** the idea with the strongest trend momentum.
+- **Popular only:** the idea with the highest audience demand.
+- **Random:** any idea.
+- **The creator's all-time best topic.**
+- **The creator's most recent hit.**
+
+A sixth, "just ask the model for an idea, with no ranking", is written and tested but not wired into the pipeline yet. It's the one that matters most, because it's the cheap alternative that would make this whole system unnecessary.
+
+When outcomes arrive, these are the numbers, in this order:
+
+<DataTable
+  data='{
+    "head":["Metric","Why it matters","If it fails"],
+    "rows":[
+      ["**Adoption:** share of picks whose topic match shows the creator used the idea","Tests the riskiest assumption directly","The problem is trust or relevance, not ranking. Fix the receipt and the ideas first"],
+      ["**Lift:** engagement on adopted picks against the creator’s own recent median","Did following the pick do better than their usual Reel?","Check whether any factor predicts engagement at all before tuning weights"],
+      ["**Against baselines:** the pipeline’s pick against each simpler rule","Is the machinery worth it?","If “trending only” or the plain model call wins, use that and cut the rest"],
+      ["**Explore vs exploit:** results for experiment picks against top picks","Is exploring costing creators good posts?","Lower the explore rate or raise the quality floor"],
+      ["**Guardrails:** time and model cost per request, and how often research hits its limit","A creator is waiting, and every model call costs money","Cache more, cut a step, or tighten when the agent stops"]
+    ]
+  }'
+  caption="Engagement here is likes, comments, shares and saves, divided by reach."
+/>
+
+I haven't set numeric targets yet. With one test account there's no baseline to set them against. The first cohort's first month sets them.
+
+<h2 id="next">8. Where it stands, and what's next</h2>
+
+The pipeline, web app and outcome loop are built and tested. The data layer is verified on one real Instagram account with nine Reels, which is itself below the early-profile threshold. No creator has used it, so there is no result to report. What doesn't work yet, plainly:
+
+- **Two factors don't separate ideas.** Research runs once for the whole niche, so audience demand and trend momentum come out the same for every idea in a run. Right now the ranking really separates ideas on fit and novelty only.
+- **Expected engagement is a flat 0.5.** The LightGBM model and its training function exist and are tested, but nothing calls them in a live run, so this factor doesn't move the ranking yet.
+- **Nothing freezes each pick's features yet.** The database has a table for it, so a future model can't train on information that didn't exist at the time. Nothing writes to it, and that has to change before any model trains.
+- **The outcome match is a guess.** It assumes the creator's next Reel is the one the pick was for. The topic-match score shows when that's wrong, but doesn't fix it.
+- **Sign-in is beta-grade.** The magic link proves who signed in, but the API doesn't re-check that on every request. Acceptable for invited testers, not for a public product.
+
+What I'd do next, in order:
+
+1. **Talk to creators before onboarding them.** Ten conversations about how they choose their next Reel today, to test the riskiest assumption in words before testing it in data.
+2. **Run a small beta.** The setup is sized for 15 to 30 invited creators. Measure adoption first.
+3. **Give each idea its own demand and momentum.** It's the biggest gap in the ranking, and the fix is a second, lighter research pass for the shortlisted ideas.
+4. **Freeze features at every pick, then switch on the engagement model** once a creator has ten real outcomes.
+
+<h2 id="learnings">9. What I learned</h2>
+
+- **Honest labels are a feature.** "One agent", "composite score", "0.5 until we know" each read as weaker on a slide, and each one held up better under questions.
+- **Put judgment in code, words in the model.** Anything that has to be tested, repeated or explained to a user belongs in plain code. The model is good at generating options and explaining a choice, not at being the choice.
+- **Build the measurement before the result.** The baselines and outcome loop exist before any user does. That's what will make the first month of data mean something.
+- **Next time, users before architecture.** I spent my rigour on the system and none yet on the creator. Show Up started with 30 interviews; this one should have started with ten.
