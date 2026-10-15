@@ -4,16 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getAllPosts, getPostBySlug } from "@/lib/mdx";
 import { formatDate } from "@/lib/time";
-import { Figure } from "@/components/mdx/Figure";
-import { Chart } from "@/components/mdx/Chart";
-import { Pullquote } from "@/components/mdx/Pullquote";
-import { Callout } from "@/components/mdx/Callout";
-import { PhoneShots } from "@/components/mdx/PhoneShots";
-import { Stats } from "@/components/mdx/Stats";
-import { DataTable } from "@/components/mdx/DataTable";
-import { Flow } from "@/components/mdx/Flow";
-
-const mdxComponents = { Figure, Chart, Pullquote, Callout, PhoneShots, Stats, DataTable, Flow };
+import { mdxComponents } from "@/components/mdx";
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));

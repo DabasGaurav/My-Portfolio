@@ -5,6 +5,9 @@ import { getRepoByName, projectDisplayName } from "@/lib/github";
 import { getProjectDetail } from "@/content/projects-detail";
 import { socialConfig } from "@/config/social.config";
 import { CaseStudyNav } from "@/components/projects/CaseStudyNav";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { mdxComponents } from "@/components/mdx";
+import { getCaseStudyBody } from "@/lib/case-study";
 
 export async function generateMetadata(props: PageProps<"/projects/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
@@ -35,6 +38,14 @@ export default async function ProjectDetailPage(props: PageProps<"/projects/[slu
     </article>
   );
 
+  const body = getCaseStudyBody(detail.repo);
+  const actions = (
+    <div className="case-study-actions">
+      {detail.demoUrl && <a className="button button-dark" href={detail.demoUrl} target="_blank" rel="noreferrer">{detail.demoLabel ?? "Try the demo"} ↗</a>}
+      <a className="button button-outline-dark" href={githubUrl} target="_blank" rel="noreferrer">Explore the code ↗</a>
+    </div>
+  );
+
   return (
     <article className="case-study-page">
       <header className="case-study-hero">
@@ -46,7 +57,13 @@ export default async function ProjectDetailPage(props: PageProps<"/projects/[slu
           <p className="case-study-summary">{detail.summary}</p>
         </div>
       </header>
-      <CaseStudyNav />
+      <CaseStudyNav sections={body ? detail.sections : undefined} />
+      {body ? (
+        <div className="case-study-long">
+          <div className="blog-post-content prose"><MDXRemote source={body} components={mdxComponents} /></div>
+          <div className="case-study-long-actions">{actions}</div>
+        </div>
+      ) : (
       <div className="case-study-content">
         <section id="problem" className="case-study-row scroll-mt-32">
           <h2>The problem</h2>
@@ -74,11 +91,9 @@ export default async function ProjectDetailPage(props: PageProps<"/projects/[slu
             <div><iframe src={detail.loomUrl} title={`${name} walkthrough`} allow="fullscreen" /></div>
           </section>
         )}
-        <div className="case-study-actions">
-          {detail.demoUrl && <a className="button button-dark" href={detail.demoUrl} target="_blank" rel="noreferrer">Try the demo ↗</a>}
-          <a className="button button-outline-dark" href={githubUrl} target="_blank" rel="noreferrer">Explore the code ↗</a>
-        </div>
+        {actions}
       </div>
+      )}
     </article>
   );
 }

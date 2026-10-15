@@ -13,4 +13,7 @@ export type ProjectDetail = {
   accent: "teal" | "clay" | "blue";
   demoUrl?: string;
   loomUrl?: string;
+  /** Sections of the long-form MDX case study, for the sticky section nav. */
+  sections?: { id: string; label: string }[];
+  demoLabel?: string;
 };

@@ -51,7 +51,7 @@ export function ProjectsGrid() {
           </div>
           <div className="project-feature-actions">
             <Link href={`/projects/${project.repo}`} className="project-case-link">Open case study ↗</Link>
-            {project.demoUrl && <a href={project.demoUrl} target="_blank" rel="noreferrer">Try demo ↗</a>}
+            {project.demoUrl && <a href={project.demoUrl} target="_blank" rel="noreferrer">{project.demoLabel ?? "Try demo"} ↗</a>}
             <a href={`https://github.com/${socialConfig.github.username}/${project.repo}`} target="_blank" rel="noreferrer">GitHub ↗</a>
           </div>
         </div>

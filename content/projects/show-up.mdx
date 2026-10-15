@@ -1,0 +1,167 @@
+<Callout label="In 30 seconds">
+  **The problem.** Every NGO we interviewed loses volunteers who sign up and don't come, with no warning. Volunteers drop out because plans change and there is no easy, guilt-free way to say so.
+
+  **The bet.** Make backing out easy and early, instead of trying to make people feel worse about it. A check-in two days before, a one-tap "I can't make it", and the spot reopens for someone else at once.
+
+  **The product.** A live web app where NGOs post short activities and share one link, volunteers save a spot in under a minute, and both sides see who is actually coming.
+</Callout>
+
+<Stats
+  items='[
+    {"value":"30","label":"interviews: 10 NGOs and 20 volunteers"},
+    {"value":"10 of 10","label":"NGOs report people who sign up and don’t come"},
+    {"value":"60%","label":"of spots today end with the person coming or backing out early (estimate)"},
+    {"value":"80%","label":"the target we set for Show-Up’s pilot"}
+  ]'
+  note="From our team’s interviews. The 60% baseline is an estimate from what NGOs told us, not a measured figure; the pilot is designed to measure it."
+/>
+
+- [Open the live app](https://showup-mvp-rosy.vercel.app)
+- [Read the code on GitHub](https://github.com/DabasGaurav/show-up)
+
+---
+
+<h2 id="problem">1. The problem: a sign-up isn't a commitment</h2>
+
+Small NGOs run on volunteers, and they plan every session around a headcount. A coordinator in Jaipur put the problem in one line: about 30 people sign up for an event day, and about 18 come. Nobody tells her in advance, so she can't refill the gaps. Her fix is the one every NGO we spoke to uses: over-recruit, then chase people on WhatsApp the night before.
+
+Volunteers aren't careless. They have limited, unpredictable time. When plans change, backing out of a commitment to a cause feels bad, so the easiest thing to do is say nothing.
+
+**The result is a trust gap in both directions.** NGOs can't count on unknown volunteers, so they spend hours recruiting and chasing. Volunteers can't tell which NGOs are genuine, so many never start.
+
+<h2 id="research">2. What we heard</h2>
+
+Our team of six at ISB interviewed 10 NGO founders and coordinators, and 20 volunteers, across Delhi, Pune, Jaipur, Bengaluru, Hyderabad, Shimla and rural Maharashtra.
+
+<DataTable
+  data='{
+    "head":["Who","What we heard","How many"],
+    "rows":[
+      ["NGOs","People drop off or don’t come, without warning","10 of 10"],
+      ["NGOs","Too much time spent recruiting, briefing and chasing","9 of 10"],
+      ["NGOs","Can’t trust volunteers they don’t know","7 of 10"],
+      ["Volunteers","Opportunities are scattered and hard to find","14 of 20"],
+      ["Volunteers","Put off by fixed, long commitments","11 of 20"],
+      ["Volunteers","Can’t tell if an unknown NGO is genuine","8 of 20"],
+      ["Volunteers","Lost their group after moving or graduating, and never restarted","6 of 20"]
+    ]
+  }'
+  caption="Findings from 30 interviews. Each person could raise more than one problem."
+/>
+
+The shared root cause: **there's no low-guilt way to signal a change of plan, and neither side has a record of the other.** Every match starts from zero.
+
+That gave us our riskiest assumption, the one the whole product rests on:
+
+<Callout label="Riskiest assumption">
+  Volunteers who save a spot through Show-Up will either come, or free the spot early enough for someone else to take it.
+</Callout>
+
+<h2 id="bet">3. The bet: make backing out easy and early</h2>
+
+The obvious fix for no-shows is penalties, and our own first spec had them. We went the other way. If saying "I can't make it" takes one tap and costs nothing a day ahead, people will say it, and the NGO gets the spot back in time to fill it.
+
+<Flow
+  steps='[
+    {"title":"Save a spot","body":"One tap, from the NGO’s shared link or the list"},
+    {"title":"“Still on for Saturday?”","body":"Two days before: one tap to say yes","tone":"warn"},
+    {"title":"Plans changed?","body":"“I can’t make it”, a day ahead: nothing goes on your record"},
+    {"title":"Spot reopens","body":"Instantly, and the NGO gets an email with the reason"},
+    {"title":"The NGO marks who came","body":"Each person’s track record updates: “Came 7 of 7 times”"}
+  ]'
+  caption="The loop that turns a sign-up into a commitment both sides can plan around."
+/>
+
+<PhoneShots
+  shots='[
+    {"src":"/images/projects/show-up/home.png","alt":"Show-Up home page with the headline Give a few hours. Make them count.","caption":"Home: what Show-Up is, and a quick way to find something by place and cause."},
+    {"src":"/images/projects/show-up/causes.png","alt":"Cause tiles with photos and the number of activities in each","caption":"Browse by cause. Tapping a tile filters the list below."},
+    {"src":"/images/projects/show-up/activity.png","alt":"An activity page with a Save my spot button and the free-by time","caption":"Every activity says what you’ll do, and the exact day and time to free your spot by."},
+    {"src":"/images/projects/show-up/my-plans.png","alt":"My plans with the volunteer’s track record and new activities to join","caption":"My plans: your track record, your spots, and new activities that fit you."}
+  ]'
+/>
+
+<h2 id="decisions">4. The decisions, and what each one cost</h2>
+
+<DataTable
+  data='{
+    "head":["Decision","What we chose","What we gave up"],
+    "rows":[
+      ["How to cut no-shows","An easy, early way out, with no penalty a day ahead","Penalties and access pauses, which our first spec had"],
+      ["When to check in","Two days before, with one reminder at a day and a half","Same-day confirmation, which leaves no time to refill"],
+      ["What to show NGOs","A plain track record: “Came 7 of 7 times”","Star ratings and reviews, which felt like judging volunteers"],
+      ["How NGOs find volunteers","One link they share in their own WhatsApp groups","A big public feed: NGOs already have their people"],
+      ["How NGOs earn trust","Our team calls every NGO before it goes live","Document and ID checks: slow for us, heavy for small NGOs"],
+      ["How people sign in","Email and password, ready at once","Phone OTP: SMS in India needs paid DLT registration"],
+      ["When to ask for a phone number","On the first spot you save, shared only once you say yes","A long sign-up form before you’ve seen anything"]
+    ]
+  }'
+  caption="Each choice traded something away. Most of the cuts came from asking what a small NGO would actually use in its first month."
+/>
+
+**The biggest decision was cutting scope.** The first spec had trust levels, ID checks, standby lists, ratings and a test lab, built across two app modes. Looking at the first build, it was too much product for the problem. We rewrote it as a one-page build spec: one app, one database, every page real. Standby lists, group booking, certificates, payments, a mobile app and Hindi all went to "not in this version".
+
+**Words mattered more than I expected.** The spec bans jargon: no "slots", no "release", no "reliability record". A volunteer saves a *spot* and *frees* it. Every time is a real day and time ("Free up your spot by Fri, 10 am"), never "48 hours before". Small, but it's the difference between a form and a promise.
+
+<h2 id="ngos">5. The NGO side</h2>
+
+For a coordinator, the whole product is one screen: **who's coming.** Posting is designed to take under five minutes and ends with a link to share. Before the day she sees a bar of who said yes, who hasn't replied and who can't make it, with the reason. Phone numbers appear only for people who have confirmed. After the day she taps ✓ or ✕ for each person, which builds every volunteer's track record.
+
+<PhoneShots
+  shots='[
+    {"src":"/images/projects/show-up/dashboard.png","alt":"NGO dashboard with a Who’s coming bar for each upcoming activity","caption":"The dashboard: a Who’s coming bar for every date."},
+    {"src":"/images/projects/show-up/whos-coming.png","alt":"Who’s coming page showing a volunteer who can’t make it and the reason","caption":"Who’s coming: a freed spot shows up at once, with the reason."}
+  ]'
+/>
+
+<h2 id="build">6. How I built it</h2>
+
+I wrote the spec and built the app end to end: Next.js and TypeScript on Vercel, with a Postgres database on Neon. A few things I'd point a reviewer to:
+
+- **The rules live in one place.** When the check-in goes out, when a free counts as "early", how the track record adds up: all small, tested functions, so a product change is a one-line edit.
+- **Timed emails are safe to run twice.** Every email has a unique key, so a job that runs late or twice never double-sends.
+- **Launch-ready data from real interviews.** The live app opens with 17 activities from 10 interviewed NGOs, marked so they never get email and never count towards our metric.
+- **An admin "view as".** Our team can open any NGO's dashboard exactly as they see it, which is how we walk an NGO through its own page.
+- **Stress-tested sign-up.** A test that fired 25 sign-ups for one email at the same instant found 25 duplicate accounts. The database now allows exactly one. The same pass added limits on password guessing and closed a redirect hole.
+
+<Stats
+  items='[
+    {"value":"36","label":"automated tests, including the stress tests"},
+    {"value":"96","label":"Lighthouse mobile performance score"},
+    {"value":"2.9 s","label":"until the home page responds on a phone (Lighthouse)"},
+    {"value":"17","label":"activities from 10 NGOs at launch"}
+  ]'
+/>
+
+<h2 id="metric">7. How we'll know it works</h2>
+
+One number on the admin page: **came or freed their spot early, as a share of all spots.** It rewards exactly the behaviour we want. Coming is good, and freeing a spot a day ahead is just as good, because the NGO can still fill it.
+
+<DataTable
+  data='{
+    "head":["Metric","Why it matters","Target"],
+    "rows":[
+      ["Came or freed early","The riskiest assumption, measured directly","80% (baseline ~60%)"],
+      ["Freed late","Backing out with no time to refill","Falling over time"],
+      ["Didn’t come","The failure we’re designing out","Falling over time"],
+      ["NGO: sign up to first shared link","Can a coordinator get going alone?","Under 5 minutes"],
+      ["Volunteer: link to saved spot","Is saving a spot as easy as we think?","Under 1 minute on a phone"]
+    ]
+  }'
+/>
+
+The pilot plan: at least three real events at two or more partner NGOs, about 40 spots in all.
+
+<h2 id="next">8. Where it stands, and what's next</h2>
+
+Show-Up is live, but it hasn't run a real event yet, so the 80% is a target, not a result. What I'd do next, in order:
+
+1. **Run the pilot** with the NGOs who asked to try it, and measure the number above.
+2. **Get email delivered to everyone.** Reminders currently reach only our own address; a verified sender fixes that and unlocks email verification and password reset.
+3. **Test the two-day timing.** It's a guess from interviews. If people still free spots late, the check-in should move earlier.
+
+<h2 id="learnings">9. What I learned</h2>
+
+- **Design for the honest exit.** The product isn't "save a spot". It's "tell us early when you can't come".
+- **Cut until it's obvious.** The version people understood was a third of the first spec.
+- **Plain words are a product decision.** "Free up your spot by Fri, 10 am" does more than any penalty rule we wrote.
